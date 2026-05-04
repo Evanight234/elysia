@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../../api/axios";
 import "./Login.css";
 
 export default function Login() {
@@ -9,8 +10,30 @@ export default function Login() {
   const handleMasuk = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // TODO: hubungkan ke backend auth
-    setTimeout(() => setLoading(false), 1500);
+    try {
+      const response = await api.post("/auth/login", {
+        email: email,
+        password: password,
+      });
+
+      if (response.data.success) {
+        const { token, user } = response.data.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        
+        // Redirect berdasarkan role
+        if (user.role === "ADMIN") {
+          window.location.href = "/admin/dashboard";
+        } else {
+          window.location.href = "/home";
+        }
+      }
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Login gagal";
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

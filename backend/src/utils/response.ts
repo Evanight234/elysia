@@ -1,11 +1,11 @@
-export const suscessResponse = (data: unknown, masage = "success") => ({
+export const successResponse = (data: unknown, message = "success") => ({
     success: true,
-    masage,
+    message,
     data
 })
 
-export const errorResponse = (masage: string, code = 400) => ({
+export const errorResponse = (message: string, code = 400) => ({
     success: false,
-    masage,
+    message,
     code
 })

@@ -6,6 +6,7 @@ export const roleEnum = pgEnum('role', ['USER', 'ADMIN'])
 export const users = pgTable('users', {
   id        : text('id').primaryKey().$defaultFn(() => createId()),
   name      : text('name').notNull(),
+  username  : text('username').notNull().unique(),
   email     : text('email').notNull().unique(),
   password  : text('password').notNull(),
   avatar    : text('avatar'),            // simpan URL gambar

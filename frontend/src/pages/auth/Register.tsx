@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../../api/axios";
 import "./Register.css";
 
 export default function Register() {
@@ -11,9 +12,31 @@ export default function Register() {
 
   const handleDaftar = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (password !== konfirmasi) {
+      alert("Konfirmasi kata sandi tidak cocok!");
+      return;
+    }
+
     setLoading(true);
-    // TODO: hubungkan ke backend auth
-    setTimeout(() => setLoading(false), 1500);
+    try {
+      const response = await api.post("/auth/register", {
+        name: nama,
+        username: username,
+        email: email,
+        password: password,
+      });
+
+      if (response.data.success) {
+        alert("Registrasi berhasil! Silakan masuk.");
+        window.location.href = "/auth/masuk"; // Redirect ke login
+      }
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Terjadi kesalahan saat registrasi";
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
