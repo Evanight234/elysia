@@ -42,6 +42,7 @@ export const RegisterUsers = async (data: {
             username: users.username,
             email: users.email,
             role: users.role,
+            createdAt: users.createdAt,
         });
 
     // Auto-create an empty profile for the new user
@@ -83,6 +84,7 @@ export const LoginUsers = async (data: {
         username: user.username,
         email: user.email,
         role: user.role,
+        createdAt: user.createdAt,
     };
 };
 
