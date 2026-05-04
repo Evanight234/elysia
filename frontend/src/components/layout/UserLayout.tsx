@@ -20,7 +20,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    navigate('/auth/masuk');
+    navigate('/login');
   };
 
   return (
