@@ -87,7 +87,7 @@ export default function Login() {
         <div className="links">
           <a href="/auth/lupa-kata-sandi" className="link-secondary">Lupa Kata Sandi?</a>
           <span className="link-divider">·</span>
-          <a href="register" className="link-secondary">Daftar Akun</a>
+          <a href="/register" className="link-secondary">Daftar Akun</a>
         </div>
       </div>
     </div>

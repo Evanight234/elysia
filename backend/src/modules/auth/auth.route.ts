@@ -17,6 +17,7 @@ export const authRoute = new Elysia({ prefix: '/auth' })
         set.status = 201
         return successResponse(user, 'Registrasi berhasil')
       } catch (error: any) {
+        console.error('Registration Error:', error)
         set.status = 400
         return errorResponse(error.message)
       }

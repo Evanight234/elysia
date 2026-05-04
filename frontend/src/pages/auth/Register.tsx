@@ -29,10 +29,11 @@ export default function Register() {
 
       if (response.data.success) {
         alert("Registrasi berhasil! Silakan masuk.");
-        window.location.href = "/auth/masuk"; // Redirect ke login
+        window.location.href = "/login"; // Redirect ke login
       }
     } catch (error: any) {
-      const message = error.response?.data?.message || "Terjadi kesalahan saat registrasi";
+      console.error("Registration Error:", error);
+      const message = error.response?.data?.message || "Terjadi kesalahan saat registrasi. Pastikan backend sudah berjalan.";
       alert(message);
     } finally {
       setLoading(false);
@@ -122,7 +123,7 @@ export default function Register() {
 
         <div className="links">
           <span className="link-text">Sudah punya akun?</span>
-          <a href="login" className="link-secondary">Masuk</a>
+          <a href="/login" className="link-secondary">Masuk</a>
         </div>
       </div>
     </div>
