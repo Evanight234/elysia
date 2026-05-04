@@ -1,4 +1,3 @@
-import React from 'react';
 import UserLayout from '../../components/layout/UserLayout';
 import './UserPages.css';
 import { Search as SearchIcon } from 'lucide-react';

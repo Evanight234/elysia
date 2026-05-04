@@ -1,4 +1,3 @@
-import React from 'react';
 import UserLayout from '../../components/layout/UserLayout';
 import './UserPages.css';
 import { User as UserIcon } from 'lucide-react';
