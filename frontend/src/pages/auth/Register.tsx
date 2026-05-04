@@ -99,7 +99,7 @@ export default function Register() {
 
         <div className="links">
           <span className="link-text">Sudah punya akun?</span>
-          <a href="/auth/masuk" className="link-secondary">Masuk</a>
+          <a href="/login" className="link-secondary">Masuk</a>
         </div>
       </div>
     </div>
