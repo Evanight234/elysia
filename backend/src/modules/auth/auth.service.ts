@@ -1,7 +1,7 @@
 import { db } from "../../db";
 import { users, profile } from "../../db/schema";
 import { eq, or } from "drizzle-orm";
-import { hashPassword, veryfyPassword } from "../../utils/hash";
+import { hashPassword, verifyPassword } from "../../utils/hash";
 
 export const RegisterUsers = async (data: {
     name: string;
@@ -9,13 +9,20 @@ export const RegisterUsers = async (data: {
     email: string;
     password: string;
 }) => {
+    // Check if email or username already exists
     const existing = await db
         .select()
         .from(users)
-        .where(eq(users.email, data.email));
+        .where(
+            or(
+                eq(users.email, data.email),
+                eq(users.username, data.username)
+            )
+        );
 
     if (existing.length > 0) {
-        throw new Error("Email sudah terdaftar");
+        const isEmail = existing.some(u => u.email === data.email);
+        throw new Error(isEmail ? "Email sudah terdaftar" : "Username sudah digunakan");
     }
 
     const hashed = await hashPassword(data.password);
@@ -64,7 +71,7 @@ export const LoginUsers = async (data: {
         throw new Error("Akun tidak ditemukan");
     }
 
-    const isValid = await veryfyPassword(data.password, user.password);
+    const isValid = await verifyPassword(data.password, user.password);
 
     if (!isValid) {
         throw new Error("Password salah");

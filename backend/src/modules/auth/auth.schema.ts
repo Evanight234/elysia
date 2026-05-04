@@ -7,6 +7,6 @@ export const registerSchema = t.Object({
     password : t.String({ minLength: 8, error: "password minimal 8 karakter" })
 })
 export const LoginSchema = t.Object({
-    email : t.String({ format: "email", error: "email tidak valid" }),
+    email : t.String({ minLength: 3, error: "email atau username tidak valid" }),
     password : t.String({ minLength: 8, error: "password minimal 8 karakter" })
 })
