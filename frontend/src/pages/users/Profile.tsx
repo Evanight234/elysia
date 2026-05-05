@@ -32,7 +32,7 @@ export default function Profile() {
           </div>
           <div className="detail-item">
             <span className="detail-label">Bergabung Pada</span>
-            <span className="detail-value">Tanggal{user.createdAt}</span>
+            <span className="detail-value">Mei 2026</span>
           </div>
         </div>
       </div>

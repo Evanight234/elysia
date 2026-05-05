@@ -42,6 +42,7 @@ export const RegisterUsers = async (data: {
             username: users.username,
             email: users.email,
             role: users.role,
+            createdAt: users.createdAt,
         });
 
     // Auto-create an empty profile for the new user
@@ -49,7 +50,10 @@ export const RegisterUsers = async (data: {
         userId: newUser.id,
     });
 
-    return newUser;
+    return {
+        ...newUser,
+        createdAt: newUser.createdAt.toISOString(),
+    };
 };
 
 export const LoginUsers = async (data: {
@@ -83,6 +87,7 @@ export const LoginUsers = async (data: {
         username: user.username,
         email: user.email,
         role: user.role,
+        createdAt: user.createdAt.toISOString(),
     };
 };
 
@@ -113,6 +118,11 @@ export const GetCurrentUser = async (userId: string) => {
 
     return {
         ...user,
-        profile: userProfile || null,
+        createdAt: user.createdAt.toISOString(),
+        profile: userProfile ? {
+            ...userProfile,
+            createdAt: userProfile.createdAt.toISOString(),
+            updatedAt: userProfile.updatedAt.toISOString(),
+        } : null,
     };
 };
