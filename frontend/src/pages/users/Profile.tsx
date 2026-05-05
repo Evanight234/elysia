@@ -32,7 +32,13 @@ export default function Profile() {
           </div>
           <div className="detail-item">
             <span className="detail-label">Bergabung Pada</span>
-            <span className="detail-value">Mei 2026</span>
+            <span className="detail-value">
+              {user.createdAt ? new Date(user.createdAt).toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }) : 'Baru saja'}
+            </span>
           </div>
         </div>
       </div>
