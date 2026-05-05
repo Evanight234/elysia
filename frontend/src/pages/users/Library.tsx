@@ -3,14 +3,14 @@ import './UserPages.css';
 import { Heart } from 'lucide-react';
 
 export default function Library() {
+  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
   const favorites = [
     { id: 101, title: 'Pink World', author: 'Lily Rose', cover: 'https://images.unsplash.com/photo-1543005120-a1bb6ea7b124?auto=format&fit=crop&q=80&w=200' },
   ];
-
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Perpustakaan Saya</h1>
+        <h1>Perpustakaan {user.name}</h1>
         <p>Buku-buku favorit dan yang ingin kamu baca nanti.</p>
       </div>
 

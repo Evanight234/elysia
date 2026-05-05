@@ -8,10 +8,9 @@ export default function Profile() {
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Profil Saya</h1>
-        <p>Data diri dan informasi akun kamu.</p>
+        <h1>Profil {user.username}</h1>
+        <p>Data diri dan informasi akun {user.username} yang terdaftar.</p>
       </div>
-
       <div className="profile-card">
         <div className="profile-avatar-large">
           <UserIcon size={64} />

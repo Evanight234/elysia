@@ -1,22 +1,21 @@
-import { Query } from "@neondatabase/serverless";
 import { db } from "../../db";
 import { books } from "../../db/schema";
-import { eq, ilike, or, Or } from "drizzle-orm";
+import { eq, ilike, or } from "drizzle-orm";
 import type { NewBook } from '../../db/schema'
 
 export const getAllBooks = async () => {
     return await db.select().from(books).orderBy(books.createdAt)
 }
 
-export const searchBooks = async () => {
+export const searchBooks = async (query: string) => {
     return await db
         .select()
         .from(books)
         .where(
             or(
-                ilike(books.title, `%${Query}%`),
-                ilike(books.author, `%${Query}%`),
-                ilike(books.category, `%${Query}%`)
+                ilike(books.title, `%${query}%`),
+                ilike(books.author, `%${query}%`),
+                ilike(books.category, `%${query}%`)
             )
         )
 }
