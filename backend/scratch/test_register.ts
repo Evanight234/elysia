@@ -30,6 +30,7 @@ async function test() {
                 username: users.username,
                 email: users.email,
                 role: users.role,
+                createdAt: users.createdAt,
             });
 
         console.log("New user created:", newUser);
