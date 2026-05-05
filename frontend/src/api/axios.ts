@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuthStore } from '../store/authstore'
 
 const api = axios.create({
   baseURL: 'http://localhost:3000',
@@ -15,5 +16,17 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Jika backend balas 401 (token expired/invalid) → paksa logout
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      useAuthStore.getState().logout()
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  }
+)
 
 export default api;

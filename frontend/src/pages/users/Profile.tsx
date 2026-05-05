@@ -3,7 +3,7 @@ import './UserPages.css';
 import { User as UserIcon } from 'lucide-react';
 
 export default function Profile() {
-  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com"}');
+  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
 
   return (
     <UserLayout>
@@ -28,11 +28,11 @@ export default function Profile() {
           </div>
           <div className="detail-item">
             <span className="detail-label">Status Akun</span>
-            <span className="detail-value">Aktif (User)</span>
+            <span className="detail-value">{user.role}</span>
           </div>
           <div className="detail-item">
             <span className="detail-label">Bergabung Pada</span>
-            <span className="detail-value">Mei 2026</span>
+            <span className="detail-value">Tanggal{user.createdAt}</span>
           </div>
         </div>
       </div>
