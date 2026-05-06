@@ -7,3 +7,4 @@ export * from "./profile";
 export * from "./readingProgres";
 export * from "./Likes";
 export * from "./chapter";
+export * from "./paragraphComments";

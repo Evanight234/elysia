@@ -670,3 +670,128 @@ mark.search-highlight {
   border-radius: 20px;
   font-weight: 600;
 }
+
+/* Library tabs */
+.library-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.library-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  border: 2px solid var(--border);
+  background: white;
+  color: var(--pink-600);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.library-tab.active {
+  background: var(--pink-500);
+  color: white;
+  border-color: var(--pink-500);
+}
+
+/* Search tambahan */
+.search-clear-btn {
+  background: none;
+  border: none;
+  color: var(--pink-400);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.result-count {
+  color: var(--pink-500);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.book-category-tag {
+  display: inline-block;
+  background: var(--pink-100);
+  color: var(--pink-600);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 0.4rem;
+}
+
+.category-tag.active {
+  background: var(--pink-500);
+  color: white;
+  border-color: var(--pink-500);
+}
+
+/* Notifikasi sudah dibaca → abu-abu */
+.notif-unread {
+  border-left: 4px solid var(--pink-400);
+}
+
+.notif-read {
+  background: #f9f9f9 !important;
+  border-left: 4px solid transparent;
+  opacity: 0.7;
+}
+
+.notif-read .notif-content h4,
+.notif-read .notif-content p {
+  color: #aaa !important;
+}
+
+.notif-icon-read {
+  background: #eeeeee !important;
+  color: #bbb !important;
+}
+
+.notif-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.unread-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pink-500);
+  flex-shrink: 0;
+}
+
+/* Badge jumlah notif belum dibaca */
+.notif-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pink-500);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .book-detail-top {
+    flex-direction: column;
+  }
+
+  .book-detail-cover {
+    width: 100%;
+    max-width: 280px;
+  }
+}

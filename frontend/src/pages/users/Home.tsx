@@ -5,6 +5,8 @@ import './UserPages.css'
 export default function Home() {
   const navigate = useNavigate()
 
+  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
+
   const recommendations = [
     { id: 1, title: 'The Pink Adventure', author: 'Elysia Dash', cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200', viewCount: 8532 },
     { id: 2, title: 'Buku Favorit Admin', author: 'Admin Kece', cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=200', viewCount: 3210 },
@@ -15,7 +17,7 @@ export default function Home() {
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Halo, Selamat Datang!</h1>
+        <h1>Halo, Selamat Datang {user.username}!</h1>
         <p>Lihat rekomendasi buku spesial untukmu hari ini.</p>
       </div>
 

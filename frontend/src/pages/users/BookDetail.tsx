@@ -151,5 +151,4 @@ export default function BookDetail() {
             </div>
         </UserLayout>
     )
-
 }
