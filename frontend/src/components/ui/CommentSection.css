@@ -1,0 +1,134 @@
+.comment-panel {
+    background: var(--pink-50, #fff0f6);
+    border: 1px solid var(--pink-200, #fbb6ce);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    margin-left: 1rem;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comment-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--pink-700, #be185d);
+    margin-bottom: 0.75rem;
+}
+
+.comment-panel-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pink-400, #f472b6);
+    display: flex;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.comment-item {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+}
+
+.comment-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--pink-200, #fbcfe8);
+    color: var(--pink-700, #be185d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.comment-body {
+    flex: 1;
+}
+
+.comment-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.comment-user {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--pink-700, #be185d);
+}
+
+.comment-time {
+    font-size: 0.72rem;
+    color: var(--pink-400, #f472b6);
+}
+
+.comment-text {
+    font-size: 0.85rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.comment-input-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.comment-input-row input {
+    flex: 1;
+    border: 1px solid var(--pink-200, #fbcfe8);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    outline: none;
+    background: white;
+}
+
+.comment-input-row input:focus {
+    border-color: var(--pink-400, #f472b6);
+}
+
+.comment-input-row button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--pink-500, #ec4899);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.comment-input-row button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

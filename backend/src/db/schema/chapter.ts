@@ -5,9 +5,9 @@ import { books } from './books'
 export const chapters = pgTable('chapters', {
     id: text('id').primaryKey().$defaultFn(() => createId()),
     bookId: text('book_id').notNull().references(() => books.id, { onDelete: 'cascade' }),
-    title: text('title').notNull(),        // "Chapter 1: Awal Perjalanan"
-    content: text('content').notNull(),      // isi teks chapter
-    order: integer('order').notNull(),     // urutan: 1, 2, 3, ...
+    number: integer('number').notNull(),        // Chapter 1, 2, 3...
+    title: text('title').notNull(),            // "Awal Pertemuan"
+    content: text('content').notNull(),          // isi teks chapter
     createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

@@ -413,124 +413,175 @@ mark.search-highlight {
   background: var(--pink-50);
 }
 
-/* === Book Detail Page === */
-.btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: none;
-  border: 1px solid var(--border);
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
-  color: var(--pink-600);
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 2rem;
-  transition: all 0.2s;
+/* bookDetail.tsx */
+
+.book-cover-detail {
+  position: relative;
 }
 
-.btn-back:hover {
-  background: var(--pink-50);
+.view-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.chapter-progress-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: var(--pink-500);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.progress-bar-wrapper {
+  width: 100%;
+  height: 5px;
+  background: var(--pink-100);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--pink-500);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--pink-600);
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  transition: gap 0.2s;
+}
+
+.back-btn:hover {
+  gap: 10px;
 }
 
 .book-detail-wrapper {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 3rem;
+  max-width: 900px;
+}
+
+.book-detail-top {
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
   align-items: flex-start;
 }
 
-@media (max-width: 768px) {
-  .book-detail-wrapper {
-    grid-template-columns: 1fr;
-  }
+.book-detail-cover {
+  width: 220px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(219, 39, 119, 0.2);
 }
 
 .book-detail-cover img {
   width: 100%;
-  border-radius: 20px;
-  box-shadow: 0 12px 32px rgba(219, 39, 119, 0.2);
+  display: block;
 }
 
 .book-category-badge {
   display: inline-block;
   background: var(--pink-100);
   color: var(--pink-600);
-  padding: 0.3rem 0.9rem;
-  border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
 }
 
 .book-detail-title {
   font-size: 2rem;
   font-weight: 800;
   color: var(--pink-900);
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.5px;
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
 }
 
 .book-detail-author {
   color: var(--pink-500);
   font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.book-detail-desc {
-  color: var(--pink-700);
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .book-stats {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
-.stat-item {
+.stats-items {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  color: var(--pink-600);
-  font-weight: 600;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--pink-700);
+}
+
+.book-description {
+  color: var(--pink-700);
+  line-height: 1.7;
+  margin-bottom: 2rem;
   font-size: 0.95rem;
 }
 
-.book-detail-actions {
+.book-action-btns {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
 }
 
 .btn-read-now {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   background: var(--pink-500);
   color: white;
   border: none;
-  padding: 0.8rem 1.75rem;
+  padding: 0.75rem 1.75rem;
   border-radius: 14px;
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.2s;
 }
 
 .btn-read-now:hover {
-  opacity: 0.88;
+  background: var(--pink-600);
 }
 
 .btn-like {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   background: white;
   color: var(--pink-500);
   border: 2px solid var(--pink-300);
-  padding: 0.8rem 1.5rem;
+  padding: 0.75rem 1.5rem;
   border-radius: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -543,164 +594,79 @@ mark.search-highlight {
   border-color: var(--pink-500);
 }
 
-/* Chapter list */
-.chapter-list-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--pink-800);
-  margin-bottom: 1rem;
+.chapter-selection {
+  margin-top: 1rem
+}
+
+.chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .chapter-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  width: 100%;
-  text-align: left;
-  padding: 0.9rem 1.25rem;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
   background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s;
-  font-family: inherit;
+  text-align: left;
+  width: 100%;
 }
 
 .chapter-item:hover {
-  background: var(--pink-50);
   border-color: var(--pink-300);
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.1);
 }
 
-.chapter-item.chapter-done {
+.chapter-item.chapter-read {
   background: #f5f5f5;
   border-color: #e0e0e0;
   color: #aaa;
 }
 
-.chapter-num {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--pink-400);
-  min-width: 45px;
+.chapter-item.chapter-read:hover {
+  border-color: #ccc;
+  box-shadow: none;
 }
 
-.chapter-item.chapter-done .chapter-num {
+.chapter-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.chapter-number {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--pink-400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chapter-item.chapter-read .chapter-number {
   color: #bbb;
 }
 
 .chapter-title {
-  flex: 1;
-  font-weight: 600;
-}
-
-.chapter-done-badge {
-  font-size: 0.78rem;
-  background: #e0e0e0;
-  color: #888;
-  padding: 0.2rem 0.6rem;
-  border-radius: 50px;
+  font-size: 1rem;
   font-weight: 700;
-}
-
-/* === Read Chapter Page === */
-.read-page {
-  min-height: 100vh;
-  background: #fdf7f9;
-}
-
-.read-header {
-  position: sticky;
-  top: 0;
-  background: white;
-  border-bottom: 1px solid var(--border);
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  z-index: 100;
-}
-
-.btn-back-read {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: none;
-  border: none;
-  color: var(--pink-600);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.read-chapter-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--pink-800);
-  text-align: center;
-  flex: 1;
-}
-
-.read-content {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-}
-
-.read-title {
-  font-size: 1.75rem;
-  font-weight: 800;
   color: var(--pink-900);
-  margin-bottom: 2rem;
-  letter-spacing: -0.5px;
 }
 
-.read-body p {
-  font-size: 1.1rem;
-  line-height: 1.9;
-  color: #333;
-  margin-bottom: 1.5rem;
+.chapter-item.chapter-read .chapter-title {
+  color: #aaa;
 }
 
-.read-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-
-.btn-nav-chapter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: white;
-  border: 1px solid var(--border);
-  padding: 0.7rem 1.25rem;
-  border-radius: 12px;
-  color: var(--pink-600);
+.chapter-read-badge {
+  font-size: 0.75rem;
+  background: #eeeeee;
+  color: #aaa;
+  padding: 3px 12px;
+  border-radius: 20px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 0.9rem;
-  max-width: 45%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.btn-nav-chapter:hover {
-  background: var(--pink-50);
-  border-color: var(--pink-300);
-}
-
-.btn-next {
-  margin-left: auto;
-}
-
-.btn-finished {
-  background: var(--pink-500);
-  color: white;
-  border-color: var(--pink-500);
 }
