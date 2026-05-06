@@ -1,35 +1,56 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UserLayout from '../../components/layout/UserLayout'
-import { Heart, BookOpen, Clock } from 'lucide-react'
+import { Heart, BookOpen, Clock, Loader2 } from 'lucide-react'
+import api from '../../api/axios'
 import './UserPages.css'
 
 type Tab = 'favorite' | 'lastRead'
 
-interface LibraryBook {
-  id: number
+interface BookData {
+  id: string
   title: string
   author: string
-  cover: string
-  lastChapterRead: number
-  totalChapters: number
+  cover: string | null
+  category: string
+  description: string | null
+}
+
+interface LibraryItem {
+  id: string
+  status: 'FAVORITE' | 'SAVED' | 'READING'
+  addedAt: string
+  book: BookData
 }
 
 export default function Library() {
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<Tab>('favorite')
+  const [libraryItems, setLibraryItems] = useState<LibraryItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const favorites: LibraryBook[] = [
-    { id: 101, title: 'Pink World', author: 'Lily Rose', cover: 'https://images.unsplash.com/photo-1543005120-a1bb6ea7b124?auto=format&fit=crop&q=80&w=200', lastChapterRead: 3, totalChapters: 10 },
-    { id: 1, title: 'The Pink Adventure', author: 'Elysia Dash', cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200', lastChapterRead: 2, totalChapters: 5 },
-  ]
+  useEffect(() => {
+    const fetchLibrary = async () => {
+      try {
+        setLoading(true)
+        const res = await api.get('/library')
+        setLibraryItems(res.data.data || [])
+      } catch (err: any) {
+        console.error('Failed to fetch library:', err)
+        setError('Gagal memuat perpustakaan.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchLibrary()
+  }, [])
 
-  const lastRead: LibraryBook[] = [
-    { id: 1, title: 'The Pink Adventure', author: 'Elysia Dash', cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200', lastChapterRead: 2, totalChapters: 5 },
-    { id: 3, title: 'Digital Library Guide', author: 'Tech Pink', cover: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=200', lastChapterRead: 1, totalChapters: 8 },
-  ]
-
+  const favorites = libraryItems.filter(item => item.status === 'FAVORITE')
+  const lastRead = libraryItems.filter(item => item.status === 'READING')
+  // fallback if READING is empty, show SAVED in lastRead tab? 
+  // Or just show READING. Let's show READING for lastRead.
   const currentList = activeTab === 'favorite' ? favorites : lastRead
 
   return (
@@ -57,40 +78,42 @@ export default function Library() {
 
       {/* List Buku */}
       <section className="library-section">
-        {currentList.length > 0 ? (
+        {loading ? (
+          <div className="empty-state">
+            <Loader2 size={32} className="spin" />
+            <p>Memuat perpustakaan...</p>
+          </div>
+        ) : error ? (
+          <div className="empty-state">
+            <p>{error}</p>
+          </div>
+        ) : currentList.length > 0 ? (
           <div className="book-grid">
-            {currentList.map(book => (
+            {currentList.map(item => (
               <div
-                key={book.id}
+                key={item.id}
                 className="book-card"
-                onClick={() => navigate(`/books/${book.id}`)}
+                onClick={() => navigate(`/books/${item.book.id}`)}
                 style={{ cursor: 'pointer' }}
               >
                 <div className="book-cover">
-                  <img src={book.cover} alt={book.title} />
-                  {/* Progress chapter */}
-                  <div className="chapter-progress-badge">
-                    Ch.{book.lastChapterRead}/{book.totalChapters}
-                  </div>
+                  {item.book.cover ? (
+                    <img src={item.book.cover} alt={item.book.title} />
+                  ) : (
+                    <div className="book-cover-placeholder">{item.book.title[0]}</div>
+                  )}
                 </div>
                 <div className="book-info">
-                  <h3>{book.title}</h3>
-                  <p>{book.author}</p>
-                  {/* Progress bar */}
-                  <div className="progress-bar-wrapper">
-                    <div
-                      className="progress-bar-fill"
-                      style={{ width: `${(book.lastChapterRead / book.totalChapters) * 100}%` }}
-                    />
-                  </div>
+                  <h3>{item.book.title}</h3>
+                  <p>{item.book.author}</p>
                   <button
                     className="btn-read"
                     onClick={(e) => {
                       e.stopPropagation()
-                      navigate(`/read/${book.id}/chapter/${book.lastChapterRead}`)
+                      navigate(`/books/${item.book.id}`)
                     }}
                   >
-                    <BookOpen size={14} /> Lanjut Ch.{book.lastChapterRead}
+                    <BookOpen size={14} /> Baca
                   </button>
                 </div>
               </div>

@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import { useParams, useNavigate, } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import UserLayout from '../../components/layout/UserLayout'
-import { Heart, Eye, BookOpen, ChevronLeft } from 'lucide-react'
+import { Heart, Eye, BookOpen, ChevronLeft, Loader2 } from 'lucide-react'
+import api from '../../api/axios'
 import './UserPages.css'
 
-// Tipe data
 interface Chapter {
-    id: number
+    id: string
     number: number
     title: string
     isRead: boolean
 }
 
 interface BookDetailData {
-    id: number
+    id: string
     title: string
     author: string
-    cover: string
-    description: string
+    cover: string | null
+    description: string | null
     category: string
     likeCount: number
     viewCount: number
@@ -28,35 +28,66 @@ interface BookDetailData {
 export default function BookDetail() {
     const { id } = useParams()
     const navigate = useNavigate()
-    //simulasi data buku
-    const [book, setBook] = useState<BookDetailData>({
-        id: 1,
-        title: 'The Pink Adventure',
-        author: 'Elysia Dash',
-        cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400',
-        description: 'Sebuah petualangan seru di dunia serba merah muda yang penuh kejutan dan persahabatan sejati.',
-        category: 'Romansa',
-        likeCount: 1240,
-        viewCount: 8532,
-        isLiked: false,
-        chapters: [
-            { id: 1, number: 1, title: 'Awal Perjalanan', isRead: true },
-            { id: 2, number: 2, title: 'Pertemuan Tak Terduga', isRead: true },
-            { id: 3, number: 3, title: 'Rahasia Tersembunyi', isRead: false },
-            { id: 4, number: 4, title: 'Jalan yang Bercabang', isRead: false },
-            { id: 5, number: 5, title: 'Akhir yang Manis', isRead: false },
-        ],
-    })
+    const [book, setBook] = useState<BookDetailData | null>(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        const fetchBookDetail = async () => {
+            try {
+                setLoading(true)
+                const res = await api.get(`/books/${id}`)
+                setBook(res.data.data)
+            } catch (err: any) {
+                console.error('Failed to fetch book detail:', err)
+                setError('Buku tidak ditemukan atau terjadi kesalahan.')
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchBookDetail()
+    }, [id])
+
+    if (loading) {
+        return (
+            <UserLayout>
+                <div className="empty-state">
+                    <Loader2 size={32} className="spin" />
+                    <p>Memuat detail buku...</p>
+                </div>
+            </UserLayout>
+        )
+    }
+
+    if (error || !book) {
+        return (
+            <UserLayout>
+                <div className="empty-state">
+                    <p>{error || 'Buku tidak ditemukan.'}</p>
+                    <button onClick={() => navigate(-1)} className="back-btn">Kembali</button>
+                </div>
+            </UserLayout>
+        )
+    }
 
     const lastChapterRead = [...book.chapters]
         .reverse()
         .find(chapter => chapter.isRead)
-    // Tombol "Baca Sekarang" → arahkan ke chapter terakhir dibaca
-    // atau chapter 1 jika belum pernah baca
 
-    const HandleReadNow = () => {
-        const target = lastChapterRead ?? book.chapters[0]
-        navigate(`/read/${book.id}/chapter/${target.number}`)
+    const HandleReadNow = async () => {
+        // Logika "Baca Sekarang": Tambahkan ke library dengan status READING
+        try {
+            await api.post('/library', { bookId: book.id, status: 'READING' })
+        } catch (err) {
+            console.error('Failed to update library status:', err)
+        }
+        
+        const target = lastChapterRead ?? (book.chapters.length > 0 ? book.chapters[0] : null)
+        if (target) {
+            navigate(`/read/${book.id}/chapter/${target.number}`)
+        } else {
+            alert('Belum ada chapter tersedia untuk buku ini.')
+        }
     }
     // togle Like
 
@@ -86,7 +117,11 @@ export default function BookDetail() {
                 {/* cover + info */}
                 <div className='book-detail-top'>
                     <div className='book-detail-cover'>
-                        <img src={book.cover} alt={book.title} />
+                        {book.cover ? (
+                            <img src={book.cover} alt={book.title} />
+                        ) : (
+                            <div className="book-cover-placeholder-large">{book.title[0]}</div>
+                        )}
                     </div>
                     <div className='book-detail-info'>
                         <span className='book-category-badge'>{book.category}</span>
@@ -104,7 +139,7 @@ export default function BookDetail() {
                                 <span>{book.viewCount.toLocaleString('id-ID')} views </span>
                             </div>
                         </div>
-                        <p className='book-description'>{book.description}</p>
+                        <p className='book-description'>{book.description || 'Tidak ada deskripsi untuk buku ini.'}</p>
 
                         {/* tombol aksi */}
                         <div className='book-action-btns'>

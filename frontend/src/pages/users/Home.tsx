@@ -1,18 +1,38 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UserLayout from '../../components/layout/UserLayout'
+import api from '../../api/axios'
+import { Loader2 } from 'lucide-react'
 import './UserPages.css'
+
+interface Book {
+  id: string
+  title: string
+  author: string
+  cover: string | null
+  viewCount: number
+}
 
 export default function Home() {
   const navigate = useNavigate()
+  const [books, setBooks] = useState<Book[]>([])
+  const [loading, setLoading] = useState(true)
 
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
 
-  const recommendations = [
-    { id: 1, title: 'The Pink Adventure', author: 'Elysia Dash', cover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200', viewCount: 8532 },
-    { id: 2, title: 'Buku Favorit Admin', author: 'Admin Kece', cover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=200', viewCount: 3210 },
-    { id: 3, title: 'Digital Library Guide', author: 'Tech Pink', cover: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=200', viewCount: 1540 },
-    { id: 4, title: 'Novel Romansa', author: 'Sweet Pinky', cover: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=200', viewCount: 12004 },
-  ]
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const res = await api.get('/books')
+        setBooks(res.data.data || [])
+      } catch (err) {
+        console.error('Failed to fetch books:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchBooks()
+  }, [])
 
   return (
     <UserLayout>
@@ -23,38 +43,52 @@ export default function Home() {
 
       <section className="recommendation-section">
         <h2 className="section-title">Rekomendasi Admin</h2>
-        <div className="book-grid">
-          {recommendations.map(book => (
-            <div
-              key={book.id}
-              className="book-card"
-              // Klik card → ke halaman detail buku
-              onClick={() => navigate(`/books/${book.id}`)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="book-cover">
-                <img src={book.cover} alt={book.title} />
-                {/* Badge jumlah pembaca */}
-                <div className="view-badge">
-                  👁 {book.viewCount.toLocaleString('id-ID')}
+        
+        {loading ? (
+          <div className="empty-state">
+            <Loader2 size={32} className="spin" />
+            <p>Memuat buku...</p>
+          </div>
+        ) : books.length > 0 ? (
+          <div className="book-grid">
+            {books.map(book => (
+              <div
+                key={book.id}
+                className="book-card"
+                onClick={() => navigate(`/books/${book.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className="book-cover">
+                  {book.cover ? (
+                    <img src={book.cover} alt={book.title} />
+                  ) : (
+                    <div className="book-cover-placeholder">{book.title[0]}</div>
+                  )}
+                  <div className="view-badge">
+                    👁 {book.viewCount.toLocaleString('id-ID')}
+                  </div>
+                </div>
+                <div className="book-info">
+                  <h3>{book.title}</h3>
+                  <p>{book.author}</p>
+                  <button
+                    className="btn-read"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      navigate(`/read/${book.id}/chapter/1`)
+                    }}
+                  >
+                    Baca Sekarang
+                  </button>
                 </div>
               </div>
-              <div className="book-info">
-                <h3>{book.title}</h3>
-                <p>{book.author}</p>
-                <button
-                  className="btn-read"
-                  onClick={(e) => {
-                    e.stopPropagation() // Jangan trigger klik card
-                    navigate(`/read/${book.id}/chapter/1`)
-                  }}
-                >
-                  Baca Sekarang
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <p>Belum ada buku tersedia.</p>
+          </div>
+        )}
       </section>
     </UserLayout>
   )

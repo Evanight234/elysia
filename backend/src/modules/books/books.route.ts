@@ -1,7 +1,7 @@
 import { Elysia, t } from 'elysia'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { adminOnly } from '../../middleware/role.middleware'
-import { getAllBooks, searchBooks, createBook, updateBook, deleteBook } from './books.service'
+import { getAllBooks, searchBooks, getBookById, createBook, updateBook, deleteBook } from './books.service'
 import { CreateBookSchema, UpdateBookSchema } from './books.Schema'
 import { successResponse, errorResponse } from '../../utils/response'
 import { NewBook } from '../../db/schema'
@@ -20,12 +20,27 @@ export const bookRoute = new Elysia({ prefix: '/books' })
         }
     })
 
+    // GET /books/:id
+    .get('/:id', async ({ params, set }) => {
+        try {
+            const data = await getBookById(params.id)
+            if (!data) {
+                set.status = 404
+                return errorResponse('Buku tidak ditemukan')
+            }
+            return successResponse(data)
+        } catch (error: any) {
+            set.status = 500
+            return errorResponse(error.message)
+        }
+    })
+
     // GET /books/search?q=xxx
     .get(
         '/search',
         async ({ query, set }) => {
             try {
-                const data = await searchBooks()
+                const data = await searchBooks(query.q || '')
                 return successResponse(data)
             } catch (error: any) {
                 set.status = 500

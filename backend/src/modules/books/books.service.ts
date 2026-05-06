@@ -3,8 +3,18 @@ import { books } from "../../db/schema";
 import { eq, ilike, or } from "drizzle-orm";
 import type { NewBook } from '../../db/schema'
 
+import { chapters } from "../../db/schema/chapter";
+
 export const getAllBooks = async () => {
     return await db.select().from(books).orderBy(books.createdAt)
+}
+
+export const getBookById = async (id: string) => {
+    const [book] = await db.select().from(books).where(eq(books.id, id))
+    if (!book) return null
+
+    const bookChapters = await db.select().from(chapters).where(eq(chapters.bookId, id)).orderBy(chapters.number)
+    return { ...book, chapters: bookChapters }
 }
 
 export const searchBooks = async (query: string) => {

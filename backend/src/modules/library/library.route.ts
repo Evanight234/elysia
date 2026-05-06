@@ -31,7 +31,7 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
         {
             body: t.Object({
                 bookId: t.String(),
-                status: t.Union([t.Literal('SAVED'), t.Literal('FAVORITE')]),
+                status: t.Union([t.Literal('SAVED'), t.Literal('FAVORITE'), t.Literal('READING')]),
             }),
         }
     )

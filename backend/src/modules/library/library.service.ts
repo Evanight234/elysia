@@ -16,11 +16,15 @@ export const getUserLibrary = async (userId: string) => {
         .where(eq(library.userId, userId))
 }
 
-// Tambah buku ke library
-export const addToLibrary = async (userId: string, bookId: string, status: 'SAVED' | 'FAVORITE') => {
+// Tambah atau Update buku di library
+export const addToLibrary = async (userId: string, bookId: string, status: 'SAVED' | 'FAVORITE' | 'READING') => {
     const [item] = await db
         .insert(library)
         .values({ userId, bookId, status })
+        .onConflictDoUpdate({
+            target: [library.userId, library.bookId],
+            set: { status }
+        })
         .returning()
     return item
 }
