@@ -1,20 +1,33 @@
 import { db } from "../../db";
 import { books } from "../../db/schema";
-import { eq, ilike, or } from "drizzle-orm";
+import { eq, ilike, or, and } from "drizzle-orm";
 import type { NewBook } from '../../db/schema'
 
 import { chapters } from "../../db/schema/chapter";
+
+import { checkIsLiked } from './likes.service'
+export { toggleLike } from './likes.service'
 
 export const getAllBooks = async () => {
     return await db.select().from(books).orderBy(books.createdAt)
 }
 
-export const getBookById = async (id: string) => {
+export const getBookById = async (id: string, userId?: string) => {
     const [book] = await db.select().from(books).where(eq(books.id, id))
     if (!book) return null
 
     const bookChapters = await db.select().from(chapters).where(eq(chapters.bookId, id)).orderBy(chapters.number)
-    return { ...book, chapters: bookChapters }
+    
+    let isLiked = false
+    if (userId) {
+        isLiked = await checkIsLiked(userId, id)
+    }
+
+    return { 
+        ...book, 
+        chapters: bookChapters,
+        isLiked
+    }
 }
 
 export const searchBooks = async (query: string) => {
@@ -54,4 +67,26 @@ export const deleteBook = async (id: string) => {
         throw new Error('Book not found')
     }
     return book
+}
+
+export const getChapterByNumber = async (bookId: string, chapterNum: number) => {
+    const [chapterData] = await db
+        .select()
+        .from(chapters)
+        .where(and(eq(chapters.bookId, bookId), eq(chapters.number, chapterNum)))
+    
+    if (!chapterData) return null
+
+    // Split content into paragraphs for the frontend
+    const paragraphs = chapterData.content.split('\n').filter(p => p.trim() !== '').map((text, index) => ({
+        id: index + 1,
+        text,
+        comments: 0 // Placeholder
+    }))
+
+    return {
+        ...chapterData,
+        paragraphs,
+        totalComments: 0 // Placeholder
+    }
 }

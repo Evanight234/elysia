@@ -8,6 +8,7 @@ export const getUserLibrary = async (userId: string) => {
         .select({
             id: library.id,
             status: library.status,
+            lastChapterRead: library.lastChapterRead,
             addedAt: library.addedAt,
             book: books,
         })
@@ -37,5 +38,18 @@ export const removeFromLibrary = async (userId: string, libraryId: string) => {
         .returning()
 
     if (!item) throw new Error('Item tidak ditemukan')
+    return item
+}
+
+// Update chapter terakhir dibaca
+export const updateLastChapter = async (userId: string, bookId: string, chapterNum: number) => {
+    const [item] = await db
+        .insert(library)
+        .values({ userId, bookId, status: 'READING', lastChapterRead: chapterNum })
+        .onConflictDoUpdate({
+            target: [library.userId, library.bookId],
+            set: { lastChapterRead: chapterNum }
+        })
+        .returning()
     return item
 }

@@ -1,6 +1,6 @@
 import { Elysia, t } from 'elysia'
 import { authMiddleware } from '../../middleware/auth.middleware'
-import { getUserLibrary, addToLibrary, removeFromLibrary } from './library.service'
+import { getUserLibrary, addToLibrary, removeFromLibrary, updateLastChapter } from './library.service'
 import { successResponse, errorResponse } from '../../utils/response'
 
 export const libraryRoute = new Elysia({ prefix: '/library' })
@@ -44,4 +44,18 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
             set.status = 404
             return errorResponse(error.message)
         }
+    })
+
+    .patch('/:bookId/lastChapter', async ({ user, params, body, set }) => {
+        try {
+            const data = await updateLastChapter(user.id, params.bookId, body.lastChapter)
+            return successResponse(data, 'Progres membaca diperbarui')
+        } catch (error: any) {
+            set.status = 400
+            return errorResponse(error.message)
+        }
+    }, {
+        body: t.Object({
+            lastChapter: t.Number()
+        })
     })

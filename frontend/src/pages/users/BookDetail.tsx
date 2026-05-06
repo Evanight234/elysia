@@ -91,13 +91,19 @@ export default function BookDetail() {
     }
     // togle Like
 
-    const handleLike = () => {
-        setBook(prev => ({
-            ...prev,
-            isLiked: !prev.isLiked,
-            likeCount: prev.isLiked ? prev.likeCount - 1 : prev.likeCount + 1,
-        }))
-        //TODO : POST /Book/:id/like ke backend
+    // toggle Like
+    const handleLike = async () => {
+        try {
+            const res = await api.post(`/books/${book.id}/like`)
+            const { liked } = res.data.data
+            setBook(prev => ({
+                ...prev,
+                isLiked: liked,
+                likeCount: liked ? prev.likeCount + 1 : prev.likeCount - 1,
+            }))
+        } catch (err) {
+            console.error('Failed to toggle like:', err)
+        }
     }
 
     //klik chapter langsung

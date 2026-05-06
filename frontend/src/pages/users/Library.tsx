@@ -19,6 +19,7 @@ interface BookData {
 interface LibraryItem {
   id: string
   status: 'FAVORITE' | 'SAVED' | 'READING'
+  lastChapterRead: number
   addedAt: string
   book: BookData
 }
@@ -106,6 +107,9 @@ export default function Library() {
                 <div className="book-info">
                   <h3>{item.book.title}</h3>
                   <p>{item.book.author}</p>
+                  {item.lastChapterRead > 0 && (
+                    <span className="chapter-badge">Chapter {item.lastChapterRead}</span>
+                  )}
                   <button
                     className="btn-read"
                     onClick={(e) => {
