@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import UserLayout from '../../components/layout/UserLayout';
 import api from '../../api/axios';
 import { Search as SearchIcon, Loader2, BookOpen } from 'lucide-react';
+import BookCover from '../../components/ui/BookCover';
 import './UserPages.css';
 
 interface Book {
@@ -11,6 +12,7 @@ interface Book {
   author: string;
   cover: string | null;
   category: string;
+  lastChapterNumber: number | null;
 }
 
 export default function Search() {
@@ -20,11 +22,12 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
+  const handleSearch = async (searchTerm?: string) => {
+    const q = searchTerm || query;
+    if (!q.trim()) return;
     try {
       setLoading(true);
-      const res = await api.get(`/books/search?q=${query}`);
+      const res = await api.get(`/books/search?q=${q}`);
       setResults(res.data.data || []);
     } catch (err) {
       console.error('Search failed:', err);
@@ -32,6 +35,14 @@ export default function Search() {
       setLoading(false);
     }
   };
+
+  const handleReadClick = (book: Book) => {
+    if (book.lastChapterNumber) {
+      navigate(`/read/${book.id}/chapter/${book.lastChapterNumber}`)
+    } else {
+      navigate(`/books/${book.id}`)
+    }
+  }
 
   return (
     <UserLayout>
@@ -50,7 +61,7 @@ export default function Search() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
-          <button className="btn-search-main" onClick={handleSearch} disabled={loading}>
+          <button className="btn-search-main" onClick={() => handleSearch()} disabled={loading}>
             {loading ? <Loader2 size={18} className="spin" /> : 'Cari'}
           </button>
         </div>
@@ -67,13 +78,7 @@ export default function Search() {
                 onClick={() => navigate(`/books/${book.id}`)}
                 style={{ cursor: 'pointer' }}
               >
-                <div className="book-cover">
-                  {book.cover ? (
-                    <img src={book.cover} alt={book.title} />
-                  ) : (
-                    <div className="book-cover-placeholder">{book.title[0]}</div>
-                  )}
-                </div>
+                <BookCover src={book.cover} alt={book.title} />
                 <div className="book-info">
                   <h3>{book.title}</h3>
                   <p>{book.author}</p>
@@ -81,10 +86,10 @@ export default function Search() {
                     className="btn-read"
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/books/${book.id}`);
+                      handleReadClick(book);
                     }}
                   >
-                    <BookOpen size={14} /> Lihat Detail
+                    <BookOpen size={14} /> {book.lastChapterNumber ? `Lanjut Ch ${book.lastChapterNumber}` : 'Lihat Detail'}
                   </button>
                 </div>
               </div>
@@ -102,19 +107,7 @@ export default function Search() {
             {['Adventure', 'Fantasy', 'Guide', 'Romansa', 'Teknologi', 'Sejarah'].map(cat => (
               <button key={cat} className="category-tag" onClick={() => {
                 setQuery(cat);
-                // Trigger search directly after state update is tricky, so we call handleSearch with cat
-                const searchCat = async () => {
-                  try {
-                    setLoading(true);
-                    const res = await api.get(`/books/search?q=${cat}`);
-                    setResults(res.data.data || []);
-                  } catch (err) {
-                    console.error('Search failed:', err);
-                  } finally {
-                    setLoading(false);
-                  }
-                };
-                searchCat();
+                handleSearch(cat);
               }}>{cat}</button>
             ))}
           </div>

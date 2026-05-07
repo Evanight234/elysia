@@ -1,0 +1,509 @@
+/* ══════════════════════════
+   SHARED ADMIN STYLES
+══════════════════════════ */
+
+/* Page Header */
+.admin-page-header {
+    margin-bottom: 2rem;
+}
+
+.admin-page-header h1 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #9d174d;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.5px;
+}
+
+.admin-page-header p {
+    color: #d1a0b8;
+    font-size: 0.95rem;
+}
+
+/* ── Stat Cards (AdminHome) ── */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.admin-stat-card {
+    background: white;
+    border: 1px solid #fce7f3;
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 2px 12px rgba(236, 72, 153, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.12);
+}
+
+.admin-stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #fce7f3;
+    color: #ec4899;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+}
+
+.admin-stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #9d174d;
+    line-height: 1;
+}
+
+.admin-stat-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #d1a0b8;
+}
+
+/* ── Table ── */
+.admin-table-wrapper {
+    background: white;
+    border: 1px solid #fce7f3;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(236, 72, 153, 0.06);
+}
+
+.admin-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #fce7f3;
+}
+
+.admin-table-header h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #9d174d;
+    margin: 0;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #d1a0b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #fffaf8;
+    border-bottom: 1px solid #fce7f3;
+}
+
+.admin-table td {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    color: #4a2030;
+    border-bottom: 1px solid #fdf2f8;
+    vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover td {
+    background: #fffaf8;
+}
+
+/* Role badge */
+.role-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.role-badge.user {
+    background: #fce7f3;
+    color: #be185d;
+}
+
+.role-badge.admin {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+/* Avatar huruf */
+.admin-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fce7f3;
+    color: #be185d;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.admin-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-user-name {
+    font-weight: 700;
+    color: #1a0010;
+    font-size: 0.88rem;
+}
+
+.admin-user-email {
+    font-size: 0.78rem;
+    color: #d1a0b8;
+}
+
+/* Tombol hapus */
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #fecdd3;
+    background: #fff5f5;
+    color: #ef4444;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-delete:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+/* Tombol tambah rekomendasi */
+.btn-add-rec {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background: #ec4899;
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.btn-add-rec:hover {
+    opacity: 0.85;
+}
+
+.btn-add-rec:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Tombol hapus rekomendasi */
+.btn-remove-rec {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #fecdd3;
+    background: #fff5f5;
+    color: #ef4444;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-remove-rec:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+/* Empty state */
+.admin-empty {
+    text-align: center;
+    padding: 3rem;
+    color: #d1a0b8;
+    font-size: 0.95rem;
+}
+
+/* Loading */
+.admin-loading {
+    text-align: center;
+    padding: 3rem;
+    color: #f472b6;
+}
+
+/* Search admin */
+.admin-search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: white;
+    border: 2px solid #fce7f3;
+    border-radius: 16px;
+    padding: 0.65rem 1.25rem;
+    margin-bottom: 2rem;
+    transition: border-color 0.2s;
+    box-shadow: 0 2px 12px rgba(236, 72, 153, 0.06);
+}
+
+.admin-search-box:focus-within {
+    border-color: #f472b6;
+}
+
+.admin-search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #2d2020;
+    font-family: inherit;
+}
+
+.btn-admin-search {
+    background: #ec4899;
+    color: white;
+    border: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.btn-admin-search:hover {
+    opacity: 0.85;
+}
+
+.btn-admin-search:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Rekomendasi section */
+.rec-section {
+    background: white;
+    border: 1px solid #fce7f3;
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 12px rgba(236, 72, 153, 0.06);
+}
+
+.rec-section h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #9d174d;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.rec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.rec-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    background: #fffaf8;
+    border: 1px solid #fce7f3;
+    border-radius: 12px;
+    gap: 1rem;
+}
+
+.rec-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.rec-item-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1a0010;
+}
+
+.rec-item-author {
+    font-size: 0.78rem;
+    color: #d1a0b8;
+}
+
+/* Book result row (search admin) */
+.admin-book-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+    background: white;
+    border: 1px solid #fce7f3;
+    border-radius: 14px;
+    gap: 1rem;
+    transition: box-shadow 0.15s;
+}
+
+.admin-book-result:hover {
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.1);
+}
+
+.admin-book-cover-sm {
+    width: 48px;
+    height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #fce7f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #be185d;
+    font-size: 1.1rem;
+}
+
+.admin-book-cover-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-book-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-book-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a0010;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-book-author {
+    font-size: 0.78rem;
+    color: #d1a0b8;
+    margin-top: 2px;
+}
+
+.admin-book-category {
+    display: inline-block;
+    background: #fce7f3;
+    color: #be185d;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    margin-top: 4px;
+}
+
+/* Confirm modal */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-box {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.confirm-box h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a0010;
+    margin-bottom: 0.5rem;
+}
+
+.confirm-box p {
+    color: #d1a0b8;
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+}
+
+.confirm-btns {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.btn-cancel {
+    padding: 0.6rem 1.4rem;
+    border-radius: 10px;
+    border: 1px solid #fce7f3;
+    background: white;
+    color: #9d174d;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-confirm-delete {
+    padding: 0.6rem 1.4rem;
+    border-radius: 10px;
+    border: none;
+    background: #ef4444;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Spin animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}

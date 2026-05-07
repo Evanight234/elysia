@@ -81,7 +81,7 @@ export default function BookDetail() {
         } catch (err) {
             console.error('Failed to update library status:', err)
         }
-        
+
         const target = lastChapterRead ?? (book.chapters.length > 0 ? book.chapters[0] : null)
         if (target) {
             navigate(`/read/${book.id}/chapter/${target.number}`)

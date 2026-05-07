@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import UserLayout from '../../components/layout/UserLayout'
 import { Heart, BookOpen, Clock, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
+import BookCover from '../../components/ui/BookCover'
 import './UserPages.css'
 
 type Tab = 'favorite' | 'lastRead'
@@ -13,7 +14,7 @@ interface BookData {
   author: string
   cover: string | null
   category: string
-  description: string | null
+  lastChapterNumber: number | null
 }
 
 interface LibraryItem {
@@ -48,10 +49,16 @@ export default function Library() {
     fetchLibrary()
   }, [])
 
+  const handleReadClick = (book: BookData) => {
+    if (book.lastChapterNumber) {
+      navigate(`/read/${book.id}/chapter/${book.lastChapterNumber}`)
+    } else {
+      navigate(`/books/${book.id}`)
+    }
+  }
+
   const favorites = libraryItems.filter(item => item.status === 'FAVORITE')
   const lastRead = libraryItems.filter(item => item.status === 'READING')
-  // fallback if READING is empty, show SAVED in lastRead tab? 
-  // Or just show READING. Let's show READING for lastRead.
   const currentList = activeTab === 'favorite' ? favorites : lastRead
 
   return (
@@ -97,13 +104,7 @@ export default function Library() {
                 onClick={() => navigate(`/books/${item.book.id}`)}
                 style={{ cursor: 'pointer' }}
               >
-                <div className="book-cover">
-                  {item.book.cover ? (
-                    <img src={item.book.cover} alt={item.book.title} />
-                  ) : (
-                    <div className="book-cover-placeholder">{item.book.title[0]}</div>
-                  )}
-                </div>
+                <BookCover src={item.book.cover} alt={item.book.title} />
                 <div className="book-info">
                   <h3>{item.book.title}</h3>
                   <p>{item.book.author}</p>
@@ -114,10 +115,10 @@ export default function Library() {
                     className="btn-read"
                     onClick={(e) => {
                       e.stopPropagation()
-                      navigate(`/books/${item.book.id}`)
+                      handleReadClick(item.book)
                     }}
                   >
-                    <BookOpen size={14} /> Baca
+                    <BookOpen size={14} /> {item.book.lastChapterNumber ? `Lanjut Ch ${item.book.lastChapterNumber}` : 'Baca'}
                   </button>
                 </div>
               </div>

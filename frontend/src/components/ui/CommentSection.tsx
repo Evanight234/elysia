@@ -16,6 +16,10 @@ interface Comment {
 interface Props {
     paragraphId: number
     chapterId: string
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8776d14 (oke)
     onClose: () => void
 }
 

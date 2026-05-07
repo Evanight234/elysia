@@ -9,7 +9,7 @@ import './ReadChapter.css'
 interface Paragraph {
     id: number
     text: string
-    comments: number   
+    comments: number
 }
 
 interface ChapterData {
@@ -35,7 +35,7 @@ interface ChapterListItem {
 }
 
 export default function ReadChapter() {
-    const { bookId, number } = useParams()
+    const { bookId, chapterNumber } = useParams()
     const navigate = useNavigate()
     const contentRef = useRef<HTMLDivElement>(null)
 
@@ -50,7 +50,7 @@ export default function ReadChapter() {
     const [isLiked, setIsLiked] = useState(false)
     const [isRead, setIsRead] = useState(false)
 
-    const currentNum = parseInt(number || '1')
+    const currentNum = parseInt(chapterNumber || '1')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -82,7 +82,7 @@ export default function ReadChapter() {
 
                 setChapter(chapterData)
                 setIsLiked(bookData.isLiked || false)
-                
+
                 if (contentRef.current) {
                     contentRef.current.scrollTop = 0
                 }
@@ -209,19 +209,19 @@ export default function ReadChapter() {
 
             <main className="reader-main" ref={contentRef}>
                 <div className="reader-container">
-                    
+
                     {/* ── CHAPTER START (Only at top) ── */}
                     <div className="chapter-start-section">
                         <div className="start-cover-wrapper">
-                            <img 
-                                src={book.cover || 'https://placehold.co/200x300?text=No+Cover'} 
-                                alt={book.title} 
+                            <img
+                                src={book.cover || 'https://placehold.co/200x300?text=No+Cover'}
+                                alt={book.title}
                                 className="start-cover-img"
                             />
                         </div>
                         <h2 className="start-book-title">{book.title}</h2>
                         <p className="start-book-author"><b>Author:</b> {book.author}</p>
-                        
+
                         <div className="copyright-info">
                             <span className="copyright-icon">©</span> ElysiaApp
                         </div>
@@ -249,8 +249,8 @@ export default function ReadChapter() {
                             >
                                 <div className="para-text-wrapper">
                                     <p className="para-body-text">{para.text}</p>
-                                    
-                                    <button 
+
+                                    <button
                                         className={`para-side-badge ${para.comments > 0 ? 'has-comments' : ''}`}
                                         onClick={() => setActiveComment(activeComment === para.id ? null : para.id)}
                                     >
@@ -303,7 +303,7 @@ export default function ReadChapter() {
                             >
                                 <ChevronLeft size={24} />
                             </button>
-                            
+
                             <div className="footer-progress">
                                 <span>{currentNum} / {book.totalChapters} Chapters</span>
                             </div>
@@ -315,9 +315,9 @@ export default function ReadChapter() {
                                 <ChevronRight size={24} />
                             </button>
                         </div>
-                        
+
                         <div className="footer-like-section">
-                             <button
+                            <button
                                 className={`premium-like-btn ${isLiked ? 'active' : ''}`}
                                 onClick={handleLike}
                             >

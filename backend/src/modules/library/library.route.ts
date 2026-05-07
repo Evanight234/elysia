@@ -1,6 +1,11 @@
 import { Elysia, t } from 'elysia'
+import { eq, and, sql } from "drizzle-orm";
 import { authMiddleware } from '../../middleware/auth.middleware'
+<<<<<<< HEAD
 import { getUserLibrary, addToLibrary, removeFromLibrary, updateLastChapter } from './library.service'
+=======
+import { getUserLibrary, addToLibrary, removeFromLibrary, updateReadingProgress } from './library.service'
+>>>>>>> 8776d14 (oke)
 import { successResponse, errorResponse } from '../../utils/response'
 
 export const libraryRoute = new Elysia({ prefix: '/library' })
@@ -46,6 +51,7 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
         }
     })
 
+<<<<<<< HEAD
     .patch('/:bookId/lastChapter', async ({ user, params, body, set }) => {
         try {
             const data = await updateLastChapter(user.id, params.bookId, body.lastChapter)
@@ -59,3 +65,23 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
             lastChapter: t.Number()
         })
     })
+=======
+    .post(
+        '/progress',
+        async ({ user, body, set }) => {
+            try {
+                const data = await updateReadingProgress(user.id, body.bookId, body.chapterId)
+                return successResponse(data, 'Progress bacaan diupdate')
+            } catch (error: any) {
+                set.status = 400
+                return errorResponse(error.message)
+            }
+        },
+        {
+            body: t.Object({
+                bookId: t.String(),
+                chapterId: t.String()
+            })
+        }
+    )
+>>>>>>> 8776d14 (oke)
