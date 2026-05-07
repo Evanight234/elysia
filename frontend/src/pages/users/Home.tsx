@@ -43,7 +43,7 @@ export default function Home() {
 
       <section className="recommendation-section">
         <h2 className="section-title">Rekomendasi Admin</h2>
-
+        
         {loading ? (
           <div className="empty-state">
             <Loader2 size={32} className="spin" />
