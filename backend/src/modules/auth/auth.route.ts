@@ -15,7 +15,13 @@ export const authRoute = new Elysia({ prefix: '/auth' })
       try {
         const user = await RegisterUsers(body)
         set.status = 201
-        return successResponse(user, 'Registrasi berhasil')
+
+        // Pesan berbeda sesuai role yang didapat
+        const message = user.role === 'ADMIN'
+          ? 'Akun Admin berhasil dibuat!'
+          : 'Registrasi berhasil!'
+
+        return successResponse(user, message)
       } catch (error: any) {
         console.error('Registration Error:', error)
         set.status = 400
@@ -35,6 +41,7 @@ export const authRoute = new Elysia({ prefix: '/auth' })
         const token = await jwt.sign({
           id: user.id,
           name: user.name,
+          username: user.username,
           email: user.email,
           role: user.role,
         })
@@ -48,7 +55,7 @@ export const authRoute = new Elysia({ prefix: '/auth' })
     { body: LoginSchema }
   )
 
-  // GET /auth/me — get current logged-in user + profile
+  // GET /auth/me
   .use(authMiddleware)
   .get(
     '/me',

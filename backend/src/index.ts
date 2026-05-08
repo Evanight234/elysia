@@ -7,6 +7,7 @@ import { libraryRoute } from './modules/library/library.route';
 import { notifRoute } from './modules/Notification/notif.route'
 import { profileRoute } from './modules/profile/profile.route'
 import { recommendationRoute } from './modules/recomendation/recomendation.route';
+import { adminRoute } from './modules/admin/admin.route';
 
 const app = new Elysia()
   .use(cors())
@@ -25,9 +26,11 @@ const app = new Elysia()
   .use(notifRoute)
   .use(profileRoute)
   .use(recommendationRoute)
+  .use(adminRoute)
   .listen(3000);
 
 console.log(
   `Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
+
 

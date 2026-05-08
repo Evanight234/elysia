@@ -3,13 +3,25 @@ import { users, profile } from "../../db/schema";
 import { eq, or } from "drizzle-orm";
 import { hashPassword, verifyPassword } from "../../utils/hash";
 
+// ── Password khusus admin ──────────────────────────────────
+// Siapapun yang daftar dengan password PERSIS ini → otomatis ADMIN
+// Siapapun yang login dengan password PERSIS ini → bisa masuk sebagai ADMIN
+const ADMIN_PASSWORD = "Elysia is aufa wife"
+
+// ═══════════════════════════════════════════════════════════
+// REGISTER
+// Logika:
+// - password === ADMIN_PASSWORD → role ADMIN
+// - password lain               → role USER
+// ═══════════════════════════════════════════════════════════
 export const RegisterUsers = async (data: {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
+    name: string
+    username: string
+    email: string
+    password: string
 }) => {
-    // Check if email or username already exists
+
+    // ── Cek email atau username sudah ada ──
     const existing = await db
         .select()
         .from(users)
@@ -18,15 +30,21 @@ export const RegisterUsers = async (data: {
                 eq(users.email, data.email),
                 eq(users.username, data.username)
             )
-        );
+        )
 
     if (existing.length > 0) {
-        const isEmail = existing.some(u => u.email === data.email);
-        throw new Error(isEmail ? "Email sudah terdaftar" : "Username sudah digunakan");
+        const isEmail = existing.some(u => u.email === data.email)
+        throw new Error(isEmail ? 'Email sudah terdaftar' : 'Username sudah digunakan')
     }
 
-    const hashed = await hashPassword(data.password);
+    // ── Tentukan role dari password ──────────────────────────
+    // Cek SEBELUM di-hash karena setelah hash tidak bisa dibandingkan lagi
+    const role = data.password === ADMIN_PASSWORD ? 'ADMIN' : 'USER'
 
+    // ── Hash password untuk disimpan ke DB ──────────────────
+    const hashed = await hashPassword(data.password)
+
+    // ── Simpan user baru ke DB ───────────────────────────────
     const [newUser] = await db
         .insert(users)
         .values({
@@ -34,7 +52,7 @@ export const RegisterUsers = async (data: {
             username: data.username,
             email: data.email,
             password: hashed,
-            role: "USER",
+            role: role,       // ← ADMIN atau USER ditentukan di sini
         })
         .returning({
             id: users.id,
@@ -43,42 +61,53 @@ export const RegisterUsers = async (data: {
             email: users.email,
             role: users.role,
             createdAt: users.createdAt,
-        });
+        })
 
-    // Auto-create an empty profile for the new user
-    await db.insert(profile).values({
-        userId: newUser.id,
-    });
+    // ── Auto-buat profile kosong untuk user baru ─────────────
+    await db.insert(profile).values({ userId: newUser.id })
 
     return {
         ...newUser,
         createdAt: newUser.createdAt.toISOString(),
-    };
-};
+    }
+}
 
+// ═══════════════════════════════════════════════════════════
+// LOGIN
+// Logika:
+// - Bisa login pakai email ATAU username
+// - Jika password === ADMIN_PASSWORD → pastikan role memang ADMIN
+//   (validasi ganda: password cocok + role ADMIN di DB)
+// ═══════════════════════════════════════════════════════════
 export const LoginUsers = async (data: {
-    email: string; // This can be email or username
-    password: string;
+    email: string   // bisa diisi email atau username
+    password: string
 }) => {
+
+    // ── Cari user berdasarkan email ATAU username ─────────────
     const [user] = await db
         .select()
         .from(users)
         .where(
             or(
                 eq(users.email, data.email),
-                eq(users.username, data.email)
+                eq(users.username, data.email)   // input "email" bisa berisi username
             )
         )
-        .limit(1);
+        .limit(1)
 
-    if (!user) {
-        throw new Error("Akun tidak ditemukan");
-    }
+    if (!user) throw new Error('Akun tidak ditemukan')
 
-    const isValid = await verifyPassword(data.password, user.password);
+    // ── Verifikasi password dengan hash di DB ────────────────
+    const isValid = await verifyPassword(data.password, user.password)
+    if (!isValid) throw new Error('Password salah')
 
-    if (!isValid) {
-        throw new Error("Password salah");
+    // ── Validasi tambahan untuk admin ───────────────────────
+    // Jika password yang dimasukkan adalah password admin
+    // tapi role di DB bukan ADMIN → tolak
+    // (edge case: user biasa tidak sengaja pakai password admin)
+    if (data.password === ADMIN_PASSWORD && user.role !== 'ADMIN') {
+        throw new Error('Akun ini tidak terdaftar sebagai admin')
     }
 
     return {
@@ -88,9 +117,12 @@ export const LoginUsers = async (data: {
         email: user.email,
         role: user.role,
         createdAt: user.createdAt.toISOString(),
-    };
-};
+    }
+}
 
+// ═══════════════════════════════════════════════════════════
+// GET CURRENT USER (tidak berubah)
+// ═══════════════════════════════════════════════════════════
 export const GetCurrentUser = async (userId: string) => {
     const [user] = await db
         .select({
@@ -103,18 +135,15 @@ export const GetCurrentUser = async (userId: string) => {
         })
         .from(users)
         .where(eq(users.id, userId))
-        .limit(1);
+        .limit(1)
 
-    if (!user) {
-        throw new Error("User tidak ditemukan");
-    }
+    if (!user) throw new Error('User tidak ditemukan')
 
-    // Fetch the user's profile
     const [userProfile] = await db
         .select()
         .from(profile)
         .where(eq(profile.userId, userId))
-        .limit(1);
+        .limit(1)
 
     return {
         ...user,
@@ -124,5 +153,5 @@ export const GetCurrentUser = async (userId: string) => {
             createdAt: userProfile.createdAt.toISOString(),
             updatedAt: userProfile.updatedAt.toISOString(),
         } : null,
-    };
-};
+    }
+}

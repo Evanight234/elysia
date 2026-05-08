@@ -1,0 +1,142 @@
+import { useState, useEffect } from 'react'
+import AdminLayout from './adminLayout.tsx'
+import { Users, BookOpen, Bell, Star, Loader2, User } from 'lucide-react'
+import api from '../../api/axios'
+import './adminPage.css'
+
+interface UserStat {
+    id: string
+    name: string
+    email: string
+    role: 'USER' | 'ADMIN'
+    createdAt: string
+}
+
+interface StatData {
+    totalUsers: number
+    totalBooks: number
+    totalNotifs: number
+    totalRecs: number
+}
+
+export default function AdminHome() {
+    const [stats, setStats] = useState<StatData>({ totalUsers: 0, totalBooks: 0, totalNotifs: 0, totalRecs: 0 })
+    const [users, setUsers] = useState<UserStat[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Ambil semua user dari backend
+                // GET /admin/users
+                const usersRes = await api.get('/admin/users')
+                const userList: UserStat[] = usersRes.data.data || []
+                setUsers(userList)
+
+                // Ambil jumlah buku
+                const booksRes = await api.get('/books')
+                const bookCount = (booksRes.data.data || []).length
+
+                // Ambil rekomendasi
+                const recRes = await api.get('/recommendations')
+                const recCount = (recRes.data.data || []).length
+
+                setStats({
+                    totalUsers: userList.length,
+                    totalBooks: bookCount,
+                    totalNotifs: 0,   // TODO: GET /admin/notifications/count
+                    totalRecs: recCount,
+                })
+            } catch (err) {
+                console.error('Failed to fetch admin home data:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [])
+
+    const statCards = [
+        { label: 'Total User', value: stats.totalUsers, icon: Users, color: '#fce7f3' },
+        { label: 'Total Buku', value: stats.totalBooks, icon: BookOpen, color: '#ede9fe' },
+        { label: 'Rekomendasi Aktif', value: stats.totalRecs, icon: Star, color: '#fef3c7' },
+        { label: 'Notifikasi Terkirim', value: stats.totalNotifs, icon: Bell, color: '#d1fae5' },
+    ]
+
+    return (
+        <AdminLayout>
+            <div className="admin-page-header">
+                <h1>Dashboard Admin</h1>
+                <p>Selamat datang! Pantau aktivitas ElysiaApp dari sini.</p>
+            </div>
+
+            {/* ── Stat Cards ── */}
+            <div className="admin-stats-grid">
+                {statCards.map(({ label, value, icon: Icon, color }) => (
+                    <div key={label} className="admin-stat-card">
+                        <div className="admin-stat-icon" style={{ background: color }}>
+                            <Icon size={20} />
+                        </div>
+                        <div className="admin-stat-value">
+                            {loading ? '...' : value.toLocaleString('id-ID')}
+                        </div>
+                        <div className="admin-stat-label">{label}</div>
+                    </div>
+                ))}
+            </div>
+
+            {/* ── Tabel Semua User ── */}
+            <div className="admin-table-wrapper">
+                <div className="admin-table-header">
+                    <h2>Daftar User Terdaftar</h2>
+                </div>
+
+                {loading ? (
+                    <div className="admin-loading">
+                        <Loader2 size={28} className="spin" />
+                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat data...</p>
+                    </div>
+                ) : users.length === 0 ? (
+                    <div className="admin-empty">Belum ada user terdaftar.</div>
+                ) : (
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Bergabung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map(user => (
+                                <tr key={user.id}>
+                                    <td>
+                                        <div className="admin-user-cell">
+                                            <div className="admin-user-avatar">
+                                                {user.name[0].toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div className="admin-user-name">{user.name}</div>
+                                                <div className="admin-user-email">{user.email}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className={`role-badge ${user.role.toLowerCase()}`}>
+                                            {user.role}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {new Date(user.createdAt).toLocaleDateString('id-ID', {
+                                            day: 'numeric', month: 'short', year: 'numeric'
+                                        })}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+        </AdminLayout>
+    )
+}
