@@ -1,12 +1,22 @@
 import { useState, useRef } from 'react';
 import UserLayout from '../../components/layout/UserLayout';
 import './UserPages.css';
-import { User as UserIcon, Camera, Loader2, Check, X, File } from 'lucide-react';
+import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react';
 import api from '../../api/axios';
 
 export default function Profile() {
-  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
-  const [avatar, setAvatar] = useState<string>(user.avatar || '')
+  const user = JSON.parse(
+    localStorage.getItem('user') ||
+    '{"name":"User","username":"user123","email":"user@example.com","createdAt":"","role":"USER"}'
+  )
+
+  // ── Avatar: ambil dari key tersendiri pakai email sebagai key unik ──
+  // Key: "avatar_<email>" → tidak ikut terhapus saat logout
+  const avatarKey = `avatar_${user.email}`
+
+  const [avatar, setAvatar] = useState<string>(
+    localStorage.getItem(avatarKey) || user.avatar || ''
+  )
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
@@ -18,30 +28,25 @@ export default function Profile() {
     const file = e.target.files?.[0]
     if (!file) return
 
-
-    //validasi type file
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
     if (!allowedTypes.includes(file.type)) {
-      setUploadError('format harus jpeg, jpg, png, atau webp')
+      setUploadError('Format harus JPEG, JPG, PNG, atau WEBP.')
       return
     }
-    //ukuran file maksimal 2 MB
     if (file.size > 2 * 1024 * 1024) {
       setUploadError('Ukuran file maksimal 2MB.')
       return
     }
+
     setUploadError('')
     setSelectedFile(file)
     setUploadSuccess(false)
 
-    // buat priview url buat untuk ditampikan sebelum di upload
-    const render = new FileReader()
-    render.onloadend = () => {
-      setPreviewUrl(render.result as string)
-    }
-    render.readAsDataURL(file)
+    const reader = new FileReader()
+    reader.onloadend = () => setPreviewUrl(reader.result as string)
+    reader.readAsDataURL(file)
   }
-  //upload ke backend
+
   const handleUpload = async () => {
     if (!selectedFile) return
     setUploading(true)
@@ -51,24 +56,26 @@ export default function Profile() {
       const formData = new FormData()
       formData.append('avatar', selectedFile)
 
-      // PUT /profile/avatar → backend simpan file & return URL
-      const res = await api.put('profile/avatar', formData, {
-        headers: { 'Content-Type': 'multipart/formData' },
+      const res = await api.put('/profile/avatar', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       })
+
       const newAvatarUrl = res.data.data.avatar
 
-      // Update state & localStorage supaya langsung tampil
+      // ── Simpan avatar di key TERSENDIRI pakai email ──────
+      // Key ini TIDAK akan terhapus saat logout
+      localStorage.setItem(avatarKey, newAvatarUrl)
+
+      // Update state user di localStorage juga (opsional, untuk sesi ini)
+      const updatedUser = { ...user, avatar: newAvatarUrl }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+
       setAvatar(newAvatarUrl)
       setPreviewUrl('')
       setSelectedFile(null)
       setUploadSuccess(true)
-
-      // Update user di localStorage
-      const updateUser = { ...user, avatar: newAvatarUrl }
-      localStorage.setItem('user', JSON.stringify(updateUser))
-
-      //reset succes setelah 3 detik
       setTimeout(() => setUploadSuccess(false), 3000)
+
     } catch (error: any) {
       setUploadError(
         error.response?.data?.message || 'Gagal mengupload foto. Coba lagi.'
@@ -78,7 +85,6 @@ export default function Profile() {
     }
   }
 
-  //batal pilih foto
   const handleCancel = () => {
     setPreviewUrl('')
     setSelectedFile(null)
@@ -94,55 +100,55 @@ export default function Profile() {
         <h1>Profil {user.username}</h1>
         <p>Data diri dan informasi akun {user.username} yang terdaftar.</p>
       </div>
+
       <div className="profile-card">
-        <div className='profile-avatar-wrapper'>
+
+        {/* Avatar */}
+        <div className="profile-avatar-wrapper">
           <div className="profile-avatar-large">
             {displayPhoto ? (
-              <img
-                src={displayPhoto}
-                alt='Foto Profile'
-                className='avatar-profilr-img' />
+              <img src={displayPhoto} alt="Foto Profil" className="profile-avatar-img" />
             ) : (
               <UserIcon size={64} />
             )}
           </div>
-          <button className="profile-camera-btn"
+          <button
+            className="profile-camera-btn"
             onClick={() => fileInputRef.current?.click()}
             title="Ganti foto profil"
             disabled={uploading}
           >
             <Camera size={16} />
           </button>
-          {/*input file tersembunyi */}
-          <input type="file" ref={fileInputRef} accept='image/jpeg,image/jpg,image/png,image/webp' onChange={handleFileChange} style={{ display: 'none' }} />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
         </div>
-        {/* priview tombol aksi */}
-        {selectedFile && (
-          <div className='profile-upload-action'>
-            <p className='upload-filename'>{selectedFile.name}</p>
 
-            <div className='upload-btn-grup'>
-              <button className='btn-upload-save' onClick={handleUpload} disabled={uploading}>
+        {/* Preview & tombol aksi */}
+        {selectedFile && (
+          <div className="profile-upload-actions">
+            <p className="upload-filename">📎 {selectedFile.name}</p>
+            <div className="upload-btn-group">
+              <button className="btn-upload-save" onClick={handleUpload} disabled={uploading}>
                 {uploading
-                  ? <>< Loader2 size={15} className='spin' /> mengupload.... </>
-                  : <><Check size={15} /> Simpan Foto</>}
+                  ? <><Loader2 size={15} className="spin" /> Mengupload...</>
+                  : <><Check size={15} /> Simpan Foto</>
+                }
               </button>
-              <button className='btn-upload-cancel' onClick={handleCancel} disabled={uploading}>
+              <button className="btn-upload-cancel" onClick={handleCancel} disabled={uploading}>
                 <X size={15} /> Batal
               </button>
             </div>
           </div>
         )}
-        {uploadError && (
-          <div className="upload-error">
-            {uploadError}
-          </div>
-        )}
-        {uploadSuccess && (
-          <div className="upload-success">
-            ✓ Foto profil berhasil diperbarui!
-          </div>
-        )}
+
+        {uploadError && <div className="upload-error">{uploadError}</div>}
+        {uploadSuccess && <div className="upload-success">✓ Foto profil berhasil diperbarui!</div>}
 
         <div className="profile-info">
           <h2>{user.name}</h2>
@@ -161,15 +167,16 @@ export default function Profile() {
           <div className="detail-item">
             <span className="detail-label">Bergabung Pada</span>
             <span className="detail-value">
-              {user.createdAt ? new Date(user.createdAt).toLocaleDateString('id-ID', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              }) : 'Baru saja'}
+              {user.createdAt
+                ? new Date(user.createdAt).toLocaleDateString('id-ID', {
+                  year: 'numeric', month: 'long', day: 'numeric'
+                })
+                : 'Baru saja'}
             </span>
           </div>
         </div>
+
       </div>
     </UserLayout>
-  );
+  )
 }

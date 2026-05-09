@@ -17,14 +17,14 @@ export const useAuth = () => {
         setAuth(token, user);
 
         if (user.role === 'ADMIN') {
-            navigate('/frontend/src/pages/admin/dasboard.tsx');
+            navigate('/admin');
         }
         else {
-            navigate('/frontend/src/pages/users/home.tsx');
+            navigate('/home');
         }
     }
     const register = async (name: string, email: string, password: string) => {
-        await api.post('../pages/auth/register.tsx', { name, email, password });
+        await api.post('/auth/register', { name, email, password });
         navigate('/login');
     }
     const logout = () => {

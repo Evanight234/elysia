@@ -4,7 +4,7 @@ import {
     LayoutDashboard, Users, Search,
     User, LogOut, BookHeart, Menu, X
 } from 'lucide-react'
-import './adminLayout.css'
+import './AdminLayout.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 const navItems = [
@@ -20,10 +20,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
     const handleLogout = () => {
-        logout();
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/login');
+        // Simpan semua key avatar sebelum clear
+        const avatarKeys: { key: string; value: string }[] = []
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i)
+            if (key && key.startsWith('avatar_')) {
+                avatarKeys.push({ key, value: localStorage.getItem(key) || '' })
+            }
+        }
+
+        // Hapus token & user
+        localStorage.clear()
+
+        // Kembalikan avatar key
+        avatarKeys.forEach(({ key, value }) => {
+            localStorage.setItem(key, value)
+        })
+
+        navigate('/login')
     }
 
     return (

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import AdminLayout from './adminLayout'
+import AdminLayout from './AdminLayout'
 import { Trash2, Users, Loader2, Search } from 'lucide-react'
 import api from '../../api/axios'
-import './adminPage.css'
+import './AdminPage.css'
 
-interface userData {
+interface UserData {
   id: string
   name: string
   email: string
@@ -13,96 +13,102 @@ interface userData {
 }
 
 export default function AdminUserControl() {
-  const [users, setUsers] = useState<userData[]>([])
+  const [users, setUsers] = useState<UserData[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [deleteTarget, setDeleteTarget] = useState<userData | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<UserData | null>(null)
   const [deleting, setDeleting] = useState(false)
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+
+  useEffect(() => { fetchUsers() }, [])
 
   const fetchUsers = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const res = await api.get('/admin/users')
-      setUsers(res.data.data || []);
-    } catch (error) {
-      console.error('failed to fetch users', error);
+      setUsers(res.data.data || [])
+    } catch (err) {
+      console.error('failed to fetch users', err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
-  const filtered = users.filter(u => u.name.toLowerCase().includes(search.toLocaleLowerCase()) ||
-    u.email.toLowerCase().includes(search.toLocaleLowerCase()));
+  const filtered = users.filter(u =>
+    u.name.toLowerCase().includes(search.toLowerCase()) ||
+    u.email.toLowerCase().includes(search.toLowerCase())
+  )
+  const userCount = users.filter(u => u.role === 'USER').length
+  const adminCount = users.filter(u => u.role === 'ADMIN').length
 
-  // hitung jumlah per role
-  const usercount = users.filter(u => u.role === 'USER').length;
-  const adminCount = users.filter(u => u.role === 'ADMIN').length;
-
-  // hendle delete
-  const handledelete = async () => {
+  const handleDelete = async () => {
     if (!deleteTarget) return
     try {
       setDeleting(true)
       await api.delete(`/admin/users/${deleteTarget.id}`)
       setUsers(prev => prev.filter(u => u.id !== deleteTarget.id))
       setDeleteTarget(null)
-    } catch (error) {
-      console.error('failed to delete user', error)
+    } catch (err) {
+      console.error('failed to delete user', err)
     } finally {
       setDeleting(false)
     }
   }
+
   return (
     <AdminLayout>
-      <div className='admin-page-header'>
-        <h1>User Control</h1>
+      <div className="admin-page-header">
+        <h1>Kontrol User</h1>
         <p>Kelola semua akun yang terdaftar di ElysiaApp.</p>
       </div>
 
-      {/* ringkasan role */}
-      <div className='admin-stats-grid'>
-        <div className='admin-stats-card'>
-          <div className='admin-stats-icon'>
-            <Users size={24} />
-          </div>
-          <div className='admin-stats-value'>{usercount}</div>
-          <div className='admin-stats-label'>total akun user</div>
-        </div>
-        <div className='admin-stats-card'>
-          <div className='admin-stats-icon' style={{ background: '#dbeafe', color: '#1d4ed8' }}>
+      {/* ── Stat Cards ── pakai class yang sama dengan AdminHome */}
+      <div className="admin-stats-grid">
+        <div className="admin-stat-card">
+          <div className="admin-stat-icon">
             <Users size={20} />
           </div>
-          <div className='admin-stats-value'>{adminCount}</div>
-          <div className='admin-stats-label'>total akun admin</div>
+          <div className="admin-stat-value">{loading ? '...' : userCount}</div>
+          <div className="admin-stat-label">Akun User</div>
         </div>
-        <div className='admin-stats-card'>
+
+        <div className="admin-stat-card">
+          <div className="admin-stat-icon" style={{ background: '#dbeafe', color: '#1d4ed8' }}>
+            <Users size={20} />
+          </div>
+          <div className="admin-stat-value">{loading ? '...' : adminCount}</div>
+          <div className="admin-stat-label">Akun Admin</div>
+        </div>
+
+        <div className="admin-stat-card">
           <div className="admin-stat-icon" style={{ background: '#d1fae5', color: '#059669' }}>
             <Users size={20} />
           </div>
-          <div className='admin-stats-value'>{users.length}</div>
-          <div className='admin-stats-label'>total akun</div>
+          <div className="admin-stat-value">{loading ? '...' : users.length}</div>
+          <div className="admin-stat-label">Total Akun</div>
         </div>
       </div>
 
-      <div className="admin-search-box" style={{ marginBottom: '1.25rem' }}>
+      {/* ── Search ── */}
+      <div className="admin-search-box">
         <Search size={20} color="#f472b6" />
-        <input type="text"
-          placeholder=' cari user'
+        <input
+          type="text"
+          placeholder="Cari nama atau email user..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)} />
+          onChange={e => setSearch(e.target.value)}
+        />
         {search && (
-          <button style={{ background: 'none', border: 'none', color: '#f472b6', cursor: 'pointer' }} onClick={() => setSearch('')}>
-            ✕
-          </button>
+          <button
+            style={{ background: 'none', border: 'none', color: '#f472b6', cursor: 'pointer' }}
+            onClick={() => setSearch('')}
+          >✕</button>
         )}
       </div>
-      {/* ── Tabel User ── */}
-      <div className='admin-table-wrapper'>
-        <div className='admin-table-header'>
-          <h2>Semua user</h2>
+
+      {/* ── Tabel User ── pakai class admin-table seperti AdminHome */}
+      <div className="admin-table-wrapper">
+        <div className="admin-table-header">
+          <h2>Semua User</h2>
           <span style={{ fontSize: '0.82rem', color: '#d1a0b8' }}>
             {filtered.length} akun ditemukan
           </span>
@@ -118,7 +124,8 @@ export default function AdminUserControl() {
             {search ? `Tidak ada user dengan kata kunci "${search}"` : 'Belum ada user.'}
           </div>
         ) : (
-          <table>
+          // ← tambah className="admin-table" di sini
+          <table className="admin-table">
             <thead>
               <tr>
                 <th>User</th>
@@ -131,13 +138,13 @@ export default function AdminUserControl() {
               {filtered.map(user => (
                 <tr key={user.id}>
                   <td>
-                    <div className='admin-user-cell'>
-                      <div admin-user-avatar>
+                    <div className="admin-user-cell">
+                      <div className="admin-user-avatar">
                         {user.name[0].toUpperCase()}
                       </div>
                       <div>
-                        <div className='admin-user-name'>{user.name}</div>
-                        <div className='admin-user-email'>{user.email}</div>
+                        <div className="admin-user-name">{user.name}</div>
+                        <div className="admin-user-email">{user.email}</div>
                       </div>
                     </div>
                   </td>
@@ -152,16 +159,15 @@ export default function AdminUserControl() {
                     })}
                   </td>
                   <td>
-                    {/* admin tidak bisa menghapus akun sesama admin*/}
                     {user.role === 'USER' ? (
-                      <button className='btn-delete' onClick={() => setDeleteTarget(user)}>
-                        <Trash2 size={14} />
-                        Hapus
+                      <button
+                        className="btn-delete"
+                        onClick={() => setDeleteTarget(user)}
+                      >
+                        <Trash2 size={14} /> Hapus
                       </button>
                     ) : (
-                      <span style={{ fontSize: '0.78rem', color: '#d1a0b8' }}>
-                        —
-                      </span>
+                      <span style={{ fontSize: '0.78rem', color: '#d1a0b8' }}>—</span>
                     )}
                   </td>
                 </tr>
@@ -170,17 +176,29 @@ export default function AdminUserControl() {
           </table>
         )}
       </div>
-      {/* konfirmasi Hapus */}
+
+      {/* ── Modal Konfirmasi Hapus ── */}
       {deleteTarget && (
-        <div className='confirm-overlay'>
-          <div className='confirm-box'>
-            <h3>Hapus Akun</h3>
-            <p>Akun <strong> {deleteTarget.name} </strong> ({deleteTarget.email}) akan dihapus permanen dari database. Tindakan ini tidak bisa dibatalkan</p>
-            <div className='confirm-btns'>
-              <button className='btn-cancel' onClick={() => setDeleteTarget(null)} disabled={deleting}>
+        <div className="confirm-overlay">
+          <div className="confirm-box">
+            <h3>Hapus Akun?</h3>
+            <p>
+              Akun <strong>{deleteTarget.name}</strong> ({deleteTarget.email}) akan
+              dihapus permanen dari database. Tindakan ini tidak bisa dibatalkan.
+            </p>
+            <div className="confirm-btns">
+              <button
+                className="btn-cancel"
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleting}
+              >
                 Batal
               </button>
-              <button className='btn-confirm-delete' onClick={handledelete} disabled={deleting}>
+              <button
+                className="btn-confirm-delete"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
                 {deleting ? 'Menghapus...' : 'Ya, Hapus Permanen'}
               </button>
             </div>

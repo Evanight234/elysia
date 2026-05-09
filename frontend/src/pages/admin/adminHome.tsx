@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import AdminLayout from './adminLayout.tsx'
+import AdminLayout from './AdminLayout'
 import { Users, BookOpen, Bell, Star, Loader2, User } from 'lucide-react'
 import api from '../../api/axios'
-import './adminPage.css'
+import './AdminPage.css'
 
 interface UserStat {
     id: string

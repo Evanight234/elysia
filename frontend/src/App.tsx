@@ -12,8 +12,10 @@ import ReadChapter from './pages/users/ReadChapter'
 import BookDetail from './pages/users/BookDetail'
 import ProtectedRoute from './routes/ProtectedRoute'
 import RoleRoute from './routes/RoleRoute'
-import AdminHome from './pages/admin/adminHome'
-import AdminUserControl from './pages/admin/adminControl'
+import AdminHome from './pages/admin/AdminHome'
+import AdminUserControl from './pages/admin/AdminControl'
+import AdminProfile from './pages/admin/AdminProfile'
+import AdminSearch from './pages/admin/AdminSearch'
 
 function RequireUser({ children }: { children: React.ReactNode }) {
   if (!isLoggedIn()) return <Navigate to="/login" replace />
@@ -103,6 +105,12 @@ function App() {
         <Route path="/admin/users" element={
           <RequireAdmin><AdminUserControl /></RequireAdmin>
         } />
+
+        <Route path="/admin/search" element={
+          <RequireAdmin><AdminSearch /></RequireAdmin>
+        } />
+
+        <Route path="/admin/profile" element={<RequireAdmin><AdminProfile /></RequireAdmin>} />
 
         <Route path="*" element={
           <Navigate to={isLoggedIn() ? (getUserRole() === 'ADMIN' ? '/admin' : '/home') : '/login'} replace />

@@ -3,7 +3,10 @@
 ══════════════════════════ */
 .admin-root {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
+    /* ← full viewport height */
+    overflow: hidden;
+    /* ← cegah root ikut scroll */
     background: #fdf6fa;
     font-family: 'Segoe UI', sans-serif;
 }
@@ -19,10 +22,13 @@
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1rem;
-    position: sticky;
-    top: 0;
     height: 100vh;
+    /* ← full height */
+    position: sticky;
+    /* ← tetap di tempat */
+    top: 0;
     overflow-y: auto;
+    /* ← scroll jika nav terlalu panjang */
 }
 
 /* Logo */
@@ -36,6 +42,8 @@
     color: #be185d;
     font-size: 1.25rem;
     font-weight: 800;
+    flex-shrink: 0;
+    /* ← logo tidak ikut menyusut */
 }
 
 .admin-logo em {
@@ -50,6 +58,7 @@
     flex-direction: column;
     gap: 0.25rem;
     flex: 1;
+    /* ← ambil sisa ruang */
 }
 
 .admin-nav-item {
@@ -92,6 +101,8 @@
     font-size: 0.92rem;
     cursor: pointer;
     margin-top: 1rem;
+    flex-shrink: 0;
+    /* ← tombol logout tidak ikut menyusut */
     transition: all 0.15s;
 }
 
@@ -120,6 +131,8 @@
     position: sticky;
     top: 0;
     z-index: 50;
+    flex-shrink: 0;
+    /* ← topbar tidak ikut menyusut */
 }
 
 .admin-menu-btn {
@@ -144,11 +157,19 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    /* ← sama tinggi dengan sidebar */
+    overflow: hidden;
+    /* ← cegah main ikut overflow */
 }
 
 .admin-content {
     flex: 1;
     padding: 2.5rem;
+    overflow-y: auto;
+    /* ← HANYA konten yang scroll, bukan seluruh halaman */
+    height: 0;
+    /* ← trick flex: paksa overflow-y bekerja */
 }
 
 /* ══════════════════════════
