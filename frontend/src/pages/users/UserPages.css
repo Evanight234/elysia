@@ -806,3 +806,167 @@ mark.search-highlight {
     max-width: 280px;
   }
 }
+
+/* ── Profile Avatar Wrapper ── */
+.profile-avatar-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+}
+
+.profile-avatar-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--pink-100);
+  color: var(--pink-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid white;
+  box-shadow: 0 8px 24px rgba(219, 39, 119, 0.15);
+  overflow: hidden;
+  /* ← penting supaya foto tidak keluar lingkaran */
+}
+
+/* Foto profil yang sudah diupload */
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* ← foto mengisi lingkaran tanpa distorsi */
+  border-radius: 50%;
+}
+
+/* Tombol kamera di pojok kanan bawah avatar */
+.profile-camera-btn {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--pink-500);
+  color: white;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(219, 39, 119, 0.3);
+}
+
+.profile-camera-btn:hover:not(:disabled) {
+  background: var(--pink-600, #db2777);
+  transform: scale(1.1);
+}
+
+.profile-camera-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Upload Actions ── */
+.profile-upload-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  width: 100%;
+}
+
+.upload-filename {
+  font-size: 0.8rem;
+  color: var(--pink-600);
+  font-weight: 600;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-btn-group {
+  display: flex;
+  gap: 0.6rem;
+}
+
+/* Tombol simpan foto */
+.btn-upload-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--pink-500);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-upload-save:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.btn-upload-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Tombol batal */
+.btn-upload-cancel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--pink-600);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-upload-cancel:hover:not(:disabled) {
+  background: var(--pink-50, #fff0f6);
+}
+
+.btn-upload-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Pesan error upload */
+.upload-error {
+  background: #fff5f5;
+  border: 1px solid #fca5a5;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  color: #dc2626;
+  font-size: 0.82rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Pesan sukses upload */
+.upload-success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  color: #16a34a;
+  font-size: 0.82rem;
+  font-weight: 700;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
