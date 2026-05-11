@@ -4,6 +4,7 @@ import UserLayout from '../../components/layout/UserLayout'
 import api from '../../api/axios'
 import { Loader2 } from 'lucide-react'
 import './UserPages.css'
+import { useTranslation } from 'react-i18next'
 
 interface Book {
   id: string
@@ -17,6 +18,7 @@ export default function Home() {
   const navigate = useNavigate()
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
+  const { t } = useTranslation()
 
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
 
@@ -37,17 +39,17 @@ export default function Home() {
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Halo, Selamat Datang {user.username}!</h1>
-        <p>Lihat rekomendasi buku spesial untukmu hari ini.</p>
+        <h1>{t("home.greeting")} {user.username}!</h1>
+        <p>{t("home.subtitle")}</p>
       </div>
 
       <section className="recommendation-section">
-        <h2 className="section-title">Rekomendasi Admin</h2>
-        
+        <h2 className="section-title">{t("home.recommended")}</h2>
+
         {loading ? (
           <div className="empty-state">
             <Loader2 size={32} className="spin" />
-            <p>Memuat buku...</p>
+            <p>{t("common.loading")}</p>
           </div>
         ) : books.length > 0 ? (
           <div className="book-grid">

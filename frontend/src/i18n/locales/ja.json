@@ -1,0 +1,109 @@
+{
+    "nav": {
+        "home": "ホーム",
+        "search": "検索",
+        "library": "ライブラリ",
+        "notifications": "通知",
+        "profile": "プロフィール",
+        "logout": "ログアウト",
+        "users": "ユーザー管理",
+        "dashboard": "管理ダッシュボード",
+        "sendNotification": "通知送信"
+    },
+    "home": {
+        "greeting": "こんにちは、ようこそ",
+        "subtitle": "今日のおすすめ本をチェックしよう。",
+        "recommended": "管理者のおすすめ",
+        "readNow": "今すぐ読む",
+        "noBooks": "本がまだありません。"
+    },
+    "search": {
+        "title": "本を探す",
+        "subtitle": "読みたい本のタイトルやカテゴリを検索しよう。",
+        "placeholder": "本のタイトルを入力...",
+        "btn": "検索",
+        "results": "検索結果",
+        "noResults": "見つかりませんでした：",
+        "categories": "人気カテゴリ"
+    },
+    "library": {
+        "title": "マイライブラリ",
+        "subtitle": "お気に入りと読書履歴。",
+        "favorites": "お気に入り",
+        "lastRead": "最近読んだ本",
+        "empty_fav": "お気に入りがまだありません。",
+        "empty_read": "読書履歴がありません。"
+    },
+    "notifications": {
+        "title": "通知",
+        "subtitle": "新着小説と管理者からのお知らせ。",
+        "markAll": "すべて既読にする",
+        "empty": "通知はありません。"
+    },
+    "profile": {
+        "title": "プロフィール",
+        "subtitle": "個人情報とアカウント情報。",
+        "email": "メールアドレス",
+        "status": "アカウント状態",
+        "joined": "登録日",
+        "changePhoto": "プロフィール写真を変更",
+        "savePhoto": "写真を保存",
+        "cancel": "キャンセル",
+        "uploading": "アップロード中...",
+        "uploadSuccess": "プロフィール写真が更新されました！",
+        "uploadError": "アップロードに失敗しました。"
+    },
+    "admin": {
+        "dashboard": "管理ダッシュボード",
+        "dashSub": "ElysiaAppの活動を監視しましょう。",
+        "totalUser": "総ユーザー数",
+        "totalBook": "総本数",
+        "activeRec": "おすすめ中",
+        "notifSent": "送信済み通知",
+        "userList": "登録ユーザー一覧",
+        "userControl": "ユーザー管理",
+        "userSub": "ElysiaAppの全アカウントを管理。",
+        "allUsers": "全ユーザー",
+        "found": "件のアカウント",
+        "searchUser": "名前またはメールで検索...",
+        "delete": "削除",
+        "deleteTitle": "アカウントを削除？",
+        "deleteDesc": "は完全に削除されます。",
+        "deleteConfirm": "はい、削除する",
+        "deleteCancel": "キャンセル",
+        "recTitle": "検索＆おすすめ",
+        "recSub": "本を検索してユーザーへのおすすめを管理。",
+        "recommend": "おすすめする",
+        "removeRec": "おすすめ解除",
+        "activeRecs": "おすすめ中の本",
+        "profileTitle": "管理者プロフィール",
+        "profileSub": "管理者アカウント情報。"
+    },
+    "auth": {
+        "login": "ログイン",
+        "loginBtn": "ログイン",
+        "register": "アカウント作成",
+        "registerBtn": "アカウント作成",
+        "email": "メールアドレス",
+        "password": "パスワード",
+        "confirmPass": "パスワード確認",
+        "fullName": "フルネーム",
+        "username": "ユーザー名",
+        "noAccount": "アカウントをお持ちでないですか？",
+        "hasAccount": "すでにアカウントをお持ちですか？",
+        "loginLink": "ログイン",
+        "registerLink": "登録"
+    },
+    "settings": {
+        "language": "言語",
+        "title": "設定"
+    },
+    "common": {
+        "loading": "読み込み中...",
+        "back": "戻る",
+        "save": "保存",
+        "readNow": "今すぐ読む",
+        "viewBook": "本を見る",
+        "continue": "続きを読む Chapter"
+    }
+}

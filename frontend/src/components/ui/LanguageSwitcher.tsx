@@ -1,0 +1,73 @@
+import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Globe, ChevronDown } from 'lucide-react'
+import './LanguageSwitcher.css'
+
+const languages = [
+    { code: 'id', label: 'Indonesian', flag: '🇮🇩' },
+    { code: 'en', label: 'English', flag: '🇬🇧' },
+    { code: 'ja', label: 'Japanese', flag: '🇯🇵' },
+]
+
+export default function LanguageSwitcher() {
+    const { i18n } = useTranslation()
+    const [open, setOpen] = useState(false)
+    const ref = useRef<HTMLDivElement>(null)
+
+    // Tutup dropdown jika klik di luar
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
+                setOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    const current = languages.find(l => l.code === i18n.language) || languages[0]
+
+    const handleChange = (code: string) => {
+        i18n.changeLanguage(code)
+        localStorage.setItem('elysiaapp_lang', code)
+        setOpen(false)
+    }
+
+    return (
+        <div className="lang-dropdown" ref={ref}>
+            {/* Tombol trigger */}
+            <button
+                className="lang-trigger"
+                onClick={() => setOpen(v => !v)}
+                title="Ganti Bahasa"
+            >
+                <Globe size={16} />
+                <span className="lang-trigger-flag">{current.flag}</span>
+                <span className="lang-trigger-label">{current.label}</span>
+                <ChevronDown
+                    size={14}
+                    className={`lang-chevron ${open ? 'open' : ''}`}
+                />
+            </button>
+
+            {/* Dropdown list */}
+            {open && (
+                <div className="lang-menu">
+                    {languages.map(lang => (
+                        <button
+                            key={lang.code}
+                            className={`lang-option ${i18n.language === lang.code ? 'active' : ''}`}
+                            onClick={() => handleChange(lang.code)}
+                        >
+                            <span className="lang-option-flag">{lang.flag}</span>
+                            <span className="lang-option-label">{lang.label}</span>
+                            {i18n.language === lang.code && (
+                                <span className="lang-option-check">✓</span>
+                            )}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    )
+}

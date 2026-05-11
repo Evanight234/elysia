@@ -15,17 +15,14 @@
    SIDEBAR
 ══════════════════════════ */
 .admin-sidebar {
-    width: 240px;
+    width: 280px;
     flex-shrink: 0;
     background: #ffffff;
-    border-right: 1px solid #fce7f3;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.5rem;
     height: 100vh;
-    /* ← full height */
     position: sticky;
-    /* ← tetap di tempat */
     top: 0;
     overflow-y: auto;
     /* ← scroll jika nav terlalu panjang */
@@ -199,5 +196,20 @@
 
     .admin-content {
         padding: 1.25rem;
+    }
+}
+
+.admin-lang-section {
+    padding: 0 0.5rem 1.5rem;
+    border-bottom: 1px solid #fce7f3;
+    position: absolute;
+    top: 370px;
+    right: 60px;
+}
+
+@media (max-width: 768px) {
+    .admin-lang-section {
+        right: 120px;
+        top: 15px;
     }
 }

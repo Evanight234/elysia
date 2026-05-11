@@ -1,0 +1,109 @@
+{
+    "nav": {
+        "home": "Home",
+        "search": "Search",
+        "library": "Library",
+        "notifications": "Notifications",
+        "profile": "Profile",
+        "logout": "Log Out",
+        "users": "User Control",
+        "dashboard": "Admin Dashboard",
+        "sendNotification": "Send Notification"
+    },
+    "home": {
+        "greeting": "Hello, Welcome",
+        "subtitle": "Check out today's special book recommendations for you.",
+        "recommended": "Admin Recommendations",
+        "readNow": "Read Now",
+        "noBooks": "No books available yet."
+    },
+    "search": {
+        "title": "Search Books",
+        "subtitle": "Find the title or category of books you want to read.",
+        "placeholder": "Type a book title...",
+        "btn": "Search",
+        "results": "Search Results",
+        "noResults": "No books found for",
+        "categories": "Popular Categories"
+    },
+    "library": {
+        "title": "My Library",
+        "subtitle": "Your favorite books and reading history.",
+        "favorites": "My Favorites",
+        "lastRead": "Last Read",
+        "empty_fav": "No favorite books yet.",
+        "empty_read": "No reading history yet."
+    },
+    "notifications": {
+        "title": "Notifications",
+        "subtitle": "Messages about new novels and admin announcements.",
+        "markAll": "Mark all as read",
+        "empty": "No notifications yet."
+    },
+    "profile": {
+        "title": "Profile",
+        "subtitle": "Your personal data and account information.",
+        "email": "Email Address",
+        "status": "Account Status",
+        "joined": "Joined On",
+        "changePhoto": "Change profile photo",
+        "savePhoto": "Save Photo",
+        "cancel": "Cancel",
+        "uploading": "Uploading...",
+        "uploadSuccess": "Profile photo updated successfully!",
+        "uploadError": "Failed to upload photo."
+    },
+    "admin": {
+        "dashboard": "Admin Dashboard",
+        "dashSub": "Welcome! Monitor ElysiaApp activity from here.",
+        "totalUser": "Total Users",
+        "totalBook": "Total Books",
+        "activeRec": "Active Recommendations",
+        "notifSent": "Notifications Sent",
+        "userList": "Registered Users",
+        "userControl": "User Control",
+        "userSub": "Manage all registered accounts in ElysiaApp.",
+        "allUsers": "All Users",
+        "found": "accounts found",
+        "searchUser": "Search by name or email...",
+        "delete": "Delete",
+        "deleteTitle": "Delete Account?",
+        "deleteDesc": "will be permanently deleted from the database.",
+        "deleteConfirm": "Yes, Delete Permanently",
+        "deleteCancel": "Cancel",
+        "recTitle": "Search & Recommendations",
+        "recSub": "Search books and manage recommendations for users.",
+        "recommend": "Recommend",
+        "removeRec": "Remove Recommendation",
+        "activeRecs": "Active Recommendations",
+        "profileTitle": "Admin Profile",
+        "profileSub": "ElysiaApp administrator account information."
+    },
+    "auth": {
+        "login": "Sign In",
+        "loginBtn": "Sign In",
+        "register": "Create Account",
+        "registerBtn": "Create Account",
+        "email": "Email Address",
+        "password": "Password",
+        "confirmPass": "Confirm Password",
+        "fullName": "Full Name",
+        "username": "Username",
+        "noAccount": "Don't have an account?",
+        "hasAccount": "Already have an account?",
+        "loginLink": "Sign In",
+        "registerLink": "Register"
+    },
+    "settings": {
+        "language": "Language",
+        "title": "Settings"
+    },
+    "common": {
+        "loading": "Loading...",
+        "back": "Back",
+        "save": "Save",
+        "readNow": "Read Now",
+        "viewBook": "View Book",
+        "continue": "Continue Reading Chapter"
+    }
+}

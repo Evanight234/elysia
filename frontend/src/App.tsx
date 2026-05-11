@@ -15,7 +15,7 @@ import RoleRoute from './routes/RoleRoute'
 import AdminHome from './pages/admin/AdminHome'
 import AdminUserControl from './pages/admin/AdminControl'
 import AdminProfile from './pages/admin/AdminProfile'
-import AdminSearch from './pages/admin/AdminSearch'
+import AdminNotification from './pages/admin/AdminNotification'
 
 function RequireUser({ children }: { children: React.ReactNode }) {
   if (!isLoggedIn()) return <Navigate to="/login" replace />
@@ -85,16 +85,13 @@ function App() {
         <Route path="/profile" element={
           <RequireUser><Profile /></RequireUser>
         } />
-        <Route path="/search" element={
-          <RequireUser><Search /></RequireUser>
-        } />
         <Route path="/library" element={
           <RequireUser><Library /></RequireUser>
         } />
         <Route path="/books/:id" element={
           <RequireAuth><BookDetail /></RequireAuth>
         } />
-        <Route path="/read/:bookId/chapter/:chapterNumber" element={
+        <Route path="/read/:bookId/chapter/:number" element={
           <RequireAuth><ReadChapter /></RequireAuth>
         } />
 
@@ -102,12 +99,12 @@ function App() {
           <RequireAdmin><AdminHome /></RequireAdmin>
         } />
 
-        <Route path="/admin/users" element={
-          <RequireAdmin><AdminUserControl /></RequireAdmin>
+        <Route path="/admin/notification" element={
+          <RequireAdmin><AdminNotification /></RequireAdmin>
         } />
 
-        <Route path="/admin/search" element={
-          <RequireAdmin><AdminSearch /></RequireAdmin>
+        <Route path="/admin/users" element={
+          <RequireAdmin><AdminUserControl /></RequireAdmin>
         } />
 
         <Route path="/admin/profile" element={<RequireAdmin><AdminProfile /></RequireAdmin>} />

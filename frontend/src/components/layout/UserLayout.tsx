@@ -10,6 +10,8 @@ import {
   User,
   LogOut
 } from 'lucide-react';
+import LanguageSwitcher from '../ui/LanguageSwitcher';
+import { useTranslation } from 'react-i18next'
 
 interface UserLayoutProps {
   children: React.ReactNode;
@@ -19,27 +21,29 @@ export default function UserLayout({ children }: UserLayoutProps) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Simpan semua key avatar sebelum logout
-    // Key formatnya: "avatar_<email>"
-    const avatarKeys: { key: string; value: string }[] = []
+    // Key yang TIDAK boleh dihapus saat logout
+    const keepKeys = ['elysiaapp_lang']  // ← tambah ini
+
+    // Simpan semua key yang perlu dijaga
+    const savedValues: { key: string; value: string }[] = []
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i)
-      if (key && key.startsWith('avatar_')) {
-        avatarKeys.push({ key, value: localStorage.getItem(key) || '' })
+      if (key && (key.startsWith('avatar_') || keepKeys.includes(key))) {
+        savedValues.push({ key, value: localStorage.getItem(key) || '' })
       }
     }
 
-    // Hapus semua data (token, user, dll)
     localStorage.clear()
 
-    // Kembalikan semua avatar key
-    avatarKeys.forEach(({ key, value }) => {
+    // Kembalikan
+    savedValues.forEach(({ key, value }) => {
       localStorage.setItem(key, value)
     })
 
-    navigate('/login');
+    navigate('/login')
   }
+  const { t } = useTranslation()
 
   return (
     <div className="user-layout">
@@ -57,29 +61,32 @@ export default function UserLayout({ children }: UserLayoutProps) {
         <div className="nav-links">
           <NavLink to="/home" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <Home size={20} />
-            <span>Home</span>
+            <span>{t("nav.home")}</span>
           </NavLink>
           <NavLink to="/search" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <Search size={20} />
-            <span>Search</span>
+            <span>{t("nav.search")}</span>
           </NavLink>
           <NavLink to="/library" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <Library size={20} />
-            <span>Library</span>
+            <span>{t("nav.library")}</span>
           </NavLink>
           <NavLink to="/notifications" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <Bell size={20} />
-            <span>Notification</span>
+            <span>{t("nav.notifications")}</span>
           </NavLink>
           <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <User size={20} />
-            <span>Profile</span>
+            <span>{t("nav.profile")}</span>
           </NavLink>
+          <div className="sidebar-lang">
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <button className="nav-item logout-btn" onClick={handleLogout}>
           <LogOut size={20} />
-          <span>Log Out</span>
+          <span>{t("nav.logout")}</span>
         </button>
       </nav>
 
@@ -87,7 +94,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
         <header className="content-header">
           <div className="search-bar-mini">
             <Search size={16} />
-            <input type="text" placeholder="Search books..." />
+            <input type="text" placeholder={t("search")} />
           </div>
           <div className="header-profile">
             <div className="avatar-mini">

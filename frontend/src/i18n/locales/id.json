@@ -1,0 +1,109 @@
+{
+    "nav": {
+        "home": "Beranda",
+        "search": "Cari",
+        "library": "Perpustakaan",
+        "notifications": "Notifikasi",
+        "profile": "Profil",
+        "logout": "Keluar",
+        "users": "Kontrol User",
+        "dashboard": "Dashboard Admin",
+        "sendNotification": "Kirim Notifikasi"
+    },
+    "home": {
+        "greeting": "Halo, Selamat Datang",
+        "subtitle": "Lihat rekomendasi buku spesial untukmu hari ini.",
+        "recommended": "Rekomendasi Admin",
+        "readNow": "Baca Sekarang",
+        "noBooks": "Belum ada buku tersedia."
+    },
+    "search": {
+        "title": "Cari Buku",
+        "subtitle": "Temukan judul atau kategori buku yang ingin kamu baca.",
+        "placeholder": "Ketik judul buku...",
+        "btn": "Cari",
+        "results": "Hasil Pencarian",
+        "noResults": "Tidak ada buku ditemukan untuk",
+        "categories": "Kategori Populer"
+    },
+    "library": {
+        "title": "Perpustakaan Saya",
+        "subtitle": "Buku-buku favorit dan riwayat bacaan kamu.",
+        "favorites": "Favorit Saya",
+        "lastRead": "Bacaan Terakhir",
+        "empty_fav": "Belum ada buku favorit.",
+        "empty_read": "Belum ada riwayat bacaan."
+    },
+    "notifications": {
+        "title": "Notifikasi",
+        "subtitle": "Pesan tentang novel terbaru dan pemberitahuan admin.",
+        "markAll": "Tandai semua dibaca",
+        "empty": "Belum ada notifikasi."
+    },
+    "profile": {
+        "title": "Profil",
+        "subtitle": "Data diri dan informasi akun yang terdaftar.",
+        "email": "Alamat Email",
+        "status": "Status Akun",
+        "joined": "Bergabung Pada",
+        "changePhoto": "Ganti foto profil",
+        "savePhoto": "Simpan Foto",
+        "cancel": "Batal",
+        "uploading": "Mengupload...",
+        "uploadSuccess": "Foto profil berhasil diperbarui!",
+        "uploadError": "Gagal mengupload foto."
+    },
+    "admin": {
+        "dashboard": "Dashboard Admin",
+        "dashSub": "Selamat datang! Pantau aktivitas ElysiaApp dari sini.",
+        "totalUser": "Total User",
+        "totalBook": "Total Buku",
+        "activeRec": "Rekomendasi Aktif",
+        "notifSent": "Notifikasi Terkirim",
+        "userList": "Daftar User Terdaftar",
+        "userControl": "Kontrol User",
+        "userSub": "Kelola semua akun yang terdaftar di ElysiaApp.",
+        "allUsers": "Semua User",
+        "found": "akun ditemukan",
+        "searchUser": "Cari nama atau email user...",
+        "delete": "Hapus",
+        "deleteTitle": "Hapus Akun?",
+        "deleteDesc": "akan dihapus permanen dari database.",
+        "deleteConfirm": "Ya, Hapus Permanen",
+        "deleteCancel": "Batal",
+        "recTitle": "Search & Rekomendasi",
+        "recSub": "Cari buku dan atur rekomendasi untuk user.",
+        "recommend": "Rekomendasikan",
+        "removeRec": "Hapus Rekomendasi",
+        "activeRecs": "Rekomendasi Aktif",
+        "profileTitle": "Profil Admin",
+        "profileSub": "Informasi akun administrator ElysiaApp."
+    },
+    "auth": {
+        "login": "Masuk ke Akun",
+        "loginBtn": "Masuk",
+        "register": "Daftar Akun",
+        "registerBtn": "Buat Akun",
+        "email": "Alamat Email",
+        "password": "Kata Sandi",
+        "confirmPass": "Konfirmasi Kata Sandi",
+        "fullName": "Nama Lengkap",
+        "username": "Nama Pengguna",
+        "noAccount": "Belum punya akun?",
+        "hasAccount": "Sudah punya akun?",
+        "loginLink": "Masuk",
+        "registerLink": "Daftar"
+    },
+    "settings": {
+        "language": "Bahasa",
+        "title": "Pengaturan"
+    },
+    "common": {
+        "loading": "Memuat...",
+        "back": "Kembali",
+        "save": "Simpan",
+        "readNow": "Baca Sekarang",
+        "viewBook": "Lihat Buku",
+        "continue": "Lanjutkan Baca Chapter"
+    }
+}
