@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import AdminLayout from './AdminLayout'
 import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
 
 export default function AdminProfile() {
+    const { t } = useTranslation()
     const user = JSON.parse(
         localStorage.getItem('user') ||
         '{"name":"Admin","username":"admin","email":"admin@elysiaapp.com","createdAt":"","role":"ADMIN"}'
@@ -30,11 +32,11 @@ export default function AdminProfile() {
 
         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
         if (!allowedTypes.includes(file.type)) {
-            setUploadError('Format harus JPEG, JPG, PNG, atau WEBP.')
+            setUploadError(t('profile.formatUploadError'))
             return
         }
         if (file.size > 2 * 1024 * 1024) {
-            setUploadError('Ukuran file maksimal 2MB.')
+            setUploadError(t('profile.sizeUploadError'))
             return
         }
 
@@ -77,7 +79,7 @@ export default function AdminProfile() {
             setTimeout(() => setUploadSuccess(false), 3000)
         } catch (err: any) {
             setUploadError(
-                err.response?.data?.message || 'Gagal mengupload foto. Coba lagi.'
+                err.response?.data?.message || t('profile.uploadError')
             )
         } finally {
             setUploading(false)
@@ -97,8 +99,8 @@ export default function AdminProfile() {
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Profil Admin</h1>
-                <p>Informasi akun administrator ElysiaApp.</p>
+                <h1>{t('admin.profileTitle')}</h1>
+                <p>{t('admin.profileSub')}</p>
             </div>
 
             {/* Card terpusat */}
@@ -121,7 +123,7 @@ export default function AdminProfile() {
                         <button
                             className="admin-camera-btn"
                             onClick={() => fileInputRef.current?.click()}
-                            title="Ganti foto profil"
+                            title={t('profile.changePhoto')}
                             disabled={uploading}
                         >
                             <Camera size={16} />
@@ -146,8 +148,8 @@ export default function AdminProfile() {
                                     disabled={uploading}
                                 >
                                     {uploading
-                                        ? <><Loader2 size={14} className="spin" /> Mengupload...</>
-                                        : <><Check size={14} /> Simpan Foto</>
+                                        ? <><Loader2 size={14} className="spin" /> {t('profile.uploading')}</>
+                                        : <><Check size={14} /> {t('profile.savePhoto')}</>
                                     }
                                 </button>
                                 <button
@@ -155,7 +157,7 @@ export default function AdminProfile() {
                                     onClick={handleCancel}
                                     disabled={uploading}
                                 >
-                                    <X size={14} /> Batal
+                                    <X size={14} /> {t('profile.cancel')}
                                 </button>
                             </div>
                         </div>
@@ -163,22 +165,22 @@ export default function AdminProfile() {
 
                     {/* Pesan error/sukses */}
                     {uploadError && <div className="admin-upload-error">{uploadError}</div>}
-                    {uploadSuccess && <div className="admin-upload-success">✓ Foto profil berhasil diperbarui!</div>}
+                    {uploadSuccess && <div className="admin-upload-success">✓ {t('profile.uploadSuccess')}</div>}
 
                     {/* ── Nama & username ── */}
                     <div className="admin-profile-identity">
                         <h2>{user.name}</h2>
                         <span className="admin-profile-username">@{user.username || 'admin'}</span>
-                        <span className="admin-role-badge">🛡️ Administrator</span>
+                        <span className="admin-role-badge">🛡️ {t('settings.admin')}</span>
                     </div>
 
                     {/* ── Detail akun ── */}
                     <div className="admin-profile-details">
                         {[
-                            { label: 'Alamat Email', value: user.email },
-                            { label: 'Status Akun', value: user.role },
+                            { label: t('profile.email'), value: user.email },
+                            { label: t('profile.status'), value: user.role },
                             {
-                                label: 'Bergabung Pada',
+                                label: t('profile.joined'),
                                 value: user.createdAt
                                     ? new Date(user.createdAt).toLocaleDateString('id-ID', {
                                         year: 'numeric', month: 'long', day: 'numeric'

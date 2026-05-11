@@ -4,12 +4,13 @@ import { ChevronLeft, ChevronRight, BookOpen, Heart, List, X, Loader2, MessageSq
 import api from '../../api/axios'
 import CommentSection from '../../components/ui/CommentSection'
 import './ReadChapter.css'
+import { useTranslation } from 'react-i18next'
 
 // ── Tipe Data ──────────────────────────────────────────────
 interface Paragraph {
     id: number
     text: string
-    comments: number   
+    comments: number
 }
 
 interface ChapterData {
@@ -49,6 +50,7 @@ export default function ReadChapter() {
     const [activeComment, setActiveComment] = useState<number | null>(null)
     const [isLiked, setIsLiked] = useState(false)
     const [isRead, setIsRead] = useState(false)
+    const { t } = useTranslation()
 
     const currentNum = parseInt(number || '1')
 
@@ -82,14 +84,14 @@ export default function ReadChapter() {
 
                 setChapter(chapterData)
                 setIsLiked(bookData.isLiked || false)
-                
+
                 if (contentRef.current) {
                     contentRef.current.scrollTop = 0
                 }
 
             } catch (err: any) {
                 console.error(err)
-                setError('Gagal memuat chapter. Silakan coba lagi.')
+                setError(t('ChapterRead.error'))
             } finally {
                 setLoading(false)
             }
@@ -164,7 +166,7 @@ export default function ReadChapter() {
         return (
             <div className="reader-root loading">
                 <Loader2 className="animate-spin" size={40} />
-                <p>Memuat keajaiban...</p>
+                <p>{t('ChapterRead.loading')}</p>
             </div>
         )
     }
@@ -173,8 +175,8 @@ export default function ReadChapter() {
         return (
             <div className="reader-root">
                 <div className="empty-state">
-                    <p>{error || 'Chapter tidak ditemukan.'}</p>
-                    <Link to={`/books/${bookId}`} className="back-btn">Kembali ke Detail Buku</Link>
+                    <p>{error || t('ChapterRead.empty')}</p>
+                    <Link to={`/books/${bookId}`} className="back-btn">{t('ChapterRead.back')}</Link>
                 </div>
             </div>
         )
@@ -189,7 +191,7 @@ export default function ReadChapter() {
                     </Link>
                     <span className="reader-divider">/</span>
                     <span className="reader-current-ch">
-                        Chapter {chapter.number}: {chapter.title}
+                        {t('bookDetail.chapters')} {chapter.number}: {chapter.title}
                     </span>
                     <span className="reader-progress-badge">
                         {scrollPercent}%
@@ -197,7 +199,7 @@ export default function ReadChapter() {
                 </div>
 
                 <div className="reader-topbar-right">
-                    <Link to="/library" className="reader-nav-link">Library</Link>
+                    <Link to="/library" className="reader-nav-link">{t('nav.library')}</Link>
                     <button
                         className="reader-icon-btn main"
                         onClick={() => setShowChapterList(v => !v)}
@@ -209,19 +211,19 @@ export default function ReadChapter() {
 
             <main className="reader-main" ref={contentRef}>
                 <div className="reader-container">
-                    
+
                     {/* ── CHAPTER START (Only at top) ── */}
                     <div className="chapter-start-section">
                         <div className="start-cover-wrapper">
-                            <img 
-                                src={book.cover || 'https://placehold.co/200x300?text=No+Cover'} 
-                                alt={book.title} 
+                            <img
+                                src={book.cover || 'https://placehold.co/200x300?text=No+Cover'}
+                                alt={book.title}
                                 className="start-cover-img"
                             />
                         </div>
                         <h2 className="start-book-title">{book.title}</h2>
-                        <p className="start-book-author"><b>Author:</b> {book.author}</p>
-                        
+                        <p className="start-book-author"><b>{t('bookDetail.author')}</b> {book.author}</p>
+
                         <div className="copyright-info">
                             <span className="copyright-icon">©</span> ElysiaApp
                         </div>
@@ -236,7 +238,7 @@ export default function ReadChapter() {
                     {/* Judul Chapter Besar */}
                     <div className="chapter-header-main">
                         <h1 className="chapter-title-main">
-                            Chapter {chapter.number}: {chapter.title}
+                            {t('bookDetail.chapters')} {chapter.number}: {chapter.title}
                         </h1>
                     </div>
 
@@ -249,8 +251,8 @@ export default function ReadChapter() {
                             >
                                 <div className="para-text-wrapper">
                                     <p className="para-body-text">{para.text}</p>
-                                    
-                                    <button 
+
+                                    <button
                                         className={`para-side-badge ${para.comments > 0 ? 'has-comments' : ''}`}
                                         onClick={() => setActiveComment(activeComment === para.id ? null : para.id)}
                                     >
@@ -277,21 +279,21 @@ export default function ReadChapter() {
                             <div className="meta-icon-circle">
                                 <MessageSquare size={20} />
                             </div>
-                            <span className="meta-label">COMMENT</span>
-                            <span className="meta-sub">{chapter.totalComments} comment</span>
+                            <span className="meta-label">{t('ChapterRead.comment')}</span>
+                            <span className="meta-sub">{chapter.totalComments} {t('ChapterRead.comment')}</span>
                         </div>
                         <div className="meta-action-item">
                             <div className="meta-icon-circle">
                                 <Flame size={20} />
                             </div>
-                            <span className="meta-label">Vote</span>
+                            <span className="meta-label">{t('ChapterRead.voteBook')}</span>
                             <span className="meta-sub">1 left</span>
                         </div>
                         <div className="meta-action-item">
                             <div className="meta-icon-circle">
                                 <Gift size={20} />
                             </div>
-                            <span className="meta-label">SEND GIFT</span>
+                            <span className="meta-label">{t('ChapterRead.sendGift')}</span>
                         </div>
                     </div>
 
@@ -303,7 +305,7 @@ export default function ReadChapter() {
                             >
                                 <ChevronLeft size={24} />
                             </button>
-                            
+
                             <div className="footer-progress">
                                 <span>{currentNum} / {book.totalChapters} Chapters</span>
                             </div>
@@ -315,9 +317,9 @@ export default function ReadChapter() {
                                 <ChevronRight size={24} />
                             </button>
                         </div>
-                        
+
                         <div className="footer-like-section">
-                             <button
+                            <button
                                 className={`premium-like-btn ${isLiked ? 'active' : ''}`}
                                 onClick={handleLike}
                             >

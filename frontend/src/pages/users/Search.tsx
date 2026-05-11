@@ -4,6 +4,7 @@ import UserLayout from '../../components/layout/UserLayout';
 import api from '../../api/axios';
 import { Search as SearchIcon, Loader2, BookOpen } from 'lucide-react';
 import './UserPages.css';
+import { useTranslation } from 'react-i18next';
 
 interface Book {
   id: string;
@@ -19,6 +20,7 @@ export default function Search() {
   const [results, setResults] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
+  const { t } = useTranslation();
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -36,29 +38,29 @@ export default function Search() {
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Hei {user.name}, Mau Baca Apa Hari Ini?</h1>
-        <p>Temukan judul atau kategori buku yang ingin kamu baca.</p>
+        <h1>{t('search.hei')} {user.name}, {t('search.heiSub')}</h1>
+        <p>{t('search.subtitle')}</p>
       </div>
 
       <div className="search-container">
         <div className="search-box-large">
           <SearchIcon size={24} />
-          <input 
-            type="text" 
-            placeholder="Masukkan judul buku atau kategori..." 
+          <input
+            type="text"
+            placeholder={t('search.placeholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
           <button className="btn-search-main" onClick={handleSearch} disabled={loading}>
-            {loading ? <Loader2 size={18} className="spin" /> : 'Cari'}
+            {loading ? <Loader2 size={18} className="spin" /> : t('nav.search')}
           </button>
         </div>
       </div>
 
       {results.length > 0 ? (
         <section className="results-section">
-          <h2 className="section-title">Hasil Pencarian</h2>
+          <h2 className="section-title">{t('search.results')}</h2>
           <div className="book-grid">
             {results.map(book => (
               <div
@@ -97,7 +99,7 @@ export default function Search() {
         </div>
       ) : (
         <div className="categories-section">
-          <h2 className="section-title">Kategori Populer</h2>
+          <h2 className="section-title">{t('search.categories')}</h2>
           <div className="category-tags">
             {['Adventure', 'Fantasy', 'Guide', 'Romansa', 'Teknologi', 'Sejarah'].map(cat => (
               <button key={cat} className="category-tag" onClick={() => {

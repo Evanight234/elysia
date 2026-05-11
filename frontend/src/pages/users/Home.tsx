@@ -80,7 +80,7 @@ export default function Home() {
                       navigate(`/read/${book.id}/chapter/1`)
                     }}
                   >
-                    Baca Sekarang
+                    {t('common.readNow')}
                   </button>
                 </div>
               </div>
@@ -88,7 +88,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="empty-state">
-            <p>Belum ada buku tersedia.</p>
+            <p>{t('home.noBooks')}</p>
           </div>
         )}
       </section>

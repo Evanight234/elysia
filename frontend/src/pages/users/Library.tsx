@@ -4,6 +4,7 @@ import UserLayout from '../../components/layout/UserLayout'
 import { Heart, BookOpen, Clock, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
 import './UserPages.css'
+import { useTranslation } from 'react-i18next'
 
 type Tab = 'favorite' | 'lastRead'
 
@@ -31,6 +32,7 @@ export default function Library() {
   const [libraryItems, setLibraryItems] = useState<LibraryItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const fetchLibrary = async () => {
@@ -57,8 +59,8 @@ export default function Library() {
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Perpustakaan {user.username}</h1>
-        <p>Buku-buku favorit dan riwayat bacaan kamu.</p>
+        <h1>{t('library.title')} {user.username}</h1>
+        <p>{t('library.subtitle')}</p>
       </div>
 
       {/* Tab Switch */}
@@ -67,13 +69,13 @@ export default function Library() {
           className={`library-tab ${activeTab === 'favorite' ? 'active' : ''}`}
           onClick={() => setActiveTab('favorite')}
         >
-          <Heart size={16} /> Favorit Saya
+          <Heart size={16} /> {t('library.favorites')}
         </button>
         <button
           className={`library-tab ${activeTab === 'lastRead' ? 'active' : ''}`}
           onClick={() => setActiveTab('lastRead')}
         >
-          <Clock size={16} /> Bacaan Terakhir
+          <Clock size={16} /> {t('library.lastRead')}
         </button>
       </div>
 
@@ -82,7 +84,7 @@ export default function Library() {
         {loading ? (
           <div className="empty-state">
             <Loader2 size={32} className="spin" />
-            <p>Memuat perpustakaan...</p>
+            <p>{t('library.loading')}</p>
           </div>
         ) : error ? (
           <div className="empty-state">
@@ -117,7 +119,7 @@ export default function Library() {
                       navigate(`/books/${item.book.id}`)
                     }}
                   >
-                    <BookOpen size={14} /> Baca
+                    <BookOpen size={14} /> {t('library.continueReading')}
                   </button>
                 </div>
               </div>
@@ -127,8 +129,8 @@ export default function Library() {
           <div className="empty-state">
             <p>
               {activeTab === 'favorite'
-                ? 'Belum ada buku favorit. Yuk tambahkan!'
-                : 'Belum ada riwayat bacaan.'}
+                ? t('library.empty_fav')
+                : t('library.empty_read')}
             </p>
           </div>
         )}

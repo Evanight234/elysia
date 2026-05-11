@@ -3,6 +3,7 @@ import AdminLayout from './AdminLayout'
 import { Users, BookOpen, Bell, Star, Loader2, User } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
 
 interface UserStat {
     id: string
@@ -23,6 +24,7 @@ export default function AdminHome() {
     const [stats, setStats] = useState<StatData>({ totalUsers: 0, totalBooks: 0, totalNotifs: 0, totalRecs: 0 })
     const [users, setUsers] = useState<UserStat[]>([])
     const [loading, setLoading] = useState(true)
+    const { t } = useTranslation()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -57,17 +59,17 @@ export default function AdminHome() {
     }, [])
 
     const statCards = [
-        { label: 'Total User', value: stats.totalUsers, icon: Users, color: '#fce7f3' },
-        { label: 'Total Buku', value: stats.totalBooks, icon: BookOpen, color: '#ede9fe' },
-        { label: 'Rekomendasi Aktif', value: stats.totalRecs, icon: Star, color: '#fef3c7' },
-        { label: 'Notifikasi Terkirim', value: stats.totalNotifs, icon: Bell, color: '#d1fae5' },
+        { label: t('admin.totalUser'), value: stats.totalUsers, icon: Users, color: '#fce7f3' },
+        { label: t('admin.totalBook'), value: stats.totalBooks, icon: BookOpen, color: '#ede9fe' },
+        { label: t('admin.activeRec'), value: stats.totalRecs, icon: Star, color: '#fef3c7' },
+        { label: t('admin.totalNotif'), value: stats.totalNotifs, icon: Bell, color: '#d1fae5' },
     ]
 
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Dashboard Admin</h1>
-                <p>Selamat datang! Pantau aktivitas ElysiaApp dari sini.</p>
+                <h1>{t('admin.dashboard')}</h1>
+                <p>{t('admin.dashSub')}</p>
             </div>
 
             {/* ── Stat Cards ── */}
@@ -88,23 +90,23 @@ export default function AdminHome() {
             {/* ── Tabel Semua User ── */}
             <div className="admin-table-wrapper">
                 <div className="admin-table-header">
-                    <h2>Daftar User Terdaftar</h2>
+                    <h2>{t('admin.userList')}</h2>
                 </div>
 
                 {loading ? (
                     <div className="admin-loading">
                         <Loader2 size={28} className="spin" />
-                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat data...</p>
+                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('common.loading')}</p>
                     </div>
                 ) : users.length === 0 ? (
-                    <div className="admin-empty">Belum ada user terdaftar.</div>
+                    <div className="admin-empty">{t('settings.noUsers')}</div>
                 ) : (
                     <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Role</th>
-                                <th>Bergabung</th>
+                                <th>{t('settings.user')}</th>
+                                <th>{t('settings.role')}</th>
+                                <th>{t('settings.joined')}</th>
                             </tr>
                         </thead>
                         <tbody>

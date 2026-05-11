@@ -24,25 +24,31 @@
         "btn": "検索",
         "results": "検索結果",
         "noResults": "見つかりませんでした：",
-        "categories": "人気カテゴリ"
+        "categories": "人気カテゴリ",
+        "hei": "こんにちは",
+        "heiSub": "今日は何を読む？"
     },
     "library": {
-        "title": "マイライブラリ",
+        "title": "ライブラリ",
         "subtitle": "お気に入りと読書履歴。",
         "favorites": "お気に入り",
         "lastRead": "最近読んだ本",
         "empty_fav": "お気に入りがまだありません。",
-        "empty_read": "読書履歴がありません。"
+        "empty_read": "読書履歴がありません。",
+        "continueReading": "続ける",
+        "loading": "読み込み中..."
     },
     "notifications": {
         "title": "通知",
         "subtitle": "新着小説と管理者からのお知らせ。",
         "markAll": "すべて既読にする",
-        "empty": "通知はありません。"
+        "empty": "通知はありません。",
+        "loading": "読み込み中..."
     },
     "profile": {
         "title": "プロフィール",
         "subtitle": "個人情報とアカウント情報。",
+        "subtitle2": "登録済み",
         "email": "メールアドレス",
         "status": "アカウント状態",
         "joined": "登録日",
@@ -51,7 +57,9 @@
         "cancel": "キャンセル",
         "uploading": "アップロード中...",
         "uploadSuccess": "プロフィール写真が更新されました！",
-        "uploadError": "アップロードに失敗しました。"
+        "uploadError": "アップロードに失敗しました、もう一度お試しください。",
+        "formatUploadError": "フォーマットはJPEG、JPG、PNG、またはWEBPである必要があります。",
+        "sizeUploadError": "最大ファイルサイズは2MBです。"
     },
     "admin": {
         "dashboard": "管理ダッシュボード",
@@ -59,25 +67,48 @@
         "totalUser": "総ユーザー数",
         "totalBook": "総本数",
         "activeRec": "おすすめ中",
-        "notifSent": "送信済み通知",
+        "totalNotif": "通知",
         "userList": "登録ユーザー一覧",
+        "userList2": "ユーザー一覧",
+        "loadingU": "読み込み中...",
+        "accountUser": "ユーザーアカウント",
+        "accountAdmin": "管理者アカウント",
+        "totalAccounts": "総アカウント数",
         "userControl": "ユーザー管理",
         "userSub": "ElysiaAppの全アカウントを管理。",
         "allUsers": "全ユーザー",
+        "empty-user": "キーワードに一致するユーザーはいません",
         "found": "件のアカウント",
         "searchUser": "名前またはメールで検索...",
         "delete": "削除",
         "deleteTitle": "アカウントを削除？",
         "deleteDesc": "は完全に削除されます。",
+        "warning-delete": "この操作は取り消せません。",
         "deleteConfirm": "はい、削除する",
         "deleteCancel": "キャンセル",
+        "delete-loading": "削除中...",
         "recTitle": "検索＆おすすめ",
         "recSub": "本を検索してユーザーへのおすすめを管理。",
         "recommend": "おすすめする",
         "removeRec": "おすすめ解除",
         "activeRecs": "おすすめ中の本",
         "profileTitle": "管理者プロフィール",
-        "profileSub": "管理者アカウント情報。"
+        "profileSub": "管理者アカウント情報。",
+        "sendsucces": "通知が正常に送信されました",
+        "sendfail": "通知の送信に失敗しました",
+        "sendloading": "通知を送信中...",
+        "masege-empty": "タイトルとメッセージを入力してください。",
+        "sendNotif": "通知を送信",
+        "history": "履歴",
+        "loadingH": "読み込み中...",
+        "sendDesc": "ユーザーにメッセージを送信します。メッセージはユーザーの通知に届きます。",
+        "message-send": "メッセージが送信されました",
+        "masege-empty2": "まだメッセージは送信されていません",
+        "to": "宛先",
+        "title": "タイトル",
+        "message": "メッセージ",
+        "send": "送信",
+        "cancel": "キャンセル"
     },
     "auth": {
         "login": "ログイン",
@@ -96,7 +127,19 @@
     },
     "settings": {
         "language": "言語",
-        "title": "設定"
+        "title": "設定",
+        "role": "役割",
+        "user": "ユーザー",
+        "noUsers": "まだ登録ユーザーはいません。",
+        "joined": "参加日",
+        "action": "アクション",
+        "account": "アカウント",
+        "userList": "ユーザー一覧",
+        "name": "名前",
+        "username": "ユーザー名",
+        "email": "メールアドレス",
+        "masege": "メッセージ",
+        "admin": "管理者"
     },
     "common": {
         "loading": "読み込み中...",
@@ -104,6 +147,43 @@
         "save": "保存",
         "readNow": "今すぐ読む",
         "viewBook": "本を見る",
-        "continue": "続きを読む Chapter"
+        "continue": "続きを読む Chapter",
+        "noBooks": "本が利用できません。"
+    },
+    "bookDetail": {
+        "back": "戻る",
+        "readNow": "今すぐ読む",
+        "continue": "続ける",
+        "like": "いいね",
+        "views": "閲覧数",
+        "chapters": "章",
+        "errorBook": "本が見つからない",
+        "errorFav": "本をお気に入りに追加できませんでした。",
+        "errorFavRemove": "本をお気に入りから削除できませんでした。",
+        "errorFavToggle": "お気に入りステータスを変更できませんでした。",
+        "errorChapter": "章を読み込めませんでした。",
+        "errorChapterLoad": "章を読み込めませんでした。",
+        "loading": "読み込み中...",
+        "reading": "読書中",
+        "continueReading": "続ける",
+        "startReading": "読む",
+        "noDescription": "この本には説明がありません。",
+        "author": "作者",
+        "chapters list": "章リスト",
+        "read": "読了",
+        "liked": "いいね"
+    },
+    "ChapterRead": {
+        "title": "チャプターリーディング",
+        "loading": "魔法の読み込み中…",
+        "error": "チャプターを読み込めませんでした。",
+        "empty": "チャプターが見つかりませんでした。",
+        "prev": "前へ",
+        "next": "次へ",
+        "back": "本に戻る",
+        "of": "の",
+        "comment": "コメント",
+        "voteBook": "投票",
+        "sendGift": "ギフトを送る"
     }
 }

@@ -3,6 +3,7 @@ import { Search as SearchIcon, BookOpen } from 'lucide-react'
 import { useState } from 'react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
 
 interface Book {
     id: string
@@ -16,6 +17,7 @@ export default function AdminSearch() {
     const [query, setQuery] = useState('')
     const [results, setResults] = useState<Book[]>([])
     const [loading, setLoading] = useState(false)
+    const { t } = useTranslation()
 
     const handleSearch = async () => {
         if (!query.trim()) return

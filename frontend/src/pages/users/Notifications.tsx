@@ -3,6 +3,8 @@ import UserLayout from '../../components/layout/UserLayout';
 import './UserPages.css';
 import { Mail, Info, Loader2 } from 'lucide-react';
 import api from '../../api/axios';
+import { useTranslation } from 'react-i18next';
+
 
 interface Notification {
   id: string;
@@ -17,6 +19,7 @@ export default function Notifications() {
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   // Ambil notifikasi dari backend saat halaman dibuka
   useEffect(() => {
@@ -75,12 +78,12 @@ export default function Notifications() {
       <div className="page-header">
         <div className="notif-header-row">
           <div>
-            <h1>Notifikasi {user.username} {unreadCount > 0 && `(${unreadCount})`}</h1>
-            <p>Terima pesan tentang novel terbaru dan pemberitahuan admin.</p>
+            <h1>{t('nav.notifications')} {user.username} {unreadCount > 0 && `(${unreadCount})`}</h1>
+            <p>{t('notifications.subtitle')}</p>
           </div>
           {unreadCount > 0 && (
             <button className="btn-mark-all" onClick={markAllRead}>
-              Tandai semua dibaca
+              {t('notifications.markAll')}
             </button>
           )}
         </div>
@@ -90,12 +93,12 @@ export default function Notifications() {
         {loading ? (
           <div style={{ textAlign: 'center', padding: '3rem' }}>
             <Loader2 size={32} className="spin" style={{ animation: 'spin 1s linear infinite' }} />
-            <p style={{ marginTop: '0.5rem', color: '#999' }}>Memuat notifikasi...</p>
+            <p style={{ marginTop: '0.5rem', color: '#999' }}>{t('notifications.loading')}</p>
           </div>
         ) : notifications.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>
             <Info size={40} />
-            <p style={{ marginTop: '0.5rem' }}>Belum ada notifikasi.</p>
+            <p style={{ marginTop: '0.5rem' }}>{t('notifications.empty')}</p>
           </div>
         ) : (
           notifications.map(notif => (

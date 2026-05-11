@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface UserData {
@@ -30,14 +31,13 @@ interface SentNotif {
 type Tab = 'send' | 'history'
 
 export default function AdminNotification() {
+    const { t } = useTranslation()
     const [activeTab, setActiveTab] = useState<Tab>('send')
     const [users, setUsers] = useState<UserData[]>([])
     const [sentNotifs, setSentNotifs] = useState<SentNotif[]>([])
     const [loadingUsers, setLoadingUsers] = useState(true)
     const [loadingHist, setLoadingHist] = useState(false)
-    const [sending, setSending] = useState<string | null>(null) // userId yang sedang dikirimi
-
-    // State form kirim pesan
+    const [sending, setSending] = useState<string | null>(null)
     const [selectedUser, setSelectedUser] = useState<UserData | null>(null)
     const [title, setTitle] = useState('')
     const [message, setMessage] = useState('')
@@ -98,7 +98,7 @@ export default function AdminNotification() {
     // ── Kirim notifikasi ke user ───────────────────────────
     const handleSend = async () => {
         if (!selectedUser || !title.trim() || !message.trim()) {
-            setSendError('Judul dan pesan tidak boleh kosong.')
+            setSendError(t('admin.masege-empty'))
             return
         }
 
@@ -113,7 +113,7 @@ export default function AdminNotification() {
                 message: message.trim(),
             })
 
-            setSendSuccess(`Pesan berhasil dikirim ke ${selectedUser.name}!`)
+            setSendSuccess(`${t('admin.sendsucces')} ${selectedUser.name}!`)
             setTitle('')
             setMessage('')
 
@@ -126,7 +126,7 @@ export default function AdminNotification() {
 
         } catch (err: any) {
             setSendError(
-                err.response?.data?.message || 'Gagal mengirim pesan. Coba lagi.'
+                err.response?.data?.message || t('admin.sendfail')
             )
         } finally {
             setSending(null)
@@ -147,8 +147,8 @@ export default function AdminNotification() {
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Send Notification</h1>
-                <p>Kirim pesan ke user tertentu. Pesan akan masuk ke notifikasi user.</p>
+                <h1>{t('admin.sendNotif')}</h1>
+                <p>{t('admin.sendDesc')}</p>
             </div>
 
             {/* ── Tab: Kirim Pesan | History ── */}
@@ -157,13 +157,13 @@ export default function AdminNotification() {
                     className={`notif-admin-tab ${activeTab === 'send' ? 'active' : ''}`}
                     onClick={() => setActiveTab('send')}
                 >
-                    <Send size={15} /> Kirim Pesan
+                    <Send size={15} /> {t('admin.sendNotif')}
                 </button>
                 <button
                     className={`notif-admin-tab ${activeTab === 'history' ? 'active' : ''}`}
                     onClick={() => setActiveTab('history')}
                 >
-                    <Clock size={15} /> Pesan Terkirim
+                    <Clock size={15} /> {t('admin.history')}
                 </button>
             </div>
 
@@ -173,26 +173,26 @@ export default function AdminNotification() {
             {activeTab === 'send' && (
                 <div className="admin-table-wrapper">
                     <div className="admin-table-header">
-                        <h2>Daftar User</h2>
+                        <h2>{t('admin.userList2')}</h2>
                         <span style={{ fontSize: '0.82rem', color: '#d1a0b8' }}>
-                            {users.length} user terdaftar
+                            {users.length} {t('admin.userList2')}
                         </span>
                     </div>
 
                     {loadingUsers ? (
                         <div className="admin-loading">
                             <Loader2 size={28} className="spin" />
-                            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat user...</p>
+                            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('admin.loadingU')}</p>
                         </div>
                     ) : users.length === 0 ? (
-                        <div className="admin-empty">Belum ada user terdaftar.</div>
+                        <div className="admin-empty">{t('admin.empty-user')}</div>
                     ) : (
                         <table className="admin-table">
                             <thead>
                                 <tr>
-                                    <th>User</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
+                                    <th>{t('settings.user')}</th>
+                                    <th>{t('settings.email')}</th>
+                                    <th>{t('settings.action')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -217,7 +217,7 @@ export default function AdminNotification() {
                                                 className="btn-send-notif"
                                                 onClick={() => handleOpenSend(user)}
                                             >
-                                                <Send size={14} /> Kirim Pesan
+                                                <Send size={14} /> {t('admin.sendNotif')}
                                             </button>
                                         </td>
                                     </tr>
@@ -234,21 +234,21 @@ export default function AdminNotification() {
             {activeTab === 'history' && (
                 <div className="admin-table-wrapper">
                     <div className="admin-table-header">
-                        <h2>Pesan Terkirim</h2>
+                        <h2>{t('admin.message-send')}</h2>
                         <span style={{ fontSize: '0.82rem', color: '#d1a0b8' }}>
-                            {sentNotifs.length} pesan
+                            {sentNotifs.length} {t('settings.masege')}
                         </span>
                     </div>
 
                     {loadingHist ? (
                         <div className="admin-loading">
                             <Loader2 size={28} className="spin" />
-                            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat history...</p>
+                            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('admin.loadingH')}</p>
                         </div>
                     ) : sentNotifs.length === 0 ? (
                         <div className="admin-empty">
                             <Bell size={32} style={{ opacity: 0.3, marginBottom: '0.5rem' }} />
-                            <p>Belum ada pesan yang dikirim.</p>
+                            <p>{t('admin.masege-empty2')}</p>
                         </div>
                     ) : (
                         <div className="notif-history-list">
@@ -302,9 +302,9 @@ export default function AdminNotification() {
                         {/* Header modal */}
                         <div className="notif-modal-header">
                             <div>
-                                <h3>Kirim Pesan</h3>
+                                <h3>{t('admin.sendNotif')}</h3>
                                 <p>
-                                    Kepada: <strong>{selectedUser.name}</strong>
+                                    {t('admin.to')}: <strong>{selectedUser.name}</strong>
                                     <span style={{ color: '#d1a0b8' }}> (@{selectedUser.username})</span>
                                 </p>
                             </div>
@@ -321,7 +321,7 @@ export default function AdminNotification() {
                         <div className="notif-modal-body">
                             {/* Judul pesan */}
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Judul Pesan</label>
+                                <label className="notif-form-label">{t('admin.title')}</label>
                                 <input
                                     className="notif-form-input"
                                     type="text"
@@ -336,7 +336,7 @@ export default function AdminNotification() {
 
                             {/* Isi pesan */}
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Isi Pesan</label>
+                                <label className="notif-form-label">{t('admin.message')}</label>
                                 <textarea
                                     className="notif-form-textarea"
                                     placeholder="Tulis isi pesan untuk user ini..."
@@ -370,7 +370,7 @@ export default function AdminNotification() {
                                     onClick={() => { setShowModal(false); setSendError('') }}
                                     disabled={!!sending}
                                 >
-                                    Batal
+                                    {t('admin.cancel')}
                                 </button>
                                 <button
                                     className="btn-send-confirm"
@@ -378,8 +378,8 @@ export default function AdminNotification() {
                                     disabled={!!sending || !title.trim() || !message.trim()}
                                 >
                                     {sending
-                                        ? <><Loader2 size={15} className="spin" /> Mengirim...</>
-                                        : <><Send size={15} /> Kirim Pesan</>
+                                        ? <><Loader2 size={15} className="spin" /> {t('admin.sendloading')}</>
+                                        : <><Send size={15} /> {t('admin.send')}</>
                                     }
                                 </button>
                             </div>

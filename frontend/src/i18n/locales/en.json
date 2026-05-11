@@ -24,25 +24,31 @@
         "btn": "Search",
         "results": "Search Results",
         "noResults": "No books found for",
-        "categories": "Popular Categories"
+        "categories": "Popular Categories",
+        "hei": "Hi",
+        "heiSub": "What do you want to read today?"
     },
     "library": {
-        "title": "My Library",
+        "title": "Library",
         "subtitle": "Your favorite books and reading history.",
         "favorites": "My Favorites",
         "lastRead": "Last Read",
         "empty_fav": "No favorite books yet.",
-        "empty_read": "No reading history yet."
+        "empty_read": "No reading history yet.",
+        "continueReading": "Continue Reading",
+        "loading": "Loading library..."
     },
     "notifications": {
         "title": "Notifications",
         "subtitle": "Messages about new novels and admin announcements.",
         "markAll": "Mark all as read",
-        "empty": "No notifications yet."
+        "empty": "No notifications yet.",
+        "loading": "Loading notifications..."
     },
     "profile": {
         "title": "Profile",
-        "subtitle": "Your personal data and account information.",
+        "subtitle": "Your personal data and account information",
+        "subtitle2": "that registered.",
         "email": "Email Address",
         "status": "Account Status",
         "joined": "Joined On",
@@ -51,7 +57,9 @@
         "cancel": "Cancel",
         "uploading": "Uploading...",
         "uploadSuccess": "Profile photo updated successfully!",
-        "uploadError": "Failed to upload photo."
+        "uploadError": "Failed to upload photo, please try again.",
+        "formatUploadError": "Format must be JPEG, JPG, PNG, or WEBP.",
+        "sizeUploadError": "Maximum file size is 2MB."
     },
     "admin": {
         "dashboard": "Admin Dashboard",
@@ -59,8 +67,14 @@
         "totalUser": "Total Users",
         "totalBook": "Total Books",
         "activeRec": "Active Recommendations",
-        "notifSent": "Notifications Sent",
+        "totalNotif": "Notifications",
         "userList": "Registered Users",
+        "userList2": "Users List",
+        "loadingU": "Loading user...",
+        "empty-user": "No user found with keyword",
+        "accountUser": "User Accounts",
+        "accountAdmin": "Admin Accounts",
+        "totalAccounts": "Total Accounts",
         "userControl": "User Control",
         "userSub": "Manage all registered accounts in ElysiaApp.",
         "allUsers": "All Users",
@@ -69,15 +83,32 @@
         "delete": "Delete",
         "deleteTitle": "Delete Account?",
         "deleteDesc": "will be permanently deleted from the database.",
+        "warning-delete": "This action cannot be undone.",
         "deleteConfirm": "Yes, Delete Permanently",
         "deleteCancel": "Cancel",
+        "delete-loading": "Deleting...",
         "recTitle": "Search & Recommendations",
         "recSub": "Search books and manage recommendations for users.",
         "recommend": "Recommend",
         "removeRec": "Remove Recommendation",
         "activeRecs": "Active Recommendations",
         "profileTitle": "Admin Profile",
-        "profileSub": "ElysiaApp administrator account information."
+        "profileSub": "ElysiaApp administrator account information.",
+        "sendsucces": "notification sent successfully to",
+        "sendfail": "failed to send notification",
+        "sendloading": "sending notification...",
+        "masege-empty": "Title and message cannot be empty.",
+        "sendNotif": "Send Notification",
+        "history": "History",
+        "loadingH": "Loading history...",
+        "sendDesc": "Send messages to specific users. Messages will go to user notifications.",
+        "message-send": "message sent",
+        "masege-empty2": "No messages sent yet.",
+        "to": "To",
+        "title": "Title massage",
+        "message": "Message",
+        "send": "Send",
+        "cancel": "Cancel"
     },
     "auth": {
         "login": "Sign In",
@@ -96,7 +127,19 @@
     },
     "settings": {
         "language": "Language",
-        "title": "Settings"
+        "title": "Settings",
+        "role": "Role",
+        "user": "User",
+        "noUsers": "No users found.",
+        "joined": "Joined",
+        "action": "Action",
+        "account": "Account",
+        "userList": "User List",
+        "name": "Name",
+        "username": "Username",
+        "email": "Email",
+        "masege": "Message",
+        "admin": "Administrator"
     },
     "common": {
         "loading": "Loading...",
@@ -104,6 +147,43 @@
         "save": "Save",
         "readNow": "Read Now",
         "viewBook": "View Book",
-        "continue": "Continue Reading Chapter"
+        "continue": "Continue Reading Chapter",
+        "noBooks": "Book not available."
+    },
+    "bookDetail": {
+        "back": "Back",
+        "readNow": "Read Now",
+        "continue": "Continue",
+        "like": "Like",
+        "views": "Views",
+        "chapters": "Chapters",
+        "errorBook": "Book not found",
+        "errorFav": "Failed to add book to favorites.",
+        "errorFavRemove": "Failed to remove book from favorites.",
+        "errorFavToggle": "Failed to toggle favorite status.",
+        "errorChapter": "Failed to load chapter.",
+        "errorChapterLoad": "Failed to load chapter.",
+        "loading": "Loading...",
+        "reading": "Reading",
+        "continueReading": "Continue Reading",
+        "startReading": "Start Reading",
+        "noDescription": "No description for this book.",
+        "author": "Author",
+        "chapters list": "Chapters List",
+        "read": "Read",
+        "liked": "Liked"
+    },
+    "ChapterRead": {
+        "title": "Chapter Reading",
+        "loading": "Loading magic...",
+        "error": "Failed to load chapter, please try again",
+        "empty": "Chapter not found.",
+        "prev": "Previous",
+        "next": "Next",
+        "back": "Back to Book",
+        "of": "of",
+        "comment": "comment",
+        "voteBook": "vote book",
+        "sendGift": "send Gift"
     }
 }

@@ -73,7 +73,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Logout */}
                 <button className="admin-logout-btn" onClick={handleLogout}>
                     <LogOut size={24} />
-                    <span>Log Out</span>
+                    <span>{t('nav.logout')}</span>
                 </button>
 
             </aside>
