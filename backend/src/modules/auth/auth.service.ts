@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { users, profile } from "../../db/schema";
-import { eq, or } from "drizzle-orm";
+import { eq, or, and } from 'drizzle-orm';
 import { hashPassword, verifyPassword } from "../../utils/hash";
 
 // ── Password khusus admin ──────────────────────────────────
@@ -154,4 +154,48 @@ export const GetCurrentUser = async (userId: string) => {
             updatedAt: userProfile.updatedAt.toISOString(),
         } : null,
     }
+}
+// ── Tambahkan di bawah LoginUsers ──────────────────────────
+
+export const resetPassword = async (data: {
+    email: string
+    username: string
+    newPassword: string
+}) => {
+    // Cari user berdasarkan email DAN username sekaligus
+    const [user] = await db
+        .select()
+        .from(users)
+        .where(
+            and(
+                eq(users.email, data.email),
+                eq(users.username, data.username)
+            )
+        )
+        .limit(1)
+
+    // Jika tidak ditemukan → email atau username salah
+    if (!user) {
+        throw new Error(
+            'Email atau username tidak ditemukan. Pastikan keduanya sudah benar.'
+        )
+    }
+
+    // Fitur ini HANYA untuk USER, bukan ADMIN
+    if (user.role === 'ADMIN') {
+        throw new Error(
+            'Fitur lupa password tidak tersedia untuk akun Admin.'
+        )
+    }
+
+    // Hash password baru
+    const hashed = await hashPassword(data.newPassword)
+
+    // Update password di database
+    await db
+        .update(users)
+        .set({ password: hashed })
+        .where(eq(users.id, user.id))
+
+    return { email: user.email, username: user.username }
 }

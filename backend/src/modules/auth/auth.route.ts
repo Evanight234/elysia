@@ -4,6 +4,9 @@ import { RegisterUsers, LoginUsers, GetCurrentUser } from './auth.service'
 import { registerSchema, LoginSchema } from './auth.schema'
 import { successResponse, errorResponse } from '../../utils/response'
 import { authMiddleware } from '../../middleware/auth.middleware'
+import { resetPassword } from './auth.service'
+import { resetPasswordSchema } from './auth.schema'
+
 
 export const authRoute = new Elysia({ prefix: '/auth' })
   .use(jwt({ name: 'jwt', secret: process.env.JWT_SECRET! }))
@@ -68,4 +71,21 @@ export const authRoute = new Elysia({ prefix: '/auth' })
         return errorResponse(error.message)
       }
     }
+  )
+  // POST /auth/reset-password
+  .post(
+    '/reset-password',
+    async ({ body, set }) => {
+      try {
+        const result = await resetPassword(body)
+        return successResponse(result, 'Password berhasil diubah!')
+      } catch (error: any) {
+        set.status = 400
+        return errorResponse(
+          error.message ||
+          'Password gagal diubah, silahkan cek lagi email dan username apakah sudah benar.'
+        )
+      }
+    },
+    { body: resetPasswordSchema }
   )

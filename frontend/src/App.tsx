@@ -10,12 +10,12 @@ import Profile from './pages/users/Profile'
 import Search from './pages/users/Search'
 import ReadChapter from './pages/users/ReadChapter'
 import BookDetail from './pages/users/BookDetail'
-import ProtectedRoute from './routes/ProtectedRoute'
-import RoleRoute from './routes/RoleRoute'
 import AdminHome from './pages/admin/AdminHome'
 import AdminUserControl from './pages/admin/AdminControl'
 import AdminProfile from './pages/admin/AdminProfile'
 import AdminNotification from './pages/admin/AdminNotification'
+import ForgetPassword from './pages/auth/ForgetPassword'
+import AdminBooks from './pages/admin/AdminBooks'
 
 function RequireUser({ children }: { children: React.ReactNode }) {
   if (!isLoggedIn()) return <Navigate to="/login" replace />
@@ -71,7 +71,9 @@ function App() {
         <Route path="/login" element={
           <RedirectIfLoggedIn><Login /></RedirectIfLoggedIn>
         } />
-
+        <Route path="/auth/lupa-kata-sandi" element={
+          <RedirectIfLoggedIn><ForgetPassword /></RedirectIfLoggedIn>
+        } />
         {/* ── User Routes ── */}
         <Route path="/home" element={
           <RequireUser><Home /></RequireUser>
@@ -105,6 +107,9 @@ function App() {
 
         <Route path="/admin/users" element={
           <RequireAdmin><AdminUserControl /></RequireAdmin>
+        } />
+        <Route path="/admin/books" element={
+          <RequireAdmin><AdminBooks /></RequireAdmin>
         } />
 
         <Route path="/admin/profile" element={<RequireAdmin><AdminProfile /></RequireAdmin>} />

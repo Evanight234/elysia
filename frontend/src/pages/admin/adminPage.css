@@ -1104,3 +1104,183 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ══════════════════════════════════════
+   KELOLA BUKU
+══════════════════════════════════════ */
+
+/* Tombol + tambah buku */
+.btn-add-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1.1rem;
+  border-radius: 10px;
+  border: none;
+  background: #ec4899;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-add-book:hover {
+  opacity: 0.85;
+}
+
+/* Cover kecil di tabel */
+.book-cover-sm {
+  width: 44px;
+  height: 58px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fce7f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.book-cover-sm img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Judul & author di tabel */
+.book-title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.book-title-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a0010;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-author-text {
+  font-size: 0.78rem;
+  color: #d1a0b8;
+}
+
+/* ── Modal Tambah Buku ── */
+.add-book-modal {
+  background: white;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  scrollbar-width: thin;
+  scrollbar-color: #f9a8d4 transparent;
+}
+
+.add-book-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #fce7f3;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.add-book-modal-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #9d174d;
+  margin: 0;
+}
+
+.add-book-modal-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Cover Upload Area ── */
+.add-book-cover-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cover-upload-area {
+  width: 100%;
+  height: 180px;
+  border-radius: 14px;
+  border: 2px dashed #fce7f3;
+  background: #fffaf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-upload-area:hover {
+  border-color: #f9a8d4;
+  background: #fdf2f8;
+}
+
+.cover-upload-area.has-cover {
+  border-style: solid;
+  border-color: #f9a8d4;
+}
+
+.cover-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: #d1a0b8;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cover-hint {
+  font-size: 0.72rem;
+  color: #e0c0d0;
+  font-weight: 400;
+}
+
+.cover-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Overlay saat hover cover yang sudah dipilih */
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(236, 72, 153, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cover-upload-area:hover .cover-overlay {
+  opacity: 1;
+}

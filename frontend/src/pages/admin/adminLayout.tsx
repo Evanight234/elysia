@@ -1,7 +1,7 @@
 import { useState } from "react"
 import {
     LayoutDashboard, Users, Bell,
-    User, LogOut, BookHeart, Menu, X
+    User, LogOut, BookHeart, Menu, X, BookOpen
 } from 'lucide-react'
 import './AdminLayout.css'
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -15,6 +15,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { to: '/admin', icon: LayoutDashboard, label: t('nav.dashboard') },
         { to: '/admin/users', icon: Users, label: t('nav.users') },
         { to: '/admin/notification', icon: Bell, label: t('nav.sendNotification') },
+        { to: '/admin/books', icon: BookOpen, label: 'Kelola Buku' },
         { to: '/admin/profile', icon: User, label: t('nav.profile') },
     ]
     const navigate = useNavigate()

@@ -162,7 +162,6 @@ export default function AdminProfile() {
                             </div>
                         </div>
                     )}
-
                     {/* Pesan error/sukses */}
                     {uploadError && <div className="admin-upload-error">{uploadError}</div>}
                     {uploadSuccess && <div className="admin-upload-success">✓ {t('profile.uploadSuccess')}</div>}
