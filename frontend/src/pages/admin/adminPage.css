@@ -75,7 +75,7 @@
   background: white;
   border: 1px solid #fce7f3;
   border-radius: 20px;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0 2px 12px rgba(236, 72, 153, 0.06);
 }
 
@@ -101,7 +101,7 @@
 
 .admin-table th {
   text-align: left;
-  padding: 0.85rem 1.5rem;
+  padding: 0.85rem 1rem;
   font-size: 0.75rem;
   font-weight: 700;
   color: #d1a0b8;
@@ -112,7 +112,7 @@
 }
 
 .admin-table td {
-  padding: 1rem 1.5rem;
+  padding: 1rem 1rem;
   font-size: 0.9rem;
   color: #4a2030;
   border-bottom: 1px solid #fdf2f8;
@@ -1283,4 +1283,96 @@
 
 .cover-upload-area:hover .cover-overlay {
   opacity: 1;
+}
+
+/* ══════════════════════════════════════
+   KELOLA CHAPTER
+══════════════════════════════════════ */
+
+/* Badge ID chapter di tabel */
+.chapter-id-badge {
+  display: inline-block;
+  background: #fdf2f8;
+  border: 1px solid #fce7f3;
+  color: #be185d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+/* Badge nomor chapter */
+.chapter-number-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: #ede9fe;
+  color: #7c3aed;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* ── List pilih buku di modal step 1 ── */
+.book-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #f9a8d4 transparent;
+}
+
+.book-select-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #fce7f3;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+  text-align: left;
+}
+
+.book-select-item:hover {
+  background: #fdf2f8;
+  border-color: #f9a8d4;
+  transform: translateX(3px);
+}
+
+/* ── Preview ID yang akan dibuat ── */
+.chapter-id-preview {
+  background: #fdf9fb;
+  border: 1px solid #fce7f3;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.75rem;
+  align-items: center;
+}
+
+.chapter-id-preview-label {
+  font-size: 0.75rem;
+  color: #d1a0b8;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chapter-id-preview-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #be185d;
+  font-family: monospace;
+  background: #fce7f3;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
 }

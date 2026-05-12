@@ -16,6 +16,7 @@ import AdminProfile from './pages/admin/AdminProfile'
 import AdminNotification from './pages/admin/AdminNotification'
 import ForgetPassword from './pages/auth/ForgetPassword'
 import AdminBooks from './pages/admin/AdminBooks'
+import AdminChapters from './pages/admin/AdminChapters'
 
 function RequireUser({ children }: { children: React.ReactNode }) {
   if (!isLoggedIn()) return <Navigate to="/login" replace />
@@ -111,7 +112,9 @@ function App() {
         <Route path="/admin/books" element={
           <RequireAdmin><AdminBooks /></RequireAdmin>
         } />
-
+        <Route path="/admin/chapters" element={
+          <RequireAdmin><AdminChapters /></RequireAdmin>
+        } />
         <Route path="/admin/profile" element={<RequireAdmin><AdminProfile /></RequireAdmin>} />
 
         <Route path="*" element={

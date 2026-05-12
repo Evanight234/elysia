@@ -58,20 +58,6 @@ export const authRoute = new Elysia({ prefix: '/auth' })
     { body: LoginSchema }
   )
 
-  // GET /auth/me
-  .use(authMiddleware)
-  .get(
-    '/me',
-    async ({ user, set }) => {
-      try {
-        const userData = await GetCurrentUser(user.id)
-        return successResponse(userData, 'Data user berhasil diambil')
-      } catch (error: any) {
-        set.status = 404
-        return errorResponse(error.message)
-      }
-    }
-  )
   // POST /auth/reset-password
   .post(
     '/reset-password',
@@ -89,3 +75,18 @@ export const authRoute = new Elysia({ prefix: '/auth' })
     },
     { body: resetPasswordSchema }
   )
+
+  .use(authMiddleware)
+  // GET /auth/me
+  .get(
+    '/me',
+    async ({ user, set }) => {
+      try {
+        const userData = await GetCurrentUser(user.id)
+        return successResponse(userData, 'Data user berhasil diambil')
+      } catch (error: any) {
+        set.status = 404
+        return errorResponse(error.message)
+      }
+    }
+  )

@@ -8,6 +8,7 @@ import { notifRoute } from './modules/Notification/notif.route'
 import { profileRoute } from './modules/profile/profile.route'
 import { recommendationRoute } from './modules/recomendation/recomendation.route';
 import { adminRoute } from './modules/admin/admin.route';
+import { chapterRoute } from './modules/chapters/chapter.route'
 
 const app = new Elysia()
   .use(cors())
@@ -27,6 +28,7 @@ const app = new Elysia()
   .use(profileRoute)
   .use(recommendationRoute)
   .use(adminRoute)
+  .use(chapterRoute)
   .listen(3000);
 
 console.log(
