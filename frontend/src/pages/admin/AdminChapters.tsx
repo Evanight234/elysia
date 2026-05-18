@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface Book {
@@ -47,6 +48,7 @@ export default function AdminChapters() {
     const [chapterNumber, setChapterNumber] = useState('')
     const [chapterTitle, setChapterTitle] = useState('')
     const [chapterContent, setChapterContent] = useState('')
+    const { t } = useTranslation()
 
     // ── Fetch data ─────────────────────────────────────────
     useEffect(() => {
@@ -120,13 +122,13 @@ export default function AdminChapters() {
     const handleSubmit = async () => {
         setSubmitError('')
 
-        if (!selectedBook) return setSubmitError('Buku belum dipilih.')
-        if (!chapterNumber.trim()) return setSubmitError('Nomor chapter wajib diisi.')
-        if (!chapterTitle.trim()) return setSubmitError('Judul chapter wajib diisi.')
-        if (!chapterContent.trim()) return setSubmitError('Isi chapter wajib diisi.')
+        if (!selectedBook) return setSubmitError(t('Chapter.select book empty'))
+        if (!chapterNumber.trim()) return setSubmitError(t('Chapter.number chapter empty'))
+        if (!chapterTitle.trim()) return setSubmitError(t('Chapter.title empty'))
+        if (!chapterContent.trim()) return setSubmitError(t('Chapter.content empty'))
 
         const num = parseInt(chapterNumber)
-        if (isNaN(num) || num < 1) return setSubmitError('Nomor chapter harus angka positif.')
+        if (isNaN(num) || num < 1) return setSubmitError(t('Chapter.chapter number positive'))
 
         // ── Generate ID sesuai format database ──────────────
         // "book-3" → bookNumber = 3 → chapterId = "ch-3-{num}"
@@ -139,7 +141,7 @@ export default function AdminChapters() {
         )
         if (duplicate) {
             return setSubmitError(
-                `Chapter ${num} untuk buku ini sudah ada. Gunakan nomor lain.`
+                `${t('settings.chapter')} ${num} ${t('settings.duplicate chapter')}`
             )
         }
 
@@ -160,7 +162,7 @@ export default function AdminChapters() {
 
         } catch (err: any) {
             setSubmitError(
-                err.response?.data?.message || 'Gagal menambahkan chapter. Coba lagi.'
+                err.response?.data?.message || t('Chapter.Chapter upload error')
             )
         } finally {
             setSubmitting(false)
@@ -175,8 +177,10 @@ export default function AdminChapters() {
             await api.delete(`/chapters/${deleteTarget.id}`)
             setChapters(prev => prev.filter(ch => ch.id !== deleteTarget.id))
             setDeleteTarget(null)
-        } catch (err) {
-            console.error('Failed to delete chapter:', err)
+        } catch (err: any) {
+            setSubmitError(
+                err.response?.data?.message || t('Chapter.Chapter delete error', err.message)
+            )
         } finally {
             setDeleting(false)
         }
@@ -192,40 +196,40 @@ export default function AdminChapters() {
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Kelola Chapter</h1>
-                <p>Lihat, tambah, dan hapus chapter dari database ElysiaApp.</p>
+                <h1>{t('Chapter.manage chapter')}</h1>
+                <p>{t('Chapter.manage chapter sub')}</p>
             </div>
 
             {/* ── Tabel Chapter ── */}
             <div className="admin-table-wrapper">
                 <div className="admin-table-header">
-                    <h2>Semua Chapter ({chapters.length})</h2>
+                    <h2>{t('Chapter.all-Chapter')} ({chapters.length})</h2>
                     <button className="btn-add-book" onClick={handleOpenAdd}>
-                        <Plus size={16} /> Tambah Chapter
+                        <Plus size={16} /> {t('Chapter.add-Chapter')}
                     </button>
                 </div>
 
                 {loading ? (
                     <div className="admin-loading">
                         <Loader2 size={28} className="spin" />
-                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat chapter...</p>
+                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('Chapter.Chapter Loading')}</p>
                     </div>
                 ) : chapters.length === 0 ? (
                     <div className="admin-empty">
                         <BookOpen size={32} style={{ opacity: 0.3, marginBottom: '0.5rem' }} />
-                        <p>Belum ada chapter. Klik + untuk menambahkan.</p>
+                        <p>{t('Chapter.chapter empty')}</p>
                     </div>
                 ) : (
                     <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Buku</th>
-                                <th>No.</th>
-                                <th>Judul Chapter</th>
-                                <th>Isi (preview)</th>
-                                <th>Tanggal</th>
-                                <th>Aksi</th>
+                                <th>{t('bookDetail.id')}</th>
+                                <th>{t('bookDetail.book')}</th>
+                                <th>{t('bookDetail.number')}</th>
+                                <th>{t('bookDetail.title chapter')}</th>
+                                <th>{t('bookDetail.content-chapter')}</th>
+                                <th>{t('bookDetail.date added')}</th>
+                                <th>{t('bookDetail.actions')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -303,7 +307,7 @@ export default function AdminChapters() {
                                                 className="btn-delete"
                                                 onClick={() => setDeleteTarget(ch)}
                                             >
-                                                <Trash2 size={14} /> Hapus
+                                                <Trash2 size={14} /> {t('admin.delete')}
                                             </button>
                                         </td>
                                     </tr>
@@ -341,14 +345,14 @@ export default function AdminChapters() {
                                 <div>
                                     <h3>
                                         {addStep === 'selectBook'
-                                            ? 'Pilih Buku'
-                                            : `Tambah Chapter — ${selectedBook?.title}`
+                                            ? t('Chapter.select-book')
+                                            : `${t('Chapter.add-chp')} — ${selectedBook?.title}`
                                         }
                                     </h3>
                                     <p style={{ margin: 0, fontSize: '0.8rem', color: '#d1a0b8' }}>
                                         {addStep === 'selectBook'
-                                            ? 'Pilih buku yang ingin ditambah chapter-nya'
-                                            : `Buku: ${selectedBook?.id}`
+                                            ? t('Chapter.select-book2')
+                                            : `${t('Chapter.book')}: ${selectedBook?.id}`
                                         }
                                     </p>
                                 </div>
@@ -366,7 +370,7 @@ export default function AdminChapters() {
                         {addStep === 'selectBook' && (
                             <div className="add-book-modal-body" style={{ padding: '1rem' }}>
                                 {books.length === 0 ? (
-                                    <div className="admin-empty">Belum ada buku di database.</div>
+                                    <div className="admin-empty">{t('Chapter.database-empty')}</div>
                                 ) : (
                                     <div className="book-select-list">
                                         {books.map(book => {
@@ -430,18 +434,18 @@ export default function AdminChapters() {
 
                                     {/* Preview ID yang akan dibuat */}
                                     <div className="chapter-id-preview">
-                                        <span className="chapter-id-preview-label">ID Chapter yang akan dibuat:</span>
+                                        <span className="chapter-id-preview-label">{t('settings.chapters')} : </span>
                                         <span className="chapter-id-preview-value">
                                             ch-{getBookNumber(selectedBook.id)}-{chapterNumber || '?'}
                                         </span>
-                                        <span className="chapter-id-preview-label">Book ID:</span>
+                                        <span className="chapter-id-preview-label">{t('common.bookId')} : </span>
                                         <span className="chapter-id-preview-value">{selectedBook.id}</span>
                                     </div>
 
                                     {/* Nomor Chapter */}
                                     <div className="notif-form-group">
                                         <label className="notif-form-label">
-                                            Nomor Chapter *
+                                            {t('Chapter.no-chapter')} *
                                             <span style={{ color: '#d1a0b8', fontWeight: 400, marginLeft: '4px' }}>
                                                 (auto: {getNextChapterNumber(selectedBook.id)})
                                             </span>
@@ -459,11 +463,11 @@ export default function AdminChapters() {
 
                                     {/* Judul Chapter */}
                                     <div className="notif-form-group">
-                                        <label className="notif-form-label">Judul Chapter *</label>
+                                        <label className="notif-form-label">{t('Chapter.chapter-Title')} *</label>
                                         <input
                                             className="notif-form-input"
                                             type="text"
-                                            placeholder="contoh: Awal Perjalanan"
+                                            placeholder={t('Chapter.chapter-title-example')}
                                             value={chapterTitle}
                                             onChange={e => setChapterTitle(e.target.value)}
                                             disabled={submitting || submitSuccess}
@@ -474,14 +478,14 @@ export default function AdminChapters() {
                                     {/* Isi Chapter */}
                                     <div className="notif-form-group">
                                         <label className="notif-form-label">
-                                            Isi Chapter *
+                                            {t('Chapter.chapter-must-input')} *
                                             <span style={{ color: '#d1a0b8', fontWeight: 400, marginLeft: '4px' }}>
-                                                ({chapterContent.length} karakter)
+                                                ({chapterContent.length} {t('Chapter.character')})
                                             </span>
                                         </label>
                                         <textarea
                                             className="notif-form-textarea"
-                                            placeholder="Tulis atau paste isi chapter di sini..."
+                                            placeholder=""
                                             value={chapterContent}
                                             onChange={e => setChapterContent(e.target.value)}
                                             disabled={submitting || submitSuccess}
@@ -498,7 +502,7 @@ export default function AdminChapters() {
                                     {/* Sukses */}
                                     {submitSuccess && (
                                         <div className="notif-send-success">
-                                            <Check size={16} /> Chapter berhasil ditambahkan!
+                                            <Check size={16} /> {t('Chapter.chapter-successfully')}
                                         </div>
                                     )}
                                 </div>
@@ -511,7 +515,7 @@ export default function AdminChapters() {
                                             onClick={handleCloseModal}
                                             disabled={submitting}
                                         >
-                                            Batal
+                                            {t('admin-cancel')}
                                         </button>
                                         <button
                                             className="btn-send-confirm"
@@ -519,8 +523,8 @@ export default function AdminChapters() {
                                             disabled={submitting}
                                         >
                                             {submitting
-                                                ? <><Loader2 size={15} className="spin" /> Menyimpan...</>
-                                                : <><Plus size={15} /> Tambah Chapter</>
+                                                ? <><Loader2 size={15} className="spin" /> {t('common.save')}...</>
+                                                : <><Plus size={15} /> {t('Chapter.add-Chapter')}</>
                                             }
                                         </button>
                                     </div>
@@ -537,11 +541,11 @@ export default function AdminChapters() {
             {deleteTarget && (
                 <div className="confirm-overlay">
                     <div className="confirm-box">
-                        <h3>Hapus Chapter?</h3>
+                        <h3>{t('Chapter.delete-chapter')} ?</h3>
                         <p>
-                            <strong>{deleteTarget.title}</strong> (Chapter {deleteTarget.number})
-                            dari buku <strong>{getBookTitle(deleteTarget.bookId)}</strong> akan
-                            dihapus permanen dari database.
+                            <strong>{deleteTarget.title}</strong> {t('Chapter.by-number')} {t('settings.chapters')} {deleteTarget.number})
+                            {t('Chapter.by-book')} <strong>{getBookTitle(deleteTarget.bookId)}</strong>
+                            {t('Chapter.chapter-permanently')}
                         </p>
                         <div className="confirm-btns">
                             <button
@@ -549,14 +553,14 @@ export default function AdminChapters() {
                                 onClick={() => setDeleteTarget(null)}
                                 disabled={deleting}
                             >
-                                Batal
+                                {t('admin-cancel')}
                             </button>
                             <button
                                 className="btn-confirm-delete"
                                 onClick={handleDelete}
                                 disabled={deleting}
                             >
-                                {deleting ? 'Menghapus...' : 'Ya, Hapus Chapter'}
+                                {deleting ? t('Chapter.delete-load') : t('Chapter.confirm-delete')}
                             </button>
                         </div>
                     </div>

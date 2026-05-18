@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface Book {
@@ -51,6 +52,8 @@ export default function AdminBooks() {
     const [coverError, setCoverError] = useState('')
     const fileInputRef = useRef<HTMLInputElement>(null)
 
+    const { t } = useTranslation()
+
     // ── Fetch semua buku ───────────────────────────────────
     useEffect(() => { fetchBooks() }, [])
 
@@ -73,11 +76,11 @@ export default function AdminBooks() {
 
         const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
         if (!allowed.includes(file.type)) {
-            setCoverError('Format harus JPG, PNG, atau WEBP.')
+            setCoverError(t('settings.formatUploadError'))
             return
         }
         if (file.size > 5 * 1024 * 1024) {
-            setCoverError('Ukuran maksimal 5MB.')
+            setCoverError(t('settings.sizeUploadError'))
             return
         }
 
@@ -116,9 +119,9 @@ export default function AdminBooks() {
     const handleSubmit = async () => {
         setSubmitError('')
 
-        if (!form.title.trim()) return setSubmitError('Judul wajib diisi.')
-        if (!form.author.trim()) return setSubmitError('Penulis wajib diisi.')
-        if (!form.category.trim()) return setSubmitError('Kategori wajib diisi.')
+        if (!form.title.trim()) return setSubmitError(t('common.title-empty'))
+        if (!form.author.trim()) return setSubmitError(t('common.author-empty'))
+        if (!form.category.trim()) return setSubmitError(t('common.category-empty'))
 
         setSubmitting(true)
         try {
@@ -151,9 +154,7 @@ export default function AdminBooks() {
             setTimeout(() => handleCloseModal(), 1500)
 
         } catch (err: any) {
-            setSubmitError(
-                err.response?.data?.message || 'Gagal menambahkan buku. Coba lagi.'
-            )
+            setSubmitError(err.response?.data?.message || t('common.errorAdd'))
         } finally {
             setSubmitting(false)
         }
@@ -169,54 +170,54 @@ export default function AdminBooks() {
             setBooks(prev => prev.filter(b => b.id !== deleteTarget.id))
             setDeleteTarget(null)
         } catch (err) {
-            console.error('Failed to delete book:', err)
+            setSubmitError(err.response?.data?.message || t('common.errordeleteBook'))
         } finally {
             setDeleting(false)
         }
     }
-
+    const translateCategory = (cat: string) => t(`category.${cat}`, cat)
     // ─── RENDER ──────────────────────────────────────────
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Kelola Buku</h1>
-                <p>Lihat, tambah, dan hapus buku dari database ElysiaApp.</p>
+                <h1>{t('admin.manage book')}</h1>
+                <p>{t('admin.manageBookDesc')}</p>
             </div>
 
             {/* ── Wrapper tabel + tombol + ── */}
             <div className="admin-table-wrapper">
                 <div className="admin-table-header">
-                    <h2>Semua Buku ({books.length})</h2>
+                    <h2>{t('admin.totalBook')} ({books.length})</h2>
                     {/* Tombol + di pojok kanan atas */}
                     <button
                         className="btn-add-book"
                         onClick={() => { resetForm(); setShowAddModal(true) }}
                     >
-                        <Plus size={16} /> Tambah Buku
+                        <Plus size={16} /> {t('settings.addBook')}
                     </button>
                 </div>
 
                 {loading ? (
                     <div className="admin-loading">
                         <Loader2 size={28} className="spin" />
-                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat buku...</p>
+                        <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('settings.loadingB')}</p>
                     </div>
                 ) : books.length === 0 ? (
                     <div className="admin-empty">
                         <BookOpen size={32} style={{ opacity: 0.3, marginBottom: '0.5rem' }} />
-                        <p>Belum ada buku. Klik + untuk menambahkan.</p>
+                        <p>{t('admin.emptyB')}</p>
                     </div>
                 ) : (
                     <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>Cover</th>
-                                <th>Judul & Penulis</th>
-                                <th>Kategori</th>
-                                <th>👁 Views</th>
-                                <th>♥ Likes</th>
-                                <th>Ditambahkan</th>
-                                <th>Aksi</th>
+                                <th>{t('settings.cover')}</th>
+                                <th>{t('settings.Title & Author')}</th>
+                                <th>{t('common.category')}</th>
+                                <th>{t('settings.views')}</th>
+                                <th>{t('settings.likes')}</th>
+                                <th>{t('settings.added')}</th>
+                                <th>{t('settings.action')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -243,7 +244,7 @@ export default function AdminBooks() {
 
                                     {/* Kategori */}
                                     <td>
-                                        <span className="admin-book-category">{book.category}</span>
+                                        <span className="admin-book-category">{translateCategory(book.category)}</span>
                                     </td>
 
                                     {/* Views */}
@@ -269,7 +270,7 @@ export default function AdminBooks() {
                                             className="btn-delete"
                                             onClick={() => setDeleteTarget(book)}
                                         >
-                                            <Trash2 size={14} /> Hapus
+                                            <Trash2 size={14} /> {t('admin.delete')}
                                         </button>
                                     </td>
                                 </tr>
@@ -288,7 +289,7 @@ export default function AdminBooks() {
 
                         {/* Header */}
                         <div className="add-book-modal-header">
-                            <h3>Tambah Buku Baru</h3>
+                            <h3>{t('settings.addB')}</h3>
                             <button
                                 className="notif-modal-close"
                                 onClick={handleCloseModal}
@@ -303,7 +304,7 @@ export default function AdminBooks() {
 
                             {/* Cover Upload */}
                             <div className="add-book-cover-section">
-                                <label className="notif-form-label">Cover Buku</label>
+                                <label className="notif-form-label">{t('settings.cover')}</label>
                                 <div
                                     className={`cover-upload-area ${coverPreview ? 'has-cover' : ''}`}
                                     onClick={() => fileInputRef.current?.click()}
@@ -313,14 +314,14 @@ export default function AdminBooks() {
                                             <img src={coverPreview} alt="Preview" className="cover-preview-img" />
                                             <div className="cover-overlay">
                                                 <ImageIcon size={20} />
-                                                <span>Ganti Cover</span>
+                                                <span>{t('settings.change-Cover')}</span>
                                             </div>
                                         </>
                                     ) : (
                                         <div className="cover-placeholder">
                                             <ImageIcon size={32} color="#f9a8d4" />
-                                            <span>Klik untuk upload cover</span>
-                                            <span className="cover-hint">JPG, PNG, WEBP · Maks 5MB</span>
+                                            <span>{t('books.uploadClick')}</span>
+                                            <span className="cover-hint">{t('books.uploadCategory')}</span>
                                         </div>
                                     )}
                                 </div>
@@ -338,12 +339,12 @@ export default function AdminBooks() {
 
                             {/* Judul */}
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Judul Buku *</label>
+                                <label className="notif-form-label"> {t('books.title')} *</label>
                                 <input
                                     className="notif-form-input"
                                     name="title"
                                     type="text"
-                                    placeholder="contoh: Lord of the Mysteries"
+                                    placeholder={t('books.example') + " : " + t('books.Book-Title-example')}
                                     value={form.title}
                                     onChange={handleFormChange}
                                     disabled={submitting || submitSuccess}
@@ -353,12 +354,12 @@ export default function AdminBooks() {
 
                             {/* Penulis */}
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Penulis / Author *</label>
+                                <label className="notif-form-label">{t('books.author')} *</label>
                                 <input
                                     className="notif-form-input"
                                     name="author"
                                     type="text"
-                                    placeholder="contoh: 爱潜水的乌贼"
+                                    placeholder={t('books.example') + " : " + t('books.Author-example')}
                                     value={form.author}
                                     onChange={handleFormChange}
                                     disabled={submitting || submitSuccess}
@@ -368,7 +369,7 @@ export default function AdminBooks() {
 
                             {/* Kategori */}
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Kategori *</label>
+                                <label className="notif-form-label">{t('books.category')} *</label>
                                 <select
                                     className="notif-form-input"
                                     name="category"
@@ -377,27 +378,40 @@ export default function AdminBooks() {
                                     disabled={submitting || submitSuccess}
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    <option value="">-- Pilih Kategori --</option>
-                                    <option value="Adventure">Adventure</option>
-                                    <option value="Fantasy">Fantasy</option>
-                                    <option value="Mystery">Mystery</option>
-                                    <option value="Romansa">Romansa</option>
-                                    <option value="School">School</option>
-                                    <option value="Guide">Guide</option>
-                                    <option value="Fiksi">Fiksi</option>
-                                    <option value="Biografi">Biografi</option>
-                                    <option value="Sejarah">Sejarah</option>
-                                    <option value="Teknologi">Teknologi</option>
+                                    <option value="">{t('books.Chose Category')}</option>
+                                    <option value="Adventure">{t('category.Adventure')}</option>
+                                    <option value="Fantasy">{t('category.Fantasy')}</option>
+                                    <option value="Mystery">{t('category.Mystery')}</option>
+                                    <option value="Romance">{t('category.Romance')}</option>
+                                    <option value="School">{t('category.School')}</option>
+                                    <option value="Guide">{t('category.Guide')}</option>
+                                    <option value="Fiction">{t('category.Fiction')}</option>
+                                    <option value="Biography">{t('category.Biography')}</option>
+                                    <option value="History">{t('category.History')}</option>
+                                    <option value="Technology">{t('category.Technology')}</option>
+                                    <option value="Sci-fi">{t('category.Sci-fi')}</option>
+                                    <option value="Hentai">{t('category.Hentai')}</option>
+                                    <option value="Isekai">{t('category.Isekai')}</option>
+                                    <option value="Horror">{t('category.Horror')}</option>
+                                    <option value="Thriller">{t('category.Thriller')}</option>
+                                    <option value="Slice of Life">{t('category.Slice of Life')}</option>
+                                    <option value="Action">{t('category.Action')}</option>
+                                    <option value="Drama">{t('category.Drama')}</option>
+                                    <option value="Adult">{t('category.Adult')}</option>
+                                    <option value="Supernatural">{t('category.Supernatural')}</option>
+                                    <option value="Yuri">{t('category.Yuri')}</option>
+                                    <option value="Yaoi">{t('category.Yaoi')}</option>
+                                    <option value="Martial Arts">{t('category.Martial Arts')}</option>
                                 </select>
                             </div>
 
                             {/* Deskripsi */}
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Deskripsi</label>
+                                <label className="notif-form-label">{t('common.description')}</label>
                                 <textarea
                                     className="notif-form-textarea"
                                     name="description"
-                                    placeholder="Tulis sinopsis atau deskripsi singkat buku..."
+                                    placeholder={t('books.sinopsis example')}
                                     value={form.description}
                                     onChange={handleFormChange}
                                     disabled={submitting || submitSuccess}
@@ -415,7 +429,7 @@ export default function AdminBooks() {
                             {/* Sukses */}
                             {submitSuccess && (
                                 <div className="notif-send-success">
-                                    <Check size={16} /> Buku berhasil ditambahkan!
+                                    <Check size={16} /> {t('books.successfully-upload')}!
                                 </div>
                             )}
                         </div>
@@ -428,7 +442,7 @@ export default function AdminBooks() {
                                     onClick={handleCloseModal}
                                     disabled={submitting}
                                 >
-                                    Batal
+                                    {t('admin.cancel')}
                                 </button>
                                 <button
                                     className="btn-send-confirm"
@@ -436,8 +450,8 @@ export default function AdminBooks() {
                                     disabled={submitting}
                                 >
                                     {submitting
-                                        ? <><Loader2 size={15} className="spin" /> Menyimpan...</>
-                                        : <><Plus size={15} /> Tambah Buku</>
+                                        ? <><Loader2 size={15} className="spin" /> {t('books.loadingBookSave')}</>
+                                        : <><Plus size={15} /> {t('books.bookAdd')}</>
                                     }
                                 </button>
                             </div>
@@ -452,11 +466,10 @@ export default function AdminBooks() {
             {deleteTarget && (
                 <div className="confirm-overlay">
                     <div className="confirm-box">
-                        <h3>Hapus Buku?</h3>
+                        <h3>{t('books.deleteBook?')}</h3>
                         <p>
-                            Buku <strong>"{deleteTarget.title}"</strong> oleh{' '}
-                            <strong>{deleteTarget.author}</strong> akan dihapus
-                            permanen dari database beserta semua chapter-nya.
+                            {t('common.book')} <strong>"{deleteTarget.title}"</strong> {t('common.by')}
+                            <strong>{deleteTarget.author}</strong> {t('books.permanently-delete')}
                         </p>
                         <div className="confirm-btns">
                             <button
@@ -464,14 +477,14 @@ export default function AdminBooks() {
                                 onClick={() => setDeleteTarget(null)}
                                 disabled={deleting}
                             >
-                                Batal
+                                {t('admin.cancel')}
                             </button>
                             <button
                                 className="btn-confirm-delete"
                                 onClick={handleDelete}
                                 disabled={deleting}
                             >
-                                {deleting ? 'Menghapus...' : 'Ya, Hapus Buku'}
+                                {deleting ? t('books.loadingDelete') : t('books.deleteConfirm')}
                             </button>
                         </div>
                     </div>

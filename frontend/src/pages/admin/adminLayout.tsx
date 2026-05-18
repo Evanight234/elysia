@@ -15,8 +15,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const navItems = [
         { to: '/admin', icon: LayoutDashboard, label: t('nav.dashboard') },
         { to: '/admin/users', icon: Users, label: t('nav.users') },
-        { to: '/admin/books', icon: BookOpen, label: 'Kelola Buku' },
-        { to: '/admin/chapters', icon: BookMarked, label: 'Kelola Chapter' },
+        { to: '/admin/books', icon: BookOpen, label: t('admin.manage book') },
+        { to: '/admin/chapters', icon: BookMarked, label: t('admin.manage chapter') },
         { to: '/admin/notification', icon: Bell, label: t('nav.sendNotification') },
         { to: '/admin/profile', icon: User, label: t('nav.profile') },
     ]

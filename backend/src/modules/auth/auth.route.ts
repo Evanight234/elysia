@@ -89,4 +89,4 @@ export const authRoute = new Elysia({ prefix: '/auth' })
         return errorResponse(error.message)
       }
     }
-  )
+  )

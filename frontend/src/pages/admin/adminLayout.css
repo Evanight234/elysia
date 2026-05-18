@@ -201,10 +201,11 @@
 
 .admin-lang-section {
     padding: 0 0.5rem 1.5rem;
-    border-bottom: 1px solid #fce7f3;
+    border-bottom: 2px solid #fce7f3;
     position: absolute;
-    top: 400px;
-    right: 60px;
+    top: 495px;
+    right: 18px;
+    width: 245px;
 }
 
 @media (max-width: 768px) {
