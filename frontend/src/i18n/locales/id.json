@@ -26,7 +26,9 @@
         "noResults": "Tidak ada buku ditemukan untuk",
         "categories": "Kategori Populer",
         "hei": "Hai",
-        "heiSub": "Mau baca apa hari ini?"
+        "heiSub": "Mau baca apa hari ini?",
+        "empty-search": "Buku tidak ditemukan untuk",
+        "show-details": "Lihat Detail"
     },
     "library": {
         "title": "Perpustakaan",
@@ -263,7 +265,8 @@
         "permanently-delete": "akan dihapus permanen dari database beserta semua chapter-nya.",
         "warning-delete": "Tindakan ini tidak bisa dibatalkan.",
         "deleteConfirm": "Ya, Hapus Permanen",
-        "deleteCancel": "Batal"
+        "deleteCancel": "Batal",
+        "addBook": "Tambah Buku"
     },
     "category": {
         "Action": "Action",

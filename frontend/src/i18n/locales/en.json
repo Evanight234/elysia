@@ -26,7 +26,9 @@
         "noResults": "No books found for",
         "categories": "Popular Categories",
         "hei": "Hi",
-        "heiSub": "What do you want to read today?"
+        "heiSub": "What do you want to read today?",
+        "empty-search": "No books found for",
+        "show-details": "Show Details"
     },
     "library": {
         "title": "Library",
@@ -263,7 +265,8 @@
         "permanently-delete": "will be permanently deleted from the database along with all chapters.",
         "warning-delete": "This action cannot be undone.",
         "deleteConfirm": "Yes, Permanently Delete",
-        "deleteCancel": "Cancel"
+        "deleteCancel": "Cancel",
+        "addBook": "Add Book"
     },
     "category": {
         "Action": "Action",

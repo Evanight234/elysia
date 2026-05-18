@@ -26,7 +26,9 @@
         "noResults": "該当する本は見つかりませんでした:",
         "categories": "人気カテゴリ",
         "hei": "こんにちは",
-        "heiSub": "今日は何を読みますか？"
+        "heiSub": "今日は何を読みますか？",
+        "empty-search": "の書籍が見つかりませんでした",
+        "show-details": "詳細を見る"
     },
     "library": {
         "title": "ライブラリ",
@@ -263,7 +265,8 @@
         "permanently-delete": "はすべての章とともにデータベースから完全に削除されます。",
         "warning-delete": "この操作は元に戻せません。",
         "deleteConfirm": "はい、完全に削除",
-        "deleteCancel": "キャンセル"
+        "deleteCancel": "キャンセル",
+        "addBook": "本を追加"
     },
     "category": {
         "Action": "アクション",
@@ -287,7 +290,7 @@
         "Adult": "アダルト",
         "Supernatural": "超常",
         "Yuri": "百合",
-        "Yaoi": "BL",
+        "Yaoi": "やおい",
         "Martial Arts": "武道"
     },
     "Chapter": {

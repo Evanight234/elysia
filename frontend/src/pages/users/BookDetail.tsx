@@ -5,6 +5,7 @@ import { Heart, Eye, BookOpen, ChevronLeft, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
 import './UserPages.css'
 import { useTranslation } from 'react-i18next'
+import { translateCategory } from '../../utils/categoryHelper'
 
 interface Chapter {
     id: string
@@ -132,7 +133,7 @@ export default function BookDetail() {
                         )}
                     </div>
                     <div className='book-detail-info'>
-                        <span className='book-category-badge'>{book.category}</span>
+                        <span className='book-category-badge'>{translateCategory(book.category)}</span>
                         <h1 className='book-detail-title'>{book.title}</h1>
                         <p className='book-detail-author'>{t('bookDetail.author')} : {book.author}</p>
 

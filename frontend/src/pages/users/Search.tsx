@@ -5,6 +5,7 @@ import api from '../../api/axios';
 import { Search as SearchIcon, Loader2, BookOpen } from 'lucide-react';
 import './UserPages.css';
 import { useTranslation } from 'react-i18next';
+import { translateCategory } from '../../utils/categoryHelper';
 
 interface Book {
   id: string;
@@ -86,7 +87,7 @@ export default function Search() {
                       navigate(`/books/${book.id}`);
                     }}
                   >
-                    <BookOpen size={14} /> Lihat Detail
+                    <BookOpen size={14} /> {t('search.show-details')}
                   </button>
                 </div>
               </div>
@@ -95,30 +96,51 @@ export default function Search() {
         </section>
       ) : query && !loading ? (
         <div className="empty-state">
-          <p>Tidak ada buku yang ditemukan untuk "{query}".</p>
+          <p>{t('search.empty-search')} "{query}".</p>
         </div>
       ) : (
         <div className="categories-section">
           <h2 className="section-title">{t('search.categories')}</h2>
           <div className="category-tags">
-            {['Adventure', 'Fantasy', 'Guide', 'Romansa', 'Teknologi', 'Sejarah'].map(cat => (
-              <button key={cat} className="category-tag" onClick={() => {
-                setQuery(cat);
-                // Trigger search directly after state update is tricky, so we call handleSearch with cat
-                const searchCat = async () => {
-                  try {
-                    setLoading(true);
-                    const res = await api.get(`/books/search?q=${cat}`);
-                    setResults(res.data.data || []);
-                  } catch (err) {
-                    console.error('Search failed:', err);
-                  } finally {
-                    setLoading(false);
-                  }
-                };
-                searchCat();
-              }}>{cat}</button>
-            ))}
+            {["Action",
+              "Adventure",
+              "Fantasy",
+              "Mystery",
+              "Romance",
+              "School",
+              "Guide",
+              "Fiction",
+              "Biography",
+              "History",
+              "Technology",
+              "Sci-fi",
+              "Hentai",
+              "Isekai",
+              "Horror",
+              "Thriller",
+              "Slice of Life",
+              "Drama",
+              "Adult",
+              "Supernatural",
+              "Yuri",
+              "Yaoi",
+              "Martial Arts"].map(cat => (
+                <button key={cat} className="category-tag" onClick={() => {
+                  setQuery(cat);
+                  const searchCat = async () => {
+                    try {
+                      setLoading(true);
+                      const res = await api.get(`/books/search?q=${cat}`);
+                      setResults(res.data.data || []);
+                    } catch (err) {
+                      console.error('Search failed:', err);
+                    } finally {
+                      setLoading(false);
+                    }
+                  };
+                  searchCat();
+                }}>{translateCategory(cat)}</button>
+              ))}
           </div>
         </div>
       )}

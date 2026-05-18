@@ -7,6 +7,7 @@ import {
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
+import { translateCategory } from '../../utils/categoryHelper'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface Book {
@@ -175,7 +176,6 @@ export default function AdminBooks() {
             setDeleting(false)
         }
     }
-    const translateCategory = (cat: string) => t(`category.${cat}`, cat)
     // ─── RENDER ──────────────────────────────────────────
     return (
         <AdminLayout>
@@ -193,7 +193,7 @@ export default function AdminBooks() {
                         className="btn-add-book"
                         onClick={() => { resetForm(); setShowAddModal(true) }}
                     >
-                        <Plus size={16} /> {t('settings.addBook')}
+                        <Plus size={16} /> {t('books.addBook')}
                     </button>
                 </div>
 
@@ -289,7 +289,7 @@ export default function AdminBooks() {
 
                         {/* Header */}
                         <div className="add-book-modal-header">
-                            <h3>{t('settings.addB')}</h3>
+                            <h3>{t('books.addB')}</h3>
                             <button
                                 className="notif-modal-close"
                                 onClick={handleCloseModal}
