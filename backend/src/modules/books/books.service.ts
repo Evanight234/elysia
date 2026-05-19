@@ -17,14 +17,14 @@ export const getBookById = async (id: string, userId?: string) => {
     if (!book) return null
 
     const bookChapters = await db.select().from(chapters).where(eq(chapters.bookId, id)).orderBy(chapters.number)
-    
+
     let isLiked = false
     if (userId) {
         isLiked = await checkIsLiked(userId, id)
     }
 
-    return { 
-        ...book, 
+    return {
+        ...book,
         chapters: bookChapters,
         isLiked
     }
@@ -86,7 +86,7 @@ export const getChapterByNumber = async (bookId: string, chapterNum: number) => 
         .select()
         .from(chapters)
         .where(and(eq(chapters.bookId, bookId), eq(chapters.number, chapterNum)))
-    
+
     if (!chapterData) return null
 
     // Split content into paragraphs for the frontend

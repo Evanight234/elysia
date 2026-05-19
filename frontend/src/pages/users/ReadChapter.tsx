@@ -37,7 +37,7 @@ interface ChapterListItem {
 }
 
 export default function ReadChapter() {
-    const { bookId, number } = useParams()
+    const { bookId, chapterNumber } = useParams()
     const navigate = useNavigate()
     const contentRef = useRef<HTMLDivElement>(null)
 
@@ -54,7 +54,7 @@ export default function ReadChapter() {
     const { t } = useTranslation()
     const { toast } = useToastContext()
 
-    const currentNum = parseInt(number || '1')
+    const currentNum = parseInt(chapterNumber || '1')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,7 +81,7 @@ export default function ReadChapter() {
                 setAllChapters(bookData.chapters.map((ch: any) => ({
                     number: ch.number,
                     title: ch.title,
-                    isRead: false // TODO: check read status
+                    isRead: ch.isRead
                 })))
 
                 setChapter(chapterData)
@@ -108,7 +108,7 @@ export default function ReadChapter() {
             if (!isRead && chapter) {
                 try {
                     await api.patch(`/library/${bookId}/lastChapter`, {
-                        chapterNumber: currentNum
+                        lastChapter: currentNum
                     })
                     setIsRead(true)
                 } catch (err) {
