@@ -11,7 +11,14 @@ import { adminRoute } from './modules/admin/admin.route';
 import { chapterRoute } from './modules/chapters/chapter.route'
 
 const app = new Elysia()
-  .use(cors())
+  .use(cors({
+    origin: [
+      'http://localhost:5173',
+      /\.netlify\.app$/,        // ← semua subdomain netlify
+    ],
+    credentials: true,
+  }))
+  .listen(process.env.PORT ?? 3000)
   .use(swagger({
     documentation: {
       info: {
