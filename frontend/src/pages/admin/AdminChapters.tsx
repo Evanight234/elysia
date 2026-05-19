@@ -8,6 +8,7 @@ import {
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface Book {
@@ -43,6 +44,7 @@ export default function AdminChapters() {
     const [submitting, setSubmitting] = useState(false)
     const [submitError, setSubmitError] = useState('')
     const [submitSuccess, setSubmitSuccess] = useState(false)
+    const { toast } = useToastContext();
 
     // ── Form state ─────────────────────────────────────────
     const [chapterNumber, setChapterNumber] = useState('')
@@ -157,13 +159,14 @@ export default function AdminChapters() {
             })
 
             setSubmitSuccess(true)
+            toast.success(t('Chapter.chapter-successfully'))
             await fetchAll()
             setTimeout(() => handleCloseModal(), 1500)
 
         } catch (err: any) {
-            setSubmitError(
-                err.response?.data?.message || t('Chapter.Chapter upload error')
-            )
+            const msg = err.response?.data?.message || t('Chapter.Chapter upload error')
+            setSubmitError(msg)
+            toast.error(msg)
         } finally {
             setSubmitting(false)
         }
@@ -178,9 +181,9 @@ export default function AdminChapters() {
             setChapters(prev => prev.filter(ch => ch.id !== deleteTarget.id))
             setDeleteTarget(null)
         } catch (err: any) {
-            setSubmitError(
-                err.response?.data?.message || t('Chapter.Chapter delete error', err.message)
-            )
+            const msg = err.response?.data?.message || t('Chapter.Chapter delete error')
+            setSubmitError(msg)
+            toast.error(msg)
         } finally {
             setDeleting(false)
         }
@@ -445,7 +448,7 @@ export default function AdminChapters() {
                                     {/* Nomor Chapter */}
                                     <div className="notif-form-group">
                                         <label className="notif-form-label">
-                                            {t('Chapter.no-chapter')} *
+                                            {t('Chapter.NO-chapter')} *
                                             <span style={{ color: '#d1a0b8', fontWeight: 400, marginLeft: '4px' }}>
                                                 (auto: {getNextChapterNumber(selectedBook.id)})
                                             </span>
@@ -515,7 +518,7 @@ export default function AdminChapters() {
                                             onClick={handleCloseModal}
                                             disabled={submitting}
                                         >
-                                            {t('admin-cancel')}
+                                            {t('admin.cancel')}
                                         </button>
                                         <button
                                             className="btn-send-confirm"
@@ -553,7 +556,7 @@ export default function AdminChapters() {
                                 onClick={() => setDeleteTarget(null)}
                                 disabled={deleting}
                             >
-                                {t('admin-cancel')}
+                                {t('admin.cancel')}
                             </button>
                             <button
                                 className="btn-confirm-delete"

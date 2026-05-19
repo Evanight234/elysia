@@ -15,12 +15,12 @@ export const getUserNotifications = async (userId: string) => {
 export const sendNotification = async (data: {
     userId: string;
     title: string;
-    massege: string;
+    message: string;
 }) => {
     const [notif] = await db.insert(notifications).values({
         userId: data.userId,
         title: data.title,
-        message: data.massege,
+        message: data.message,
         isRead: false
     }).returning()
     return notif
@@ -53,13 +53,12 @@ export const markAsRead = async (userId: string, notifId: string) => {
 
 // Tandai semua notifikasi sudah dibaca
 export const markAllAsRead = async (userId: string) => {
-    const [notif] = await db
+    const updated = await db
         .update(notifications)
         .set({ isRead: true })
         .where(eq(notifications.userId, userId))
         .returning()
 
-    if (!notif) throw new Error('Notifikasi tidak ditemukan')
-    return notif
+    return updated
 }
 

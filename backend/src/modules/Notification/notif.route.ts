@@ -3,10 +3,6 @@ import { authMiddleware } from '../../middleware/auth.middleware'
 import { adminOnly } from '../../middleware/role.middleware'
 import { getUserNotifications, sendNotification, markAsRead, markAllAsRead } from './notif.service'
 import { successResponse, errorResponse } from '../../utils/response'
-import { db } from '../../db'
-import { notifications, users } from '../../db/schema'
-import { eq, desc } from 'drizzle-orm'
-
 export const notifRoute = new Elysia({ prefix: '/notifications' })
 
     // User: lihat notifikasi sendiri
@@ -52,7 +48,7 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
                 const data = await sendNotification({
                     userId: body.userId,
                     title: body.title,
-                    massege: body.message,
+                    message: body.message,
                 })
                 set.status = 201
                 return successResponse(data, 'Notifikasi berhasil dikirim')
@@ -69,30 +65,3 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
             }),
         }
     )
-    .get('/notifications', async ({ set }) => {
-        try {
-            // Ambil semua notifikasi + join dengan data user penerima
-            const data = await db
-                .select({
-                    id: notifications.id,
-                    userId: notifications.userId,
-                    title: notifications.title,
-                    message: notifications.message,
-                    isRead: notifications.isRead,
-                    createdAt: notifications.createdAt,
-                    user: {
-                        name: users.name,
-                        username: users.username,
-                        email: users.email,
-                    }
-                })
-                .from(notifications)
-                .leftJoin(users, eq(notifications.userId, users.id))
-                .orderBy(desc(notifications.createdAt))  // terbaru dulu
-
-            return successResponse(data)
-        } catch (err: any) {
-            set.status = 500
-            return errorResponse(err.message)
-        }
-    })

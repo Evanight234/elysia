@@ -329,6 +329,16 @@
         "delete-load": "deleting chapter ...",
         "confirm-delete": "Yes, Delete Chapter",
         "by-book": "Book: ",
-        "by-number": "Number:"
+        "by-number": "Number:",
+        "book": "book"
+    },
+    "toast": {
+        "Login-success": "login successfully",
+        "welcome-back": "welcome back!",
+        "Login-failed": "login failed",
+        "Account-added": "Account added successfully",
+        "confirm-error-password": "Password and confirmation password do not match",
+        "register-failed": "Error occurred during registration. Please ensure backend is running.",
+        "Account-exist": "Account already exists"
     }
 }

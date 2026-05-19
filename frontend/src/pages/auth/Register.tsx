@@ -1,20 +1,23 @@
 import { useState } from "react";
 import api from "../../api/axios";
 import "./Register.css";
-
+import { useToastContext } from '../../context/ToastContext'
+import { useTranslation } from 'react-i18next';
 export default function Register() {
+  const { t } = useTranslation();
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [konfirmasi, setKonfirmasi] = useState("");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToastContext();
 
   const handleDaftar = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== konfirmasi) {
-      alert("Konfirmasi kata sandi tidak cocok!");
+      toast.error(t("toast.confirm-error-password"))
       return;
     }
 
@@ -28,13 +31,15 @@ export default function Register() {
       });
 
       if (response.data.success) {
-        alert(response.data.message)
-        window.location.href = "/login"
+        toast.success(t("toast.Account-added"))
+        setTimeout(() => {
+          window.location.href = "/login"
+        }, 1500);
       }
     } catch (error: any) {
       console.error("Registration Error:", error);
-      const message = error.response?.data?.message || "Terjadi kesalahan saat registrasi. Pastikan backend sudah berjalan.";
-      alert(message);
+      const message = error.response?.data?.message || t("toast.register-failed");
+      toast.error(message);
     } finally {
       setLoading(false);
     }

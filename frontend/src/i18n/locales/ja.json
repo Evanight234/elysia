@@ -329,6 +329,16 @@
         "delete-load": "章を削除中 ...",
         "confirm-delete": "はい、章を削除",
         "by-book": "本: ",
-        "by-number": "番号:"
+        "by-number": "番号:",
+        "book": "本"
+    },
+    "toast": {
+        "Login-success": "ログインしました",
+        "welcome-back": "おかえりなさい！",
+        "Login-failed": "ログイン失敗",
+        "Account-added": "アカウントが正常に追加されました",
+        "confirm-error-password": "パスワードと確認用パスワードが一致しません",
+        "register-failed": "登録中にエラーが発生しました。バックエンドが実行されていることを確認してください。",
+        "Account-exist": "アカウントは既に存在します"
     }
 }

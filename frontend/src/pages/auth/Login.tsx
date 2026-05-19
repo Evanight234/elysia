@@ -1,11 +1,16 @@
 import { useState } from "react";
 import api from "../../api/axios";
 import "./Login.css";
+import { useTranslation } from 'react-i18next';
+import { useToastContext } from '../../context/ToastContext'
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
+  const { toast } = useToastContext();
+
 
   const handleMasuk = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,16 +26,18 @@ export default function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
 
-        // Redirect berdasarkan role
-        if (user.role === "ADMIN") {
-          window.location.href = "/admin"   // ← bukan "/admin/dashboard"
-        } else {
-          window.location.href = "/home"
-        }
+        toast.success(t('toast.Login-success'));
+        setTimeout(() => {
+          if (user.role === "ADMIN") {
+            window.location.href = "/admin"
+          } else {
+            window.location.href = "/home"
+          }
+        }, 1500);
       }
     } catch (error: any) {
-      const message = error.response?.data?.message || "Login gagal";
-      alert(message);
+      const message = error.response?.data?.message || t('toast.Login-failed');
+      toast.error(message);
     } finally {
       setLoading(false);
     }

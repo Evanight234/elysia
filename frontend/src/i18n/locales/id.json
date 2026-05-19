@@ -329,6 +329,16 @@
         "delete-load": "menghapus Bab ...",
         "confirm-delete": "Ya, Hapus Bab",
         "by-book": "Buku: ",
-        "by-number": "Nomor:"
+        "by-number": "Nomor:",
+        "book": "buku"
+    },
+    "toast": {
+        "Login-success": "login berhasil",
+        "welcome-back": "Selamat datang kembali!",
+        "Login-failed": "login gagal",
+        "Account-added": "Akun berhasil ditambahkan",
+        "confirm-error-password": "Password dan konfirmasi password tidak cocok",
+        "register-failed": "Terjadi kesalahan saat registrasi. Pastikan backend sudah berjalan.",
+        "Account-exist": "Akun sudah ada"
     }
 }
