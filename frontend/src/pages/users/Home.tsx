@@ -5,6 +5,7 @@ import api from '../../api/axios'
 import { Loader2 } from 'lucide-react'
 import './UserPages.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 interface Book {
   id: string
@@ -19,6 +20,7 @@ export default function Home() {
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const { t } = useTranslation()
+  const { toast } = useToastContext()
 
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
 
@@ -67,7 +69,7 @@ export default function Home() {
                     <div className="book-cover-placeholder">{book.title[0]}</div>
                   )}
                   <div className="view-badge">
-                    👁 {book.viewCount.toLocaleString('id-ID')}
+                    👁 {book.viewCount.toLocaleString(t('lang'))}
                   </div>
                 </div>
                 <div className="book-info">

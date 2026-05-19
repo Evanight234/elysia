@@ -3,10 +3,12 @@ import AdminLayout from './AdminLayout'
 import {
     Send, Bell, Loader2, X,
     CheckCircle, Clock, User,
-    RefreshCw, Search, Trash2
+    RefreshCw, Search
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface UserData {
@@ -30,6 +32,8 @@ interface SentNotif {
 type Tab = 'send' | 'history'
 
 export default function AdminNotification() {
+    const { t } = useTranslation()
+    const { toast } = useToastContext()
     const [activeTab, setActiveTab] = useState<Tab>('send')
     const [users, setUsers] = useState<UserData[]>([])
     const [sentNotifs, setSentNotifs] = useState<SentNotif[]>([])
@@ -124,7 +128,8 @@ export default function AdminNotification() {
 
     const handleSend = async () => {
         if (!selectedUser || !title.trim() || !message.trim()) {
-            setSendError('Judul dan pesan tidak boleh kosong.')
+            setSendError(t('admin.masege-empty'))
+            toast.error(t('admin.masege-empty'))
             return
         }
         try {
@@ -135,18 +140,20 @@ export default function AdminNotification() {
                 title: title.trim(),
                 message: message.trim(),
             })
-            setSendSuccess(`Pesan berhasil dikirim ke ${selectedUser.name}!`)
+            setSendSuccess(`${t('admin.sendsucces')} ${selectedUser.name}!`)
+            toast.success(`${t('admin.sendsucces')} ${selectedUser.name}`)
             setTitle('')
             setMessage('')
             setTimeout(() => {
                 setShowModal(false)
                 setSendSuccess('')
                 setSelectedUser(null)
-                // Refresh history kalau sedang di tab history
                 if (activeTab === 'history') fetchHistory()
             }, 2000)
         } catch (err: any) {
-            setSendError(err.response?.data?.message || 'Gagal mengirim pesan.')
+            const msg = err.response?.data?.message || t('admin.sendfail')
+            setSendError(msg)
+            toast.error(msg)
         } finally {
             setSending(null)
         }
@@ -156,13 +163,13 @@ export default function AdminNotification() {
     const timeAgo = (dateStr: string) => {
         const diff = Date.now() - new Date(dateStr).getTime()
         const minutes = Math.floor(diff / 60000)
-        if (minutes < 1) return 'Baru saja'
-        if (minutes < 60) return `${minutes} menit lalu`
+        if (minutes < 1) return t('timeAgo.justNow')
+        if (minutes < 60) return t('timeAgo.minutesAgo', { count: minutes })
         const hours = Math.floor(minutes / 60)
-        if (hours < 24) return `${hours} jam lalu`
+        if (hours < 24) return t('timeAgo.hoursAgo', { count: hours })
         const days = Math.floor(hours / 24)
-        if (days < 7) return `${days} hari lalu`
-        return new Date(dateStr).toLocaleDateString('id-ID', {
+        if (days < 7) return t('timeAgo.daysAgo', { count: days })
+        return new Date(dateStr).toLocaleDateString(t('lang'), {
             day: 'numeric', month: 'short', year: 'numeric'
         })
     }
@@ -171,8 +178,8 @@ export default function AdminNotification() {
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Send Notification</h1>
-                <p>Kirim pesan ke user tertentu. Pesan akan masuk ke notifikasi user.</p>
+                <h1>{t('admin.notifTitle')}</h1>
+                <p>{t('admin.sendDesc')}</p>
             </div>
 
             {/* ── Tab ── */}
@@ -181,15 +188,15 @@ export default function AdminNotification() {
                     className={`notif-admin-tab ${activeTab === 'send' ? 'active' : ''}`}
                     onClick={() => setActiveTab('send')}
                 >
-                    <Send size={15} /> Kirim Pesan
+                    <Send size={15} /> {t('admin.notifSend')}
                 </button>
                 <button
                     className={`notif-admin-tab ${activeTab === 'history' ? 'active' : ''}`}
                     onClick={() => setActiveTab('history')}
                 >
-                    <Clock size={15} /> History
+                    <Clock size={15} /> {t('admin.history')}
                     {totalUnread > 0 && (
-                        <span className="hist-unread-badge">{totalUnread} belum dibaca</span>
+                        <span className="hist-unread-badge">{totalUnread} {t('admin.notifTotalUnread')}</span>
                     )}
                 </button>
             </div>
@@ -200,26 +207,26 @@ export default function AdminNotification() {
             {activeTab === 'send' && (
                 <div className="admin-table-wrapper">
                     <div className="admin-table-header">
-                        <h2>Daftar User</h2>
+                        <h2>{t('admin.notifUserList')}</h2>
                         <span style={{ fontSize: '0.82rem', color: '#d1a0b8' }}>
-                            {users.length} user terdaftar
+                            {users.length} {t('admin.notifUsers')}
                         </span>
                     </div>
 
                     {loadingUsers ? (
                         <div className="admin-loading">
                             <Loader2 size={28} className="spin" />
-                            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat user...</p>
+                            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('admin.notifLoadingUsers')}</p>
                         </div>
                     ) : users.length === 0 ? (
-                        <div className="admin-empty">Belum ada user terdaftar.</div>
+                        <div className="admin-empty">{t('admin.masege-empty2')}</div>
                     ) : (
                         <table className="admin-table">
                             <thead>
                                 <tr>
-                                    <th>User</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
+                                    <th>{t('admin.notifUser')}</th>
+                                    <th>{t('admin.notifEmail')}</th>
+                                    <th>{t('admin.notifAksi')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -244,7 +251,7 @@ export default function AdminNotification() {
                                                 className="btn-send-notif"
                                                 onClick={() => handleOpenSend(user)}
                                             >
-                                                <Send size={14} /> Kirim Pesan
+                                                <Send size={14} /> {t('admin.notifSend')}
                                             </button>
                                         </td>
                                     </tr>
@@ -264,15 +271,15 @@ export default function AdminNotification() {
                     <div className="hist-stats-row">
                         <div className="hist-stat-card">
                             <span className="hist-stat-value">{totalSent}</span>
-                            <span className="hist-stat-label">Total Terkirim</span>
+                            <span className="hist-stat-label">{t('admin.notifTotalSent')}</span>
                         </div>
                         <div className="hist-stat-card hist-stat-read">
                             <span className="hist-stat-value">{totalRead}</span>
-                            <span className="hist-stat-label">Sudah Dibaca</span>
+                            <span className="hist-stat-label">{t('admin.notifTotalRead')}</span>
                         </div>
                         <div className="hist-stat-card hist-stat-unread">
                             <span className="hist-stat-value">{totalUnread}</span>
-                            <span className="hist-stat-label">Belum Dibaca</span>
+                            <span className="hist-stat-label">{t('admin.notifTotalUnread')}</span>
                         </div>
                     </div>
 
@@ -283,7 +290,7 @@ export default function AdminNotification() {
                             <Search size={16} color="#f472b6" />
                             <input
                                 type="text"
-                                placeholder="Cari judul, pesan, atau nama user..."
+                                placeholder={t('admin.notifSearch')}
                                 value={histSearch}
                                 onChange={e => setHistSearch(e.target.value)}
                             />
@@ -303,9 +310,9 @@ export default function AdminNotification() {
                                     className={`hist-filter-btn ${filterStatus === status ? 'active' : ''}`}
                                     onClick={() => setFilterStatus(status)}
                                 >
-                                    {status === 'all' ? 'Semua' : ''}
-                                    {status === 'unread' ? 'Belum Dibaca' : ''}
-                                    {status === 'read' ? 'Sudah Dibaca' : ''}
+                                    {status === 'all' ? t('admin.notifAll') : ''}
+                                    {status === 'unread' ? t('admin.notifTotalUnread') : ''}
+                                    {status === 'read' ? t('admin.notifTotalRead') : ''}
                                 </button>
                             ))}
                         </div>
@@ -315,34 +322,34 @@ export default function AdminNotification() {
                             className="hist-refresh-btn"
                             onClick={handleRefresh}
                             disabled={refreshing}
-                            title="Refresh history"
+                            title={t('admin.notifRefresh')}
                         >
                             <RefreshCw size={15} className={refreshing ? 'spin' : ''} />
-                            {refreshing ? 'Memuat...' : 'Refresh'}
+                            {refreshing ? t('common.loading') : t('admin.notifRefresh')}
                         </button>
                     </div>
 
                     {/* ── List history ── */}
                     <div className="admin-table-wrapper">
                         <div className="admin-table-header">
-                            <h2>Pesan Terkirim</h2>
+                            <h2>{t('admin.notifHistory')}</h2>
                             <span style={{ fontSize: '0.82rem', color: '#d1a0b8' }}>
-                                {filteredHistory.length} dari {totalSent} pesan
+                                {filteredHistory.length} {t('admin.notifOf')} {totalSent} {t('admin.notifHistory')}
                             </span>
                         </div>
 
                         {loadingHist ? (
                             <div className="admin-loading">
                                 <Loader2 size={28} className="spin" />
-                                <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat history...</p>
+                                <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('admin.notifLoading')}</p>
                             </div>
                         ) : filteredHistory.length === 0 ? (
                             <div className="admin-empty">
                                 <Bell size={32} style={{ opacity: 0.3, marginBottom: '0.5rem' }} />
                                 <p>
                                     {histSearch || filterStatus !== 'all'
-                                        ? 'Tidak ada pesan yang cocok dengan filter.'
-                                        : 'Belum ada pesan yang dikirim.'}
+                                        ? t('admin.notifNoMatch')
+                                        : t('admin.masege-empty2')}
                                 </p>
                             </div>
                         ) : (
@@ -371,7 +378,7 @@ export default function AdminNotification() {
                                                 <span>
                                                     {notif.user
                                                         ? `${notif.user.name} (@${notif.user.username})`
-                                                        : `User ID: ${notif.userId.slice(0, 8)}...`
+                                                        : `${t('admin.notifUserID')} ${notif.userId.slice(0, 8)}...`
                                                     }
                                                 </span>
                                                 <span className="notif-meta-dot">·</span>
@@ -382,7 +389,7 @@ export default function AdminNotification() {
 
                                         {/* Badge status baca */}
                                         <span className={`notif-status-badge ${notif.isRead ? 'read' : 'unread'}`}>
-                                            {notif.isRead ? '✓ Dibaca' : '● Belum Dibaca'}
+                                            {notif.isRead ? t('admin.notifReadBadge') : t('admin.notifUnreadBadge')}
                                         </span>
                                     </div>
                                 ))}
@@ -400,9 +407,9 @@ export default function AdminNotification() {
                     <div className="notif-send-modal">
                         <div className="notif-modal-header">
                             <div>
-                                <h3>Kirim Pesan</h3>
+                                <h3>{t('admin.notifModalTitle')}</h3>
                                 <p>
-                                    Kepada: <strong>{selectedUser.name}</strong>
+                                    {t('admin.to')}: <strong>{selectedUser.name}</strong>
                                     <span style={{ color: '#d1a0b8' }}> (@{selectedUser.username})</span>
                                 </p>
                             </div>
@@ -417,31 +424,31 @@ export default function AdminNotification() {
 
                         <div className="notif-modal-body">
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Judul Pesan</label>
+                                <label className="notif-form-label">{t('admin.title')}</label>
                                 <input
                                     className="notif-form-input"
                                     type="text"
-                                    placeholder="contoh: Buku Baru Tersedia!"
+                                    placeholder={t('admin.notifTitlePlace')}
                                     value={title}
                                     onChange={e => setTitle(e.target.value)}
                                     maxLength={100}
                                     disabled={!!sending || !!sendSuccess}
                                 />
-                                <span className="notif-char-count">{title.length}/100</span>
+                                <span className="notif-char-count">{title.length}{t('admin.notifCharLimit')}</span>
                             </div>
 
                             <div className="notif-form-group">
-                                <label className="notif-form-label">Isi Pesan</label>
+                                <label className="notif-form-label">{t('admin.notifMessage')}</label>
                                 <textarea
                                     className="notif-form-textarea"
-                                    placeholder="Tulis isi pesan untuk user ini..."
+                                    placeholder={t('admin.notifMsgPlace')}
                                     value={message}
                                     onChange={e => setMessage(e.target.value)}
                                     maxLength={500}
                                     rows={4}
                                     disabled={!!sending || !!sendSuccess}
                                 />
-                                <span className="notif-char-count">{message.length}/500</span>
+                                <span className="notif-char-count">{message.length}{t('admin.notifCharLimitMsg')}</span>
                             </div>
 
                             {sendError && (
@@ -461,7 +468,7 @@ export default function AdminNotification() {
                                     onClick={() => { setShowModal(false); setSendError('') }}
                                     disabled={!!sending}
                                 >
-                                    Batal
+                                    {t('admin.cancel')}
                                 </button>
                                 <button
                                     className="btn-send-confirm"
@@ -469,8 +476,8 @@ export default function AdminNotification() {
                                     disabled={!!sending || !title.trim() || !message.trim()}
                                 >
                                     {sending
-                                        ? <><Loader2 size={15} className="spin" /> Mengirim...</>
-                                        : <><Send size={15} /> Kirim Pesan</>
+                                        ? <><Loader2 size={15} className="spin" /> {t('admin.notifSending')}</>
+                                        : <><Send size={15} /> {t('admin.send')}</>
                                     }
                                 </button>
                             </div>

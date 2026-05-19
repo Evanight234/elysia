@@ -4,6 +4,7 @@ import { useState } from 'react'
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 interface Book {
     id: string
@@ -18,6 +19,7 @@ export default function AdminSearch() {
     const [results, setResults] = useState<Book[]>([])
     const [loading, setLoading] = useState(false)
     const { t } = useTranslation()
+    const { toast } = useToastContext()
 
     const handleSearch = async () => {
         if (!query.trim()) return
@@ -35,15 +37,15 @@ export default function AdminSearch() {
     return (
         <AdminLayout>
             <div className="admin-page-header">
-                <h1>Search Buku</h1>
-                <p>Cari dan kelola buku dalam sistem ElysiaApp.</p>
+                <h1>{t('admin.searchTitle')}</h1>
+                <p>{t('admin.searchSub')}</p>
             </div>
 
             <div className="admin-search-box">
                 <SearchIcon size={20} color="#d1a0b8" />
                 <input
                     type="text"
-                    placeholder="Cari judul buku atau kategori..."
+                    placeholder={t('admin.searchPlaceholder')}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -53,7 +55,7 @@ export default function AdminSearch() {
                     onClick={handleSearch}
                     disabled={loading}
                 >
-                    {loading ? 'Searching...' : 'Search'}
+                    {loading ? t('admin.searchLoading') : t('admin.searchBtn')}
                 </button>
             </div>
 
@@ -75,14 +77,14 @@ export default function AdminSearch() {
                             </div>
                         </div>
                         <button className="btn-add-rec" style={{ background: '#fce7f3', color: '#be185d' }}>
-                            <BookOpen size={16} /> Detail
+                            <BookOpen size={16} /> {t('admin.searchDetail')}
                         </button>
                     </div>
                 ))}
 
                 {query && results.length === 0 && !loading && (
                     <div className="admin-empty">
-                        Tidak ada buku yang ditemukan untuk "{query}"
+                        {t('admin.searchNoResult')} "{query}"
                     </div>
                 )}
             </div>

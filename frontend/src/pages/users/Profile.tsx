@@ -4,9 +4,11 @@ import './UserPages.css';
 import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react';
 import api from '../../api/axios';
 import { useTranslation } from 'react-i18next';
+import { useToastContext } from '../../context/ToastContext';
 
 export default function Profile() {
   const { t } = useTranslation();
+  const { toast } = useToastContext();
   const user = JSON.parse(
     localStorage.getItem('user') ||
     '{"name":"User","username":"user123","email":"user@example.com","createdAt":"","role":"USER"}'
@@ -76,12 +78,13 @@ export default function Profile() {
       setPreviewUrl('')
       setSelectedFile(null)
       setUploadSuccess(true)
+      toast.success(t('profile.uploadSuccess'))
       setTimeout(() => setUploadSuccess(false), 3000)
 
     } catch (error: any) {
-      setUploadError(
-        error.response?.data?.message || t('profile.uploadError')
-      )
+      const msg = error.response?.data?.message || t('profile.uploadError')
+      setUploadError(msg)
+      toast.error(msg)
     } finally {
       setUploading(false)
     }
@@ -117,7 +120,7 @@ export default function Profile() {
           <button
             className="profile-camera-btn"
             onClick={() => fileInputRef.current?.click()}
-            title="Ganti foto profil"
+            title={t('profile.changePhoto')}
             disabled={uploading}
           >
             <Camera size={16} />
@@ -170,10 +173,10 @@ export default function Profile() {
             <span className="detail-label">{t('profile.joined')}</span>
             <span className="detail-value">
               {user.createdAt
-                ? new Date(user.createdAt).toLocaleDateString('id-ID', {
+                ? new Date(user.createdAt).toLocaleDateString(t('lang'), {
                   year: 'numeric', month: 'long', day: 'numeric'
                 })
-                : 'Baru saja'}
+                : t('timeAgo.justNow')}
             </span>
           </div>
         </div>

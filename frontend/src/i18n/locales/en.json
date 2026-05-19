@@ -64,6 +64,41 @@
         "sizeUploadError": "Maximum file size is 2MB."
     },
     "admin": {
+        "notifTitle": "Send Notification",
+        "notifUserList": "User List",
+        "notifUser": "User",
+        "notifAksi": "Action",
+        "notifSend": "Send Message",
+        "notifHistory": "Sent Messages",
+        "notifSearch": "Search title, message, or user name...",
+        "notifAll": "All",
+        "notifTotalSent": "Total Sent",
+        "notifTotalRead": "Read",
+        "notifTotalUnread": "Unread",
+        "notifReadBadge": "✓ Read",
+        "notifUnreadBadge": "● Unread",
+        "notifRefresh": "Refresh",
+        "notifNoMatch": "No messages match the filter.",
+        "notifLoading": "Loading history...",
+        "notifLoadingUsers": "Loading users...",
+        "notifSending": "Sending...",
+        "notifMessage": "Message Content",
+        "notifModalTitle": "Send Message",
+        "notifUsers": "users registered",
+        "notifOf": "of",
+        "searchTitle": "Search Books",
+        "searchSub": "Search and manage books in ElysiaApp.",
+        "searchPlaceholder": "Search book title or category...",
+        "searchBtn": "Search",
+        "searchLoading": "Searching...",
+        "searchDetail": "Details",
+        "notifEmail": "Email",
+        "notifUserID": "User ID:",
+        "notifTitlePlace": "e.g. New Book Available!",
+        "notifMsgPlace": "Write a message for this user...",
+        "notifCharLimit": "/100",
+        "notifCharLimitMsg": "/500",
+        "searchNoResult": "No books found for",
         "dashboard": "Admin Dashboard",
         "dashSub": "Welcome! Monitor ElysiaApp activity from here.",
         "totalUser": "Total Users",
@@ -172,6 +207,7 @@
         "loadingC": "Loading chapters...",
         "change-Cover": "Change Cover"
     },
+    "lang": "en-US",
     "common": {
         "book": "book",
         "by": "by",
@@ -340,5 +376,20 @@
         "confirm-error-password": "Password and confirmation password do not match",
         "register-failed": "Error occurred during registration. Please ensure backend is running.",
         "Account-exist": "Account already exists"
+    },
+    "timeAgo": {
+        "justNow": "Just now",
+        "minutesAgo": "{{count}} minutes ago",
+        "hoursAgo": "{{count}} hours ago",
+        "daysAgo": "{{count}} days ago"
+    },
+    "readChapter": {
+        "tableOfContents": "Table of Contents",
+        "chapter": "Chapter",
+        "chapters": "Chapters",
+        "of": "/",
+        "liked": "Liked this story",
+        "giveHeart": "Give it a heart",
+        "loading": "Loading magic..."
     }
 }

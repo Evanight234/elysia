@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 import AdminLayout from './AdminLayout'
 import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react'
 import api from '../../api/axios'
@@ -7,6 +8,7 @@ import './AdminPage.css'
 
 export default function AdminProfile() {
     const { t } = useTranslation()
+    const { toast } = useToastContext()
     const user = JSON.parse(
         localStorage.getItem('user') ||
         '{"name":"Admin","username":"admin","email":"admin@elysiaapp.com","createdAt":"","role":"ADMIN"}'
@@ -76,11 +78,12 @@ export default function AdminProfile() {
             setPreviewUrl('')
             setSelectedFile(null)
             setUploadSuccess(true)
+            toast.success(t('profile.uploadSuccess'))
             setTimeout(() => setUploadSuccess(false), 3000)
         } catch (err: any) {
-            setUploadError(
-                err.response?.data?.message || t('profile.uploadError')
-            )
+            const msg = err.response?.data?.message || t('profile.uploadError')
+            setUploadError(msg)
+            toast.error(msg)
         } finally {
             setUploading(false)
         }

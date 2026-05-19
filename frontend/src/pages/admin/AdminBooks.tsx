@@ -7,6 +7,7 @@ import {
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 import { translateCategory } from '../../utils/categoryHelper'
 
 // ─── Tipe Data ───────────────────────────────────────────
@@ -54,6 +55,7 @@ export default function AdminBooks() {
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const { t } = useTranslation()
+    const { toast } = useToastContext()
 
     // ── Fetch semua buku ───────────────────────────────────
     useEffect(() => { fetchBooks() }, [])
@@ -149,13 +151,14 @@ export default function AdminBooks() {
             })
 
             setSubmitSuccess(true)
-            // Reload list buku
+            toast.success(t('books.successfully-upload'))
             await fetchBooks()
-            // Tutup modal setelah 1.5 detik
             setTimeout(() => handleCloseModal(), 1500)
 
         } catch (err: any) {
-            setSubmitError(err.response?.data?.message || t('common.errorAdd'))
+            const msg = err.response?.data?.message || t('common.errorAdd')
+            setSubmitError(msg)
+            toast.error(msg)
         } finally {
             setSubmitting(false)
         }
@@ -166,12 +169,14 @@ export default function AdminBooks() {
         if (!deleteTarget) return
         try {
             setDeleting(true)
-            // DELETE /books/:id
             await api.delete(`/books/${deleteTarget.id}`)
             setBooks(prev => prev.filter(b => b.id !== deleteTarget.id))
             setDeleteTarget(null)
-        } catch (err) {
-            setSubmitError(err.response?.data?.message || t('common.errordeleteBook'))
+            toast.success(t('books.successfully-delete'))
+        } catch (err: any) {
+            const msg = err.response?.data?.message || t('common.errordeleteBook')
+            setSubmitError(msg)
+            toast.error(msg)
         } finally {
             setDeleting(false)
         }

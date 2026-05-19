@@ -4,6 +4,7 @@ import './UserPages.css';
 import { Mail, Info, Loader2 } from 'lucide-react';
 import api from '../../api/axios';
 import { useTranslation } from 'react-i18next';
+import { useToastContext } from '../../context/ToastContext';
 
 
 interface Notification {
@@ -19,7 +20,8 @@ export default function Notifications() {
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
+    const { t } = useTranslation();
+    const { toast } = useToastContext();
 
   // Ambil notifikasi dari backend saat halaman dibuka
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function Notifications() {
       );
     } catch (error) {
       console.error('Gagal menandai notifikasi:', error);
+      toast.error(t('notifications.loading'));
     }
   };
 
@@ -57,6 +60,7 @@ export default function Notifications() {
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     } catch (error) {
       console.error('Gagal menandai semua notifikasi:', error);
+      toast.error(t('notifications.loading'));
     }
   };
 
@@ -66,11 +70,12 @@ export default function Notifications() {
   const timeAgo = (dateStr: string) => {
     const diff = Date.now() - new Date(dateStr).getTime();
     const minutes = Math.floor(diff / 60000);
-    if (minutes < 60) return `${minutes} menit yang lalu`;
+    if (minutes < 1) return t('timeAgo.justNow');
+    if (minutes < 60) return t('timeAgo.minutesAgo', { count: minutes });
     const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} jam yang lalu`;
+    if (hours < 24) return t('timeAgo.hoursAgo', { count: hours });
     const days = Math.floor(hours / 24);
-    return `${days} hari yang lalu`;
+    return t('timeAgo.daysAgo', { count: days });
   };
 
   return (

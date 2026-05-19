@@ -123,7 +123,42 @@
         "add book": "本を追加",
         "emptyB": "まだ本がありません。+ をクリックして追加してください。",
         "addB": "新しい本を追加",
-        "editBook": "本を編集"
+        "editBook": "本を編集",
+        "notifTitle": "通知を送信",
+        "notifUserList": "ユーザー一覧",
+        "notifUser": "ユーザー",
+        "notifAksi": "操作",
+        "notifSend": "メッセージを送信",
+        "notifHistory": "送信済みメッセージ",
+        "notifSearch": "タイトル、メッセージ、ユーザー名を検索...",
+        "notifAll": "すべて",
+        "notifTotalSent": "総送信数",
+        "notifTotalRead": "既読",
+        "notifTotalUnread": "未読",
+        "notifReadBadge": "✓ 既読",
+        "notifUnreadBadge": "● 未読",
+        "notifRefresh": "更新",
+        "notifNoMatch": "フィルターに一致するメッセージがありません。",
+        "notifLoading": "履歴を読み込み中...",
+        "notifLoadingUsers": "ユーザーを読み込み中...",
+        "notifSending": "送信中...",
+        "notifMessage": "メッセージ内容",
+        "notifModalTitle": "メッセージを送信",
+        "notifUsers": "登録ユーザー",
+        "notifOf": "/",
+        "searchTitle": "本を検索",
+        "searchSub": "ElysiaApp で本を検索・管理します。",
+        "searchPlaceholder": "本のタイトルまたはカテゴリを検索...",
+        "searchBtn": "検索",
+        "searchLoading": "検索中...",
+        "searchDetail": "詳細",
+        "searchNoResult": "該当する本は見つかりませんでした",
+        "notifEmail": "メール",
+        "notifUserID": "ユーザーID:",
+        "notifTitlePlace": "例: 新着本のお知らせ！",
+        "notifMsgPlace": "このユーザーへのメッセージを入力...",
+        "notifCharLimit": "/100",
+        "notifCharLimitMsg": "/500"
     },
     "auth": {
         "login": "ログイン",
@@ -172,6 +207,7 @@
         "loadingC": "章を読み込み中...",
         "change-Cover": "表紙を変更"
     },
+    "lang": "ja-JP",
     "common": {
         "book": "本",
         "by": "著者",
@@ -340,5 +376,20 @@
         "confirm-error-password": "パスワードと確認用パスワードが一致しません",
         "register-failed": "登録中にエラーが発生しました。バックエンドが実行されていることを確認してください。",
         "Account-exist": "アカウントは既に存在します"
+    },
+    "timeAgo": {
+        "justNow": "たった今",
+        "minutesAgo": "{{count}}分前",
+        "hoursAgo": "{{count}}時間前",
+        "daysAgo": "{{count}}日前"
+    },
+    "readChapter": {
+        "tableOfContents": "目次",
+        "chapter": "章",
+        "chapters": "章",
+        "of": "/",
+        "liked": "気に入りました",
+        "giveHeart": "ハートを送る",
+        "loading": "魔法を読み込み中..."
     }
 }

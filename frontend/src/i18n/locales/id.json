@@ -64,6 +64,41 @@
         "sizeUploadError": "Ukuran file maksimal 2MB."
     },
     "admin": {
+        "notifTitle": "Kirim Notifikasi",
+        "notifUserList": "Daftar User",
+        "notifUser": "Pengguna",
+        "notifAksi": "Aksi",
+        "notifSend": "Kirim Pesan",
+        "notifHistory": "Pesan Terkirim",
+        "notifSearch": "Cari judul, pesan, atau nama user...",
+        "notifAll": "Semua",
+        "notifTotalSent": "Total Terkirim",
+        "notifTotalRead": "Sudah Dibaca",
+        "notifTotalUnread": "Belum Dibaca",
+        "notifReadBadge": "✓ Dibaca",
+        "notifUnreadBadge": "● Belum Dibaca",
+        "notifRefresh": "Refresh",
+        "notifNoMatch": "Tidak ada pesan yang cocok dengan filter.",
+        "notifLoading": "Memuat riwayat...",
+        "notifLoadingUsers": "Memuat user...",
+        "notifSending": "Mengirim...",
+        "notifMessage": "Isi Pesan",
+        "notifModalTitle": "Kirim Pesan",
+        "notifUsers": "user terdaftar",
+        "notifOf": "dari",
+        "searchTitle": "Cari Buku",
+        "searchSub": "Cari dan kelola buku dalam sistem ElysiaApp.",
+        "searchPlaceholder": "Cari judul buku atau kategori...",
+        "searchBtn": "Cari",
+        "searchLoading": "Mencari...",
+        "searchDetail": "Detail",
+        "notifEmail": "Email",
+        "notifUserID": "User ID:",
+        "notifTitlePlace": "contoh: Buku Baru Tersedia!",
+        "notifMsgPlace": "Tulis isi pesan untuk user ini...",
+        "notifCharLimit": "/100",
+        "notifCharLimitMsg": "/500",
+        "searchNoResult": "Tidak ada buku yang ditemukan untuk",
         "dashboard": "Dashboard Admin",
         "dashSub": "Selamat datang! Pantau aktivitas ElysiaApp dari sini.",
         "totalUser": "Total Pengguna",
@@ -172,6 +207,7 @@
         "loadingC": "Memuat chapter...",
         "change-Cover": "Ubah Sampul"
     },
+    "lang": "id-ID",
     "common": {
         "book": "buku",
         "by": "oleh",
@@ -340,5 +376,20 @@
         "confirm-error-password": "Password dan konfirmasi password tidak cocok",
         "register-failed": "Terjadi kesalahan saat registrasi. Pastikan backend sudah berjalan.",
         "Account-exist": "Akun sudah ada"
+    },
+    "timeAgo": {
+        "justNow": "Baru saja",
+        "minutesAgo": "{{count}} menit yang lalu",
+        "hoursAgo": "{{count}} jam yang lalu",
+        "daysAgo": "{{count}} hari yang lalu"
+    },
+    "readChapter": {
+        "tableOfContents": "Daftar Isi",
+        "chapter": "Chapter",
+        "chapters": "Chapter",
+        "of": "/",
+        "liked": "Menyukai ini",
+        "giveHeart": "Beri hati",
+        "loading": "Memuat keajaiban..."
     }
 }

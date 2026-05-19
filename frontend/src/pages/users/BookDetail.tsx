@@ -5,6 +5,7 @@ import { Heart, Eye, BookOpen, ChevronLeft, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
 import './UserPages.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 import { translateCategory } from '../../utils/categoryHelper'
 
 interface Chapter {
@@ -34,6 +35,7 @@ export default function BookDetail() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const { t } = useTranslation()
+    const { toast } = useToastContext()
 
     useEffect(() => {
         const fetchBookDetail = async () => {
@@ -78,21 +80,20 @@ export default function BookDetail() {
         .find(chapter => chapter.isRead)
 
     const HandleReadNow = async () => {
-        // Logika "Baca Sekarang": Tambahkan ke library dengan status READING
         try {
             await api.post('/library', { bookId: book.id, status: t('bookDetail.reading') })
         } catch (err) {
             console.error('Failed to update library status:', err)
+            toast.error(t('bookDetail.errorFav'))
         }
 
         const target = lastChapterRead ?? (book.chapters.length > 0 ? book.chapters[0] : null)
         if (target) {
             navigate(`/read/${book.id}/chapter/${target.number}`)
         } else {
-            alert(t('bookDetail.errorChapterLoad'))
+            toast.error(t('bookDetail.errorChapterLoad'))
         }
     }
-    // togle Like
 
     // toggle Like
     const handleLike = async () => {
@@ -106,6 +107,7 @@ export default function BookDetail() {
             }))
         } catch (err) {
             console.error('Failed to toggle like:', err)
+            toast.error(t('bookDetail.errorFavToggle'))
         }
     }
 
@@ -141,11 +143,11 @@ export default function BookDetail() {
                         <div className='book-stats'>
                             <div className='stats-items'>
                                 <Heart size={18} fill={book.isLiked ? 'var(--pink-500)' : 'none'} color="var(--pink-500)" />
-                                <span>{book.likeCount.toLocaleString('id-ID')} {t('bookDetail.like')} </span>
+                                <span>{book.likeCount.toLocaleString(t('lang'))} {t('bookDetail.like')} </span>
                             </div>
                             <div className='stats-items'>
                                 <Eye size={18} />
-                                <span>{book.viewCount.toLocaleString('id-ID')} {t('bookDetail.views')} </span>
+                                <span>{book.viewCount.toLocaleString(t('lang'))} {t('bookDetail.views')} </span>
                             </div>
                         </div>
                         <p className='book-description'>{book.description || t('bookDetail.noDescription')}</p>

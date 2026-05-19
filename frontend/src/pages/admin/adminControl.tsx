@@ -4,6 +4,7 @@ import { Trash2, Users, Loader2, Search } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 interface UserData {
   id: string
@@ -19,8 +20,9 @@ export default function AdminUserControl() {
   const [search, setSearch] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<UserData | null>(null)
   const [deleting, setDeleting] = useState(false)
-  const { t } = useTranslation()
-  useEffect(() => { fetchUsers() }, [])
+    const { t } = useTranslation()
+    const { toast } = useToastContext()
+    useEffect(() => { fetchUsers() }, [])
 
   const fetchUsers = async () => {
     try {
@@ -48,7 +50,10 @@ export default function AdminUserControl() {
       await api.delete(`/admin/users/${deleteTarget.id}`)
       setUsers(prev => prev.filter(u => u.id !== deleteTarget.id))
       setDeleteTarget(null)
-    } catch (err) {
+      toast.success(t('admin.deleteConfirm'))
+    } catch (err: any) {
+      const msg = err.response?.data?.message || t('admin.delete-loading')
+      toast.error(msg)
       console.error('failed to delete user', err)
     } finally {
       setDeleting(false)

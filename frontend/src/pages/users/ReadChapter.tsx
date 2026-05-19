@@ -5,6 +5,7 @@ import api from '../../api/axios'
 import CommentSection from '../../components/ui/CommentSection'
 import './ReadChapter.css'
 import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 // ── Tipe Data ──────────────────────────────────────────────
 interface Paragraph {
@@ -51,6 +52,7 @@ export default function ReadChapter() {
     const [isLiked, setIsLiked] = useState(false)
     const [isRead, setIsRead] = useState(false)
     const { t } = useTranslation()
+    const { toast } = useToastContext()
 
     const currentNum = parseInt(number || '1')
 
@@ -92,6 +94,7 @@ export default function ReadChapter() {
             } catch (err: any) {
                 console.error(err)
                 setError(t('ChapterRead.error'))
+                toast.error(t('ChapterRead.error'))
             } finally {
                 setLoading(false)
             }
@@ -110,6 +113,7 @@ export default function ReadChapter() {
                     setIsRead(true)
                 } catch (err) {
                     console.error('Failed to update progress:', err)
+                    toast.error(t('bookDetail.errorChapter'))
                 }
             }
         }
@@ -142,6 +146,7 @@ export default function ReadChapter() {
             setIsLiked(res.data.data.liked)
         } catch (err) {
             console.error('Failed to toggle like:', err)
+            toast.error(t('bookDetail.errorFavToggle'))
         }
     }
 
@@ -166,7 +171,7 @@ export default function ReadChapter() {
         return (
             <div className="reader-root loading">
                 <Loader2 className="animate-spin" size={40} />
-                <p>{t('ChapterRead.loading')}</p>
+                <p>{t('readChapter.loading')}</p>
             </div>
         )
     }
@@ -307,7 +312,7 @@ export default function ReadChapter() {
                             </button>
 
                             <div className="footer-progress">
-                                <span>{currentNum} / {book.totalChapters} Chapters</span>
+                                <span>{currentNum} {t('readChapter.of')} {book.totalChapters} {t('readChapter.chapters')}</span>
                             </div>
 
                             <button
@@ -324,7 +329,7 @@ export default function ReadChapter() {
                                 onClick={handleLike}
                             >
                                 <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
-                                {isLiked ? 'Liked this story' : 'Give it a heart'}
+                                {isLiked ? t('readChapter.liked') : t('readChapter.giveHeart')}
                             </button>
                         </div>
                     </footer>
@@ -336,7 +341,7 @@ export default function ReadChapter() {
                     <div className="panel-overlay" onClick={() => setShowChapterList(false)} />
                     <aside className="premium-panel">
                         <div className="panel-header">
-                            <h3>Table of Contents</h3>
+                            <h3>{t('readChapter.tableOfContents')}</h3>
                             <button className="panel-close" onClick={() => setShowChapterList(false)}>
                                 <X size={24} />
                             </button>
@@ -348,7 +353,7 @@ export default function ReadChapter() {
                                     className={`panel-item ${ch.number === currentNum ? 'active' : ''} ${ch.isRead ? 'read' : ''}`}
                                     onClick={() => handleNavChapter(ch.number)}
                                 >
-                                    <span className="item-num">Chapter {ch.number}</span>
+                                    <span className="item-num">{t('readChapter.chapter')} {ch.number}</span>
                                     <span className="item-title">{ch.title}</span>
                                     {ch.isRead && <span className="read-status">✓</span>}
                                 </button>
