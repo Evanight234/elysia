@@ -3,6 +3,8 @@ import AdminLayout from './AdminLayout'
 import { Trash2, Users, Loader2, Search } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
+import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
 
 interface UserData {
   id: string
@@ -18,8 +20,9 @@ export default function AdminUserControl() {
   const [search, setSearch] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<UserData | null>(null)
   const [deleting, setDeleting] = useState(false)
-
-  useEffect(() => { fetchUsers() }, [])
+    const { t } = useTranslation()
+    const { toast } = useToastContext()
+    useEffect(() => { fetchUsers() }, [])
 
   const fetchUsers = async () => {
     try {
@@ -47,7 +50,10 @@ export default function AdminUserControl() {
       await api.delete(`/admin/users/${deleteTarget.id}`)
       setUsers(prev => prev.filter(u => u.id !== deleteTarget.id))
       setDeleteTarget(null)
-    } catch (err) {
+      toast.success(t('admin.deleteConfirm'))
+    } catch (err: any) {
+      const msg = err.response?.data?.message || t('admin.delete-loading')
+      toast.error(msg)
       console.error('failed to delete user', err)
     } finally {
       setDeleting(false)
@@ -57,8 +63,8 @@ export default function AdminUserControl() {
   return (
     <AdminLayout>
       <div className="admin-page-header">
-        <h1>Kontrol User</h1>
-        <p>Kelola semua akun yang terdaftar di ElysiaApp.</p>
+        <h1>{t('admin.userControl')}</h1>
+        <p>{t('admin.userSub')}</p>
       </div>
 
       {/* ── Stat Cards ── pakai class yang sama dengan AdminHome */}
@@ -68,7 +74,7 @@ export default function AdminUserControl() {
             <Users size={20} />
           </div>
           <div className="admin-stat-value">{loading ? '...' : userCount}</div>
-          <div className="admin-stat-label">Akun User</div>
+          <div className="admin-stat-label">{t('admin.accountUser')}</div>
         </div>
 
         <div className="admin-stat-card">
@@ -76,7 +82,7 @@ export default function AdminUserControl() {
             <Users size={20} />
           </div>
           <div className="admin-stat-value">{loading ? '...' : adminCount}</div>
-          <div className="admin-stat-label">Akun Admin</div>
+          <div className="admin-stat-label">{t('admin.accountAdmin')}</div>
         </div>
 
         <div className="admin-stat-card">
@@ -84,7 +90,7 @@ export default function AdminUserControl() {
             <Users size={20} />
           </div>
           <div className="admin-stat-value">{loading ? '...' : users.length}</div>
-          <div className="admin-stat-label">Total Akun</div>
+          <div className="admin-stat-label">{t('admin.totalAccounts')}</div>
         </div>
       </div>
 
@@ -93,7 +99,7 @@ export default function AdminUserControl() {
         <Search size={20} color="#f472b6" />
         <input
           type="text"
-          placeholder="Cari nama atau email user..."
+          placeholder={t('admin.searchUser')}
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
@@ -108,30 +114,30 @@ export default function AdminUserControl() {
       {/* ── Tabel User ── pakai class admin-table seperti AdminHome */}
       <div className="admin-table-wrapper">
         <div className="admin-table-header">
-          <h2>Semua User</h2>
+          <h2>{t('admin.allUsers')}</h2>
           <span style={{ fontSize: '0.82rem', color: '#d1a0b8' }}>
-            {filtered.length} akun ditemukan
+            {filtered.length} {t('admin.found')}
           </span>
         </div>
 
         {loading ? (
           <div className="admin-loading">
             <Loader2 size={28} className="spin" />
-            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>Memuat user...</p>
+            <p style={{ marginTop: '0.5rem', color: '#d1a0b8' }}>{t('common.loading')}...</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="admin-empty">
-            {search ? `Tidak ada user dengan kata kunci "${search}"` : 'Belum ada user.'}
+            {search ? `${t('admin.empty-user')} "${search}"` : t('common.noUsers')}
           </div>
         ) : (
           // ← tambah className="admin-table" di sini
           <table className="admin-table">
             <thead>
               <tr>
-                <th>User</th>
-                <th>Role</th>
-                <th>Bergabung</th>
-                <th>Aksi</th>
+                <th>{t('settings.user')}</th>
+                <th>{t('settings.role')}</th>
+                <th>{t('settings.joined')}</th>
+                <th>{t('settings.action')}</th>
               </tr>
             </thead>
             <tbody>
@@ -164,7 +170,7 @@ export default function AdminUserControl() {
                         className="btn-delete"
                         onClick={() => setDeleteTarget(user)}
                       >
-                        <Trash2 size={14} /> Hapus
+                        <Trash2 size={14} /> {t('admin.delete')}
                       </button>
                     ) : (
                       <span style={{ fontSize: '0.78rem', color: '#d1a0b8' }}>—</span>
@@ -181,10 +187,10 @@ export default function AdminUserControl() {
       {deleteTarget && (
         <div className="confirm-overlay">
           <div className="confirm-box">
-            <h3>Hapus Akun?</h3>
+            <h3>{t('admin.deleteTitle')}</h3>
             <p>
-              Akun <strong>{deleteTarget.name}</strong> ({deleteTarget.email}) akan
-              dihapus permanen dari database. Tindakan ini tidak bisa dibatalkan.
+              {t('settings.account')} <strong>{deleteTarget.name}</strong> ({deleteTarget.email}) {t('admin.deleteDesc')}
+              <br /> {t('admin.warning-delete')}
             </p>
             <div className="confirm-btns">
               <button
@@ -192,14 +198,14 @@ export default function AdminUserControl() {
                 onClick={() => setDeleteTarget(null)}
                 disabled={deleting}
               >
-                Batal
+                {t('admin.deleteCancel')}
               </button>
               <button
                 className="btn-confirm-delete"
                 onClick={handleDelete}
                 disabled={deleting}
               >
-                {deleting ? 'Menghapus...' : 'Ya, Hapus Permanen'}
+                {deleting ? t('admin.delete-loading') : t('admin.deleteConfirm')}
               </button>
             </div>
           </div>

@@ -75,7 +75,7 @@
   background: white;
   border: 1px solid #fce7f3;
   border-radius: 20px;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0 2px 12px rgba(236, 72, 153, 0.06);
 }
 
@@ -101,7 +101,7 @@
 
 .admin-table th {
   text-align: left;
-  padding: 0.85rem 1.5rem;
+  padding: 0.85rem 1rem;
   font-size: 0.75rem;
   font-weight: 700;
   color: #d1a0b8;
@@ -112,7 +112,7 @@
 }
 
 .admin-table td {
-  padding: 1rem 1.5rem;
+  padding: 1rem 1rem;
   font-size: 0.9rem;
   color: #4a2030;
   border-bottom: 1px solid #fdf2f8;
@@ -831,7 +831,7 @@
   gap: 1rem;
   padding: 1.1rem 1.5rem;
   border-bottom: 1px solid #fdf2f8;
-  transition: background 0.12s;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .notif-history-item:last-child {
@@ -1103,4 +1103,473 @@
 .btn-send-confirm:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════
+   KELOLA BUKU
+══════════════════════════════════════ */
+
+/* Tombol + tambah buku */
+.btn-add-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.5rem 1.1rem;
+  border-radius: 10px;
+  border: none;
+  background: #ec4899;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-add-book:hover {
+  opacity: 0.85;
+}
+
+/* Cover kecil di tabel */
+.book-cover-sm {
+  width: 44px;
+  height: 58px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fce7f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.book-cover-sm img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Judul & author di tabel */
+.book-title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.book-title-text {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a0010;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-author-text {
+  font-size: 0.78rem;
+  color: #d1a0b8;
+}
+
+/* ── Modal Tambah Buku ── */
+.add-book-modal {
+  background: white;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  scrollbar-width: thin;
+  scrollbar-color: #f9a8d4 transparent;
+}
+
+.add-book-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #fce7f3;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.add-book-modal-header h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #9d174d;
+  margin: 0;
+}
+
+.add-book-modal-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Cover Upload Area ── */
+.add-book-cover-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cover-upload-area {
+  width: 100%;
+  height: 180px;
+  border-radius: 14px;
+  border: 2px dashed #fce7f3;
+  background: #fffaf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-upload-area:hover {
+  border-color: #f9a8d4;
+  background: #fdf2f8;
+}
+
+.cover-upload-area.has-cover {
+  border-style: solid;
+  border-color: #f9a8d4;
+}
+
+.cover-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: #d1a0b8;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cover-hint {
+  font-size: 0.72rem;
+  color: #e0c0d0;
+  font-weight: 400;
+}
+
+.cover-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Overlay saat hover cover yang sudah dipilih */
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(236, 72, 153, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cover-upload-area:hover .cover-overlay {
+  opacity: 1;
+}
+
+/* ══════════════════════════════════════
+   KELOLA CHAPTER
+══════════════════════════════════════ */
+
+/* Badge ID chapter di tabel */
+.chapter-id-badge {
+  display: inline-block;
+  background: #fdf2f8;
+  border: 1px solid #fce7f3;
+  color: #be185d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+/* Badge nomor chapter */
+.chapter-number-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: #ede9fe;
+  color: #7c3aed;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* ── List pilih buku di modal step 1 ── */
+.book-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #f9a8d4 transparent;
+}
+
+.book-select-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #fce7f3;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+  text-align: left;
+}
+
+.book-select-item:hover {
+  background: #fdf2f8;
+  border-color: #f9a8d4;
+  transform: translateX(3px);
+}
+
+/* ── Preview ID yang akan dibuat ── */
+.chapter-id-preview {
+  background: #fdf9fb;
+  border: 1px solid #fce7f3;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.75rem;
+  align-items: center;
+}
+
+.chapter-id-preview-label {
+  font-size: 0.75rem;
+  color: #d1a0b8;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chapter-id-preview-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #be185d;
+  font-family: monospace;
+  background: #fce7f3;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* ══════════════════════════════════════
+   HISTORY NOTIFICATION
+══════════════════════════════════════ */
+
+/* Badge unread di tab */
+.hist-unread-badge {
+  display: inline-block;
+  background: #ec4899;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 20px;
+  margin-left: 4px;
+}
+
+/* ── Stat cards ── */
+.hist-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .hist-stats-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hist-stat-card {
+  background: white;
+  border: 1px solid #fce7f3;
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.06);
+}
+
+.hist-stat-read {
+  border-color: #bbf7d0;
+}
+
+.hist-stat-unread {
+  border-color: #fecdd3;
+}
+
+.hist-stat-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #9d174d;
+  line-height: 1;
+}
+
+.hist-stat-read .hist-stat-value {
+  color: #16a34a;
+}
+
+.hist-stat-unread .hist-stat-value {
+  color: #ec4899;
+}
+
+.hist-stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #d1a0b8;
+}
+
+/* ── Filter bar ── */
+.hist-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .hist-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hist-filter-btns {
+    justify-content: center;
+  }
+
+  .hist-refresh-btn {
+    justify-content: center;
+  }
+}
+
+/* Search box */
+.hist-search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  border: 1.5px solid #fce7f3;
+  border-radius: 12px;
+  padding: 0.5rem 0.9rem;
+  flex: 1;
+  min-width: 200px;
+  transition: border-color 0.15s;
+}
+
+.hist-search-box:focus-within {
+  border-color: #f472b6;
+}
+
+.hist-search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.88rem;
+  color: #2d2020;
+  font-family: inherit;
+}
+
+/* Filter tombol */
+.hist-filter-btns {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.hist-filter-btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 20px;
+  border: 1.5px solid #fce7f3;
+  background: white;
+  color: #be185d;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.hist-filter-btn:hover {
+  background: #fdf2f8;
+}
+
+.hist-filter-btn.active {
+  background: #ec4899;
+  color: white;
+  border-color: #ec4899;
+}
+
+/* Refresh button */
+.hist-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #fce7f3;
+  background: white;
+  color: #be185d;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.hist-refresh-btn:hover:not(:disabled) {
+  background: #fdf2f8;
+  border-color: #f9a8d4;
+}
+
+.hist-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Item history — unread highlight ── */
+.notif-history-item.notif-history-unread {
+  background: #fffaf8;
+  border-left: 3px solid #ec4899;
+}
+
+.notif-history-item.notif-history-unread:hover {
+  background: #fdf2f8;
+}
+
+/* Empty state in history */
+.notif-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  color: #d1a0b8;
 }

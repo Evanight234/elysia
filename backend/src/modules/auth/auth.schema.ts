@@ -13,3 +13,9 @@ export const LoginSchema = t.Object({
     email: t.String({ minLength: 1, error: 'Email atau username tidak boleh kosong' }),
     password: t.String({ minLength: 1, error: 'Password tidak boleh kosong' }),
 })
+
+export const resetPasswordSchema = t.Object({
+    email: t.String({ format: 'email', error: 'Format email tidak valid' }),
+    username: t.String({ minLength: 1, error: 'Username tidak boleh kosong' }),
+    newPassword: t.String({ minLength: 1, error: 'Password tidak boleh kosong' }),
+})

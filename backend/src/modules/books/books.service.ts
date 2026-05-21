@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { books } from "../../db/schema";
-import { eq, ilike, or, and } from "drizzle-orm";
+import { eq, ilike, or, and, count, sum, sql } from "drizzle-orm";
 import type { NewBook } from '../../db/schema'
 
 import { chapters } from "../../db/schema/chapter";
@@ -17,14 +17,14 @@ export const getBookById = async (id: string, userId?: string) => {
     if (!book) return null
 
     const bookChapters = await db.select().from(chapters).where(eq(chapters.bookId, id)).orderBy(chapters.number)
-    
+
     let isLiked = false
     if (userId) {
         isLiked = await checkIsLiked(userId, id)
     }
 
-    return { 
-        ...book, 
+    return {
+        ...book,
         chapters: bookChapters,
         isLiked
     }
@@ -42,9 +42,21 @@ export const searchBooks = async (query: string) => {
             )
         )
 }
-// tambah buku baru admin only
-export const createBook = async (data: NewBook) => {
-    const [book] = await db.insert(books).values(data).returning()
+// tambah buku baru admin only — ID sequential: book-1, book-2, dst
+export const createBook = async (data: Omit<NewBook, 'id'>) => {
+    // Ambil semua ID yang formatnya book-N untuk cari nomor terbesar
+    const allBooks = await db.select({ id: books.id }).from(books)
+    const maxNum = allBooks.reduce((max, b) => {
+        const match = b.id.match(/^book-(\d+)$/)
+        if (match) {
+            const num = parseInt(match[1], 10)
+            return num > max ? num : max
+        }
+        return max
+    }, 0)
+
+    const newId = `book-${maxNum + 1}`
+    const [book] = await db.insert(books).values({ ...data, id: newId }).returning()
     return book
 }
 
@@ -74,7 +86,7 @@ export const getChapterByNumber = async (bookId: string, chapterNum: number) => 
         .select()
         .from(chapters)
         .where(and(eq(chapters.bookId, bookId), eq(chapters.number, chapterNum)))
-    
+
     if (!chapterData) return null
 
     // Split content into paragraphs for the frontend
@@ -89,4 +101,42 @@ export const getChapterByNumber = async (bookId: string, chapterNum: number) => 
         paragraphs,
         totalComments: 0 // Placeholder
     }
+}
+
+// ── ADMIN ONLY ────────────────────────────────────────────────────────────
+
+// Statistik agregat buku untuk dashboard admin
+export const getAdminBookStats = async () => {
+    const [stats] = await db
+        .select({
+            totalBooks: count(books.id),
+            totalViews: sum(books.viewCount),
+            totalLikes: sum(books.likeCount),
+        })
+        .from(books)
+
+    const categoryRows = await db
+        .select({
+            category: books.category,
+            count: count(books.id),
+        })
+        .from(books)
+        .groupBy(books.category)
+        .orderBy(sql`count(${books.id}) desc`)
+
+    return {
+        totalBooks: Number(stats?.totalBooks ?? 0),
+        totalViews: Number(stats?.totalViews ?? 0),
+        totalLikes: Number(stats?.totalLikes ?? 0),
+        byCategory: categoryRows,
+    }
+}
+
+// Filter buku berdasarkan kategori (admin)
+export const getBooksByCategory = async (category: string) => {
+    return await db
+        .select()
+        .from(books)
+        .where(ilike(books.category, category))
+        .orderBy(books.createdAt)
 }

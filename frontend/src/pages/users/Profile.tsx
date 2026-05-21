@@ -3,8 +3,12 @@ import UserLayout from '../../components/layout/UserLayout';
 import './UserPages.css';
 import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react';
 import api from '../../api/axios';
+import { useTranslation } from 'react-i18next';
+import { useToastContext } from '../../context/ToastContext';
 
 export default function Profile() {
+  const { t } = useTranslation();
+  const { toast } = useToastContext();
   const user = JSON.parse(
     localStorage.getItem('user') ||
     '{"name":"User","username":"user123","email":"user@example.com","createdAt":"","role":"USER"}'
@@ -30,11 +34,11 @@ export default function Profile() {
 
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
     if (!allowedTypes.includes(file.type)) {
-      setUploadError('Format harus JPEG, JPG, PNG, atau WEBP.')
+      setUploadError(t('profile.formatUploadError'))
       return
     }
     if (file.size > 2 * 1024 * 1024) {
-      setUploadError('Ukuran file maksimal 2MB.')
+      setUploadError(t('profile.sizeUploadError'))
       return
     }
 
@@ -74,12 +78,13 @@ export default function Profile() {
       setPreviewUrl('')
       setSelectedFile(null)
       setUploadSuccess(true)
+      toast.success(t('profile.uploadSuccess'))
       setTimeout(() => setUploadSuccess(false), 3000)
 
     } catch (error: any) {
-      setUploadError(
-        error.response?.data?.message || 'Gagal mengupload foto. Coba lagi.'
-      )
+      const msg = error.response?.data?.message || t('profile.uploadError')
+      setUploadError(msg)
+      toast.error(msg)
     } finally {
       setUploading(false)
     }
@@ -97,8 +102,8 @@ export default function Profile() {
   return (
     <UserLayout>
       <div className="page-header">
-        <h1>Profil {user.username}</h1>
-        <p>Data diri dan informasi akun {user.username} yang terdaftar.</p>
+        <h1>{t('profile.title')} {user.username}</h1>
+        <p>{t('profile.subtitle')} {user.username} {t('profile.subtitle2')}</p>
       </div>
 
       <div className="profile-card">
@@ -115,7 +120,7 @@ export default function Profile() {
           <button
             className="profile-camera-btn"
             onClick={() => fileInputRef.current?.click()}
-            title="Ganti foto profil"
+            title={t('profile.changePhoto')}
             disabled={uploading}
           >
             <Camera size={16} />
@@ -136,19 +141,19 @@ export default function Profile() {
             <div className="upload-btn-group">
               <button className="btn-upload-save" onClick={handleUpload} disabled={uploading}>
                 {uploading
-                  ? <><Loader2 size={15} className="spin" /> Mengupload...</>
-                  : <><Check size={15} /> Simpan Foto</>
+                  ? <><Loader2 size={15} className="spin" /> {t('profile.uploading')}</>
+                  : <><Check size={15} /> {t('profile.savePhoto')}</>
                 }
               </button>
               <button className="btn-upload-cancel" onClick={handleCancel} disabled={uploading}>
-                <X size={15} /> Batal
+                <X size={15} /> {t('profile.cancel')}
               </button>
             </div>
           </div>
         )}
 
         {uploadError && <div className="upload-error">{uploadError}</div>}
-        {uploadSuccess && <div className="upload-success">✓ Foto profil berhasil diperbarui!</div>}
+        {uploadSuccess && <div className="upload-success">✓{t('profile.uploadSuccess')}</div>}
 
         <div className="profile-info">
           <h2>{user.name}</h2>
@@ -157,25 +162,24 @@ export default function Profile() {
 
         <div className="profile-details">
           <div className="detail-item">
-            <span className="detail-label">Alamat Email</span>
+            <span className="detail-label">{t('profile.email')}</span>
             <span className="detail-value">{user.email}</span>
           </div>
           <div className="detail-item">
-            <span className="detail-label">Status Akun</span>
+            <span className="detail-label">{t('profile.status')}</span>
             <span className="detail-value">{user.role}</span>
           </div>
           <div className="detail-item">
-            <span className="detail-label">Bergabung Pada</span>
+            <span className="detail-label">{t('profile.joined')}</span>
             <span className="detail-value">
               {user.createdAt
-                ? new Date(user.createdAt).toLocaleDateString('id-ID', {
+                ? new Date(user.createdAt).toLocaleDateString(t('lang'), {
                   year: 'numeric', month: 'long', day: 'numeric'
                 })
-                : 'Baru saja'}
+                : t('timeAgo.justNow')}
             </span>
           </div>
         </div>
-
       </div>
     </UserLayout>
   )

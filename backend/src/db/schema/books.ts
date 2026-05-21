@@ -1,8 +1,7 @@
 import { pgTable, text, timestamp, integer } from 'drizzle-orm/pg-core'
-import { createId } from '@paralleldrive/cuid2'
 
 export const books = pgTable('books', {
-  id: text('id').primaryKey().$defaultFn(() => createId()),
+  id: text('id').primaryKey(),
   title: text('title').notNull(),
   author: text('author').notNull(),
   description: text('description'),

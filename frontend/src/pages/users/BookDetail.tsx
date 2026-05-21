@@ -4,6 +4,9 @@ import UserLayout from '../../components/layout/UserLayout'
 import { Heart, Eye, BookOpen, ChevronLeft, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
 import './UserPages.css'
+import { useTranslation } from 'react-i18next'
+import { useToastContext } from '../../context/ToastContext'
+import { translateCategory } from '../../utils/categoryHelper'
 
 interface Chapter {
     id: string
@@ -31,6 +34,8 @@ export default function BookDetail() {
     const [book, setBook] = useState<BookDetailData | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const { t } = useTranslation()
+    const { toast } = useToastContext()
 
     useEffect(() => {
         const fetchBookDetail = async () => {
@@ -40,7 +45,7 @@ export default function BookDetail() {
                 setBook(res.data.data)
             } catch (err: any) {
                 console.error('Failed to fetch book detail:', err)
-                setError('Buku tidak ditemukan atau terjadi kesalahan.')
+                setError(t('bookDetail.errorBook'))
             } finally {
                 setLoading(false)
             }
@@ -53,7 +58,7 @@ export default function BookDetail() {
             <UserLayout>
                 <div className="empty-state">
                     <Loader2 size={32} className="spin" />
-                    <p>Memuat detail buku...</p>
+                    <p>{t('bookDetail.loading')}</p>
                 </div>
             </UserLayout>
         )
@@ -63,8 +68,8 @@ export default function BookDetail() {
         return (
             <UserLayout>
                 <div className="empty-state">
-                    <p>{error || 'Buku tidak ditemukan.'}</p>
-                    <button onClick={() => navigate(-1)} className="back-btn">Kembali</button>
+                    <p>{error || t('bookDetail.errorBook')}</p>
+                    <button onClick={() => navigate(-1)} className="back-btn">{t('bookDetail.back')}</button>
                 </div>
             </UserLayout>
         )
@@ -75,21 +80,20 @@ export default function BookDetail() {
         .find(chapter => chapter.isRead)
 
     const HandleReadNow = async () => {
-        // Logika "Baca Sekarang": Tambahkan ke library dengan status READING
         try {
-            await api.post('/library', { bookId: book.id, status: 'READING' })
+            await api.post('/library', { bookId: book.id, status: t('bookDetail.reading') })
         } catch (err) {
             console.error('Failed to update library status:', err)
+            toast.error(t('bookDetail.errorFav'))
         }
-        
+
         const target = lastChapterRead ?? (book.chapters.length > 0 ? book.chapters[0] : null)
         if (target) {
             navigate(`/read/${book.id}/chapter/${target.number}`)
         } else {
-            alert('Belum ada chapter tersedia untuk buku ini.')
+            toast.error(t('bookDetail.errorChapterLoad'))
         }
     }
-    // togle Like
 
     // toggle Like
     const handleLike = async () => {
@@ -103,6 +107,7 @@ export default function BookDetail() {
             }))
         } catch (err) {
             console.error('Failed to toggle like:', err)
+            toast.error(t('bookDetail.errorFavToggle'))
         }
     }
 
@@ -115,7 +120,7 @@ export default function BookDetail() {
             {/* tombol kembali */}
             <button onClick={() => navigate(-1)} className='back-btn'>
                 <ChevronLeft size={20} />
-                Kembali
+                {t('bookDetail.back')}
             </button>
 
             {/*detail buku */}
@@ -130,27 +135,27 @@ export default function BookDetail() {
                         )}
                     </div>
                     <div className='book-detail-info'>
-                        <span className='book-category-badge'>{book.category}</span>
+                        <span className='book-category-badge'>{translateCategory(book.category)}</span>
                         <h1 className='book-detail-title'>{book.title}</h1>
-                        <p className='book-detail-author'>oleh : {book.author}</p>
+                        <p className='book-detail-author'>{t('bookDetail.author')} : {book.author}</p>
 
                         {/* stats: Likes & view */}
                         <div className='book-stats'>
                             <div className='stats-items'>
                                 <Heart size={18} fill={book.isLiked ? 'var(--pink-500)' : 'none'} color="var(--pink-500)" />
-                                <span>{book.likeCount.toLocaleString('id-ID')} Like </span>
+                                <span>{book.likeCount.toLocaleString(t('lang'))} {t('bookDetail.like')} </span>
                             </div>
                             <div className='stats-items'>
                                 <Eye size={18} />
-                                <span>{book.viewCount.toLocaleString('id-ID')} views </span>
+                                <span>{book.viewCount.toLocaleString(t('lang'))} {t('bookDetail.views')} </span>
                             </div>
                         </div>
-                        <p className='book-description'>{book.description || 'Tidak ada deskripsi untuk buku ini.'}</p>
+                        <p className='book-description'>{book.description || t('bookDetail.noDescription')}</p>
 
                         {/* tombol aksi */}
                         <div className='book-action-btns'>
                             <button className='btn-read-now' onClick={HandleReadNow}>
-                                <BookOpen size={18} /> {lastChapterRead ? `Lanjutkan Baca Chapter ${lastChapterRead.number}` : 'Mulai baca'}
+                                <BookOpen size={18} /> {lastChapterRead ? `${t('bookDetail.continueReading')} ${lastChapterRead.number}` : t('bookDetail.startReading')}
                             </button>
 
                             <button
@@ -161,7 +166,7 @@ export default function BookDetail() {
                                     size={18}
                                     fill={book.isLiked ? 'white' : 'none'}
                                 />
-                                {book.isLiked ? 'Disukai' : 'Suka'}
+                                {book.isLiked ? t('bookDetail.liked') : t('bookDetail.like')}
                             </button>
                         </div>
                     </div>
@@ -169,7 +174,7 @@ export default function BookDetail() {
 
                 {/* daftar chapter */}
                 <div className='chapter-selection'>
-                    <h2>Daftar Chapter</h2>
+                    <h2>{t('bookDetail.chapters list')}</h2>
                     <div className='chapter-list'>
                         {book.chapters.map((chapter) => (
                             <button
@@ -178,11 +183,11 @@ export default function BookDetail() {
                                 onClick={() => HandleChapterClick(chapter.number)}
                             >
                                 <div className='chapter-left'>
-                                    <span className='chapter-number'> Chapter {chapter.number} </span>
+                                    <span className='chapter-number'> {t('bookDetail.chapters')} {chapter.number} </span>
                                     <span className='chapter-title'>{chapter.title}</span>
                                 </div>
                                 {chapter.isRead && (
-                                    <span className='chapter-read-badge'> Dibaca </span>
+                                    <span className='chapter-read-badge'> {t('bookDetail.read')} </span>
                                 )}
                             </button>
                         ))}
