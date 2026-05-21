@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import AdminLayout from './AdminLayout'
-import { Users, BookOpen, Bell, Star, Loader2, User } from 'lucide-react'
+import AdminLayout from './adminLayout'
+import { Users, BookOpen, Bell, Star, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
-import { useToastContext } from '../../context/ToastContext'
 
 interface UserStat {
     id: string
@@ -26,7 +25,6 @@ export default function AdminHome() {
     const [users, setUsers] = useState<UserStat[]>([])
     const [loading, setLoading] = useState(true)
     const { t } = useTranslation()
-    const { toast } = useToastContext()
 
     useEffect(() => {
         const fetchData = async () => {

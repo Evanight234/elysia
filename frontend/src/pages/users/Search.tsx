@@ -5,7 +5,6 @@ import api from '../../api/axios';
 import { Search as SearchIcon, Loader2, BookOpen } from 'lucide-react';
 import './UserPages.css';
 import { useTranslation } from 'react-i18next';
-import { useToastContext } from '../../context/ToastContext';
 import { translateCategory } from '../../utils/categoryHelper';
 
 interface Book {
@@ -23,7 +22,6 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
   const { t } = useTranslation();
-  const { toast } = useToastContext();
 
   const handleSearch = async () => {
     if (!query.trim()) return;

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import {
     LayoutDashboard, Users, Bell,
-    User, LogOut, BookHeart, Menu, X, BookOpen,
+    User, LogOut, Menu, X, BookOpen,
     BookMarked
 } from 'lucide-react'
 import './AdminLayout.css'

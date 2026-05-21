@@ -5,7 +5,6 @@ import { Heart, BookOpen, Clock, Loader2 } from 'lucide-react'
 import api from '../../api/axios'
 import './UserPages.css'
 import { useTranslation } from 'react-i18next'
-import { useToastContext } from '../../context/ToastContext'
 
 type Tab = 'favorite' | 'lastRead'
 
@@ -34,7 +33,6 @@ export default function Library() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { t } = useTranslation()
-  const { toast } = useToastContext()
 
   useEffect(() => {
     const fetchLibrary = async () => {
