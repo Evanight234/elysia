@@ -943,20 +943,6 @@ mark.search-highlight {
   cursor: not-allowed;
 }
 
-/* Pesan error upload */
-.upload-error {
-  background: #fff5f5;
-  border: 1px solid #fca5a5;
-  border-radius: 10px;
-  padding: 0.6rem 1rem;
-  color: #dc2626;
-  font-size: 0.82rem;
-  font-weight: 600;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
 /* Pesan sukses upload */
 .upload-success {
   background: #f0fdf4;
@@ -966,6 +952,85 @@ mark.search-highlight {
   color: #16a34a;
   font-size: 0.82rem;
   font-weight: 700;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+/* === Pagination Styles === */
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  width: 100%;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: var(--pink-600);
+  font-weight: 600;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--pink-600);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--pink-400);
+  background-color: var(--pink-50);
+  color: var(--pink-700);
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-btn.active {
+  background-color: var(--pink-500);
+  border-color: var(--pink-500);
+  color: white;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.25);
+}
+
+.pagination-dots {
+  display: inline-block;
+  padding: 0 0.5rem;
+  color: var(--pink-400);
+  font-weight: bold;
+}
+
+/* Pesan error upload */
+.upload-error {
+  background: #fff5f5;
+  border: 1px solid #fca5a5;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  color: #dc2626;
+  font-size: 0.82rem;
+  font-weight: 600;
   width: 100%;
   text-align: center;
   margin-bottom: 0.5rem;

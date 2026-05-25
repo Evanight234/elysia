@@ -15,7 +15,8 @@
         "subtitle": "Lihat rekomendasi buku spesial untukmu hari ini.",
         "recommended": "Rekomendasi Admin",
         "readNow": "Baca Sekarang",
-        "noBooks": "Belum ada buku tersedia."
+        "noBooks": "Belum ada buku tersedia.",
+        "showing": "Menampilkan {{from}} - {{to}} dari {{total}} buku"
     },
     "search": {
         "title": "Cari Buku",
@@ -231,7 +232,11 @@
         "author-empty": "Penulis harus diisi",
         "cover-empty": "Cover harus diisi",
         "publish-empty": "Tanggal rilis harus diisi",
-        "bookId": "NO buku"
+        "bookId": "NO buku",
+        "firstPage": "Halaman Pertama",
+        "prevPage": "Halaman Sebelumnya",
+        "nextPage": "Halaman Berikutnya",
+        "lastPage": "Halaman Terakhir"
     },
     "bookDetail": {
         "back": "Kembali",
@@ -317,7 +322,6 @@
         "History": "Sejarah",
         "Technology": "Teknologi",
         "Sci-fi": "Sci-fi",
-        "Hentai": "Hentai",
         "Isekai": "Isekai",
         "Horror": "Horror",
         "Thriller": "Thriller",
@@ -327,7 +331,15 @@
         "Supernatural": "Supernatural",
         "Yuri": "Yuri",
         "Yaoi": "Yaoi",
-        "Martial Arts": "Martial Arts"
+        "Martial Arts": "Seni Bela Diri",
+        "shota": "Shota",
+        "Loli": "Loli",
+        "kultivation": "kultivation",
+        "Trasmigration": "Trasmigration",
+        "Magic": "Sihir",
+        "Reincarnation": "Reinkarnasi",
+        "Harem": "Harem",
+        "Historical": "Historical"
     },
     "Chapter": {
         "select book empty": " buku belum dipilih",

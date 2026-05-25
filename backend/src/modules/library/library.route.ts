@@ -6,14 +6,23 @@ import { successResponse, errorResponse } from '../../utils/response'
 export const libraryRoute = new Elysia({ prefix: '/library' })
     .use(authMiddleware)
 
-    .get('/', async ({ user, set }) => {
+    .get('/', async ({ query, user, set }) => {
         try {
-            const data = await getUserLibrary(user.id)
+            const status = query.status || undefined
+            const page = Number(query.page) || 1
+            const limit = Number(query.limit) || 20
+            const data = await getUserLibrary(user.id, status, page, limit)
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
             return errorResponse(error.message)
         }
+    }, {
+        query: t.Object({
+            status: t.Optional(t.String()),
+            page: t.Optional(t.String()),
+            limit: t.Optional(t.String()),
+        })
     })
 
     .post(

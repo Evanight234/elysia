@@ -1,0 +1,181 @@
+D:\elysiaapp
+├── README.md
+├── .gitignore
+│
+├── backend
+│   ├── .env
+│   ├── .gitignore
+│   ├── package.json
+│   ├── bun.lock
+│   ├── tsconfig.json
+│   ├── drizzle.config.ts
+│   │
+│   ├── drizzle/
+│   │   ├── 0001_search_and_library_optimization.sql
+│   │   └── meta/
+│   │       ├── _journal.json
+│   │       └── 0000_snapshot.json
+│   │
+│   ├── scratch/
+│   │   └── test_register.ts
+│   │
+│   ├── src/
+│   │   ├── index.ts
+│   │   │
+│   │   ├── db/
+│   │   │   ├── index.ts
+│   │   │   └── schema/
+│   │   │       ├── index.ts
+│   │   │       ├── books.ts
+│   │   │       ├── chapter.ts
+│   │   │       ├── library.ts
+│   │   │       ├── Likes.ts
+│   │   │       ├── notifications.ts
+│   │   │       ├── paragraphComments.ts
+│   │   │       ├── profile.ts
+│   │   │       ├── readingProgres.ts
+│   │   │       ├── recommendations.ts
+│   │   │       └── users.ts
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── auth.middleware.ts
+│   │   │   └── role.middleware.ts
+│   │   │
+│   │   ├── modules/
+│   │   │   ├── admin/
+│   │   │   │   └── admin.route.ts
+│   │   │   ├── auth/
+│   │   │   │   ├── auth.route.ts
+│   │   │   │   ├── auth.schema.ts
+│   │   │   │   └── auth.service.ts
+│   │   │   ├── books/
+│   │   │   │   ├── books.route.ts
+│   │   │   │   ├── books.Schema.ts
+│   │   │   │   ├── books.service.ts
+│   │   │   │   └── likes.service.ts
+│   │   │   ├── chapters/
+│   │   │   │   └── chapter.route.ts
+│   │   │   ├── library/
+│   │   │   │   ├── library.route.ts
+│   │   │   │   └── library.service.ts
+│   │   │   ├── Notification/
+│   │   │   │   ├── notif.route.ts
+│   │   │   │   └── notif.service.ts
+│   │   │   ├── profile/
+│   │   │   │   ├── profile.route.ts
+│   │   │   │   └── profile.service.ts
+│   │   │   └── recomendation/
+│   │   │       ├── recomendation.route.ts
+│   │   │       └── recomendation.service.ts
+│   │   │
+│   │   └── utils/
+│   │       ├── hash.ts
+│   │       ├── loop.ts
+│   │       └── response.ts
+│   │
+│   └── README.md
+│
+├── frontend
+│   ├── .env.production
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── bun.lock
+│   ├── index.html
+│   ├── vite.config.ts
+│   ├── eslint.config.js
+│   ├── netlify.toml
+│   ├── lint_output.txt
+│   ├── tsconfig.json
+│   ├── tsconfig.app.json
+│   ├── tsconfig.node.json
+│   │
+│   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   │
+│   ├── src/
+│   │   ├── main.tsx
+│   │   ├── App.tsx
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   │
+│   │   ├── api/
+│   │   │   └── axios.ts
+│   │   │
+│   │   ├── assets/
+│   │   │   ├── hero.png
+│   │   │   ├── react.svg
+│   │   │   └── vite.svg
+│   │   │
+│   │   ├── components/
+│   │   │   ├── layout/
+│   │   │   │   ├── UserLayout.tsx
+│   │   │   │   └── UserLayout.css
+│   │   │   └── ui/
+│   │   │       ├── CommentSection.tsx
+│   │   │       ├── CommentSection.css
+│   │   │       ├── LanguageSwitcher.tsx
+│   │   │       ├── LanguageSwitcher.css
+│   │   │       ├── Toast.tsx
+│   │   │       └── Toast.css
+│   │   │
+│   │   ├── context/
+│   │   │   └── ToastContext.tsx
+│   │   │
+│   │   ├── hooks/
+│   │   │   └── useauth.ts
+│   │   │
+│   │   ├── i18n/
+│   │   │   ├── index.ts
+│   │   │   └── locales/
+│   │   │       ├── en.json
+│   │   │       ├── id.json
+│   │   │       └── ja.json
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── admin/
+│   │   │   │   ├── AdminBooks.tsx
+│   │   │   │   ├── AdminChapters.tsx
+│   │   │   │   ├── AdminControl.tsx
+│   │   │   │   ├── AdminHome.tsx
+│   │   │   │   ├── AdminLayout.tsx
+│   │   │   │   ├── AdminLayout.css
+│   │   │   │   ├── AdminNotification.tsx
+│   │   │   │   ├── AdminPage.css
+│   │   │   │   ├── AdminProfile.tsx
+│   │   │   │   └── AdminSearch.tsx
+│   │   │   ├── auth/
+│   │   │   │   ├── Login.tsx
+│   │   │   │   ├── Login.css
+│   │   │   │   ├── Register.tsx
+│   │   │   │   ├── Register.css
+│   │   │   │   ├── ForgetPassword.tsx
+│   │   │   │   └── ForgetPassword.css
+│   │   │   ├── book/
+│   │   │   │   └── bookDetail.css
+│   │   │   └── users/
+│   │   │       ├── BookDetail.tsx
+│   │   │       ├── Home.tsx
+│   │   │       ├── Library.tsx
+│   │   │       ├── Notifications.tsx
+│   │   │       ├── Profile.tsx
+│   │   │       ├── ReadChapter.tsx
+│   │   │       ├── ReadChapter.css
+│   │   │       ├── Search.tsx
+│   │   │       └── UserPages.css
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── ProtectedRoute.tsx
+│   │   │   └── RoleRoute.tsx
+│   │   │
+│   │   ├── store/
+│   │   │   └── authstore.ts
+│   │   │
+│   │   ├── types/
+│   │   │   └── index.ts
+│   │   │
+│   │   └── utils/
+│   │       └── categoryHelper.ts
+│   │
+│   └── README.md

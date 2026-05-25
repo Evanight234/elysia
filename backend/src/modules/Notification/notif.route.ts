@@ -1,20 +1,31 @@
 import { Elysia, t } from 'elysia'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { adminOnly } from '../../middleware/role.middleware'
-import { getUserNotifications, sendNotification, markAsRead, markAllAsRead } from './notif.service'
+import { getUserNotifications, getUserNotificationsPaginated, sendNotification, markAsRead, markAllAsRead } from './notif.service'
 import { successResponse, errorResponse } from '../../utils/response'
 export const notifRoute = new Elysia({ prefix: '/notifications' })
 
     // User: lihat notifikasi sendiri
     .use(authMiddleware)
-    .get('/', async ({ user, set }) => {
+    .get('/', async ({ user, query, set }) => {
         try {
+            if (query.page || query.limit) {
+                const page = Number(query.page) || 1
+                const limit = Number(query.limit) || 5
+                const data = await getUserNotificationsPaginated(user.id, page, limit)
+                return successResponse(data)
+            }
             const data = await getUserNotifications(user.id)
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
             return errorResponse(error.message)
         }
+    }, {
+        query: t.Object({
+            page: t.Optional(t.String()),
+            limit: t.Optional(t.String()),
+        })
     })
 
     // User: tandai satu notifikasi dibaca

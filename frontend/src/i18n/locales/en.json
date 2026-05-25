@@ -15,7 +15,8 @@
         "subtitle": "See special book recommendations for you today.",
         "recommended": "Admin Recommendations",
         "readNow": "Read Now",
-        "noBooks": "No books available yet."
+        "noBooks": "No books available yet.",
+        "showing": "Showing {{from}} to {{to}} of {{total}} books"
     },
     "search": {
         "title": "Search Books",
@@ -231,7 +232,11 @@
         "author-empty": "Author is required",
         "cover-empty": "Cover is required",
         "publish-empty": "Release date is required",
-        "bookId": "Book No."
+        "bookId": "Book No.",
+        "firstPage": "First Page",
+        "prevPage": "Previous Page",
+        "nextPage": "Next Page",
+        "lastPage": "Last Page"
     },
     "bookDetail": {
         "back": "Back",
@@ -327,7 +332,15 @@
         "Supernatural": "Supernatural",
         "Yuri": "Yuri",
         "Yaoi": "Yaoi",
-        "Martial Arts": "Martial Arts"
+        "Martial Arts": "Martial Arts",
+        "shota": "Shota",
+        "Loli": "Loli",
+        "kultivation": "Kultivation",
+        "Trasmigration": "Transmigration",
+        "Magic": "Magic",
+        "Reincarnation": "Reincarnation",
+        "Harem": "Harem",
+        "Historical": "Historical"
     },
     "Chapter": {
         "select book empty": " no book selected",

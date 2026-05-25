@@ -91,17 +91,6 @@ export default function UserLayout({ children }: UserLayoutProps) {
       </nav>
 
       <main className="main-content">
-        <header className="content-header">
-          <div className="search-bar-mini">
-            <Search size={16} />
-            <input type="text" placeholder={t("search")} />
-          </div>
-          <div className="header-profile">
-            <div className="avatar-mini">
-              <User size={16} />
-            </div>
-          </div>
-        </header>
         <div className="content-inner">
           {children}
         </div>

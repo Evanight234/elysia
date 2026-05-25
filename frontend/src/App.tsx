@@ -59,7 +59,7 @@ function useAuthCheck() {
 
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/auth/me`,
+          `${import.meta.env.VITE_API_URL || 'http://localhost:7860'}/auth/me`,
           { headers: { Authorization: `Bearer ${token}` } }
         )
 

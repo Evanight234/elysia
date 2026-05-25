@@ -1,14 +1,42 @@
 import { db } from '../../db'
 import { notifications } from '../../db/schema/notifications'
-import { eq, and } from 'drizzle-orm'
+import { eq, and, count } from 'drizzle-orm'
 
-//ambil semua notifikasi user
+//ambil semua notifikasi user (tanpa pagination — legacy)
 export const getUserNotifications = async (userId: string) => {
     return await db
         .select()
         .from(notifications)
         .where(eq(notifications.userId, userId))
         .orderBy(notifications.createdAt)
+}
+
+//ambil notifikasi user dengan pagination
+export const getUserNotificationsPaginated = async (userId: string, page: number = 1, limit: number = 5) => {
+    const offset = (page - 1) * limit
+
+    const [countResult, data] = await Promise.all([
+        db.select({ total: count() }).from(notifications).where(eq(notifications.userId, userId)),
+        db
+            .select()
+            .from(notifications)
+            .where(eq(notifications.userId, userId))
+            .orderBy(notifications.createdAt)
+            .limit(limit)
+            .offset(offset)
+    ])
+
+    const total = Number(countResult[0]?.total || 0)
+
+    return {
+        items: data,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        }
+    }
 }
 
 //kirim notifikasi ke user tertentu (khusus role admin)

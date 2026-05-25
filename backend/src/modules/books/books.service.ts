@@ -12,16 +12,40 @@ export const getAllBooks = async () => {
     return await db.select().from(books).orderBy(books.createdAt)
 }
 
+export const getBooksPaginated = async (page: number = 1, limit: number = 10) => {
+    const offset = (page - 1) * limit
+
+    // Execute count and paginated select concurrently in parallel
+    const [countResult, data] = await Promise.all([
+        db.select({ total: count() }).from(books),
+        db.select()
+            .from(books)
+            .orderBy(books.createdAt)
+            .limit(limit)
+            .offset(offset)
+    ])
+
+    const total = Number(countResult[0]?.total || 0)
+
+    return {
+        books: data,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        }
+    }
+}
+
 export const getBookById = async (id: string, userId?: string) => {
     const [book] = await db.select().from(books).where(eq(books.id, id))
     if (!book) return null
 
-    const bookChapters = await db.select().from(chapters).where(eq(chapters.bookId, id)).orderBy(chapters.number)
-
-    let isLiked = false
-    if (userId) {
-        isLiked = await checkIsLiked(userId, id)
-    }
+    const [bookChapters, isLiked] = await Promise.all([
+        db.select().from(chapters).where(eq(chapters.bookId, id)).orderBy(chapters.number),
+        userId ? checkIsLiked(userId, id) : Promise.resolve(false),
+    ])
 
     return {
         ...book,
@@ -41,6 +65,46 @@ export const searchBooks = async (query: string) => {
                 ilike(books.category, `%${query}%`)
             )
         )
+}
+
+export const searchBooksPaginated = async (query: string, page: number = 1, limit: number = 10) => {
+    const offset = (page - 1) * limit
+    const queryPattern = `%${query}%`
+
+    // Optimize where clause: if search query is a specific category name, search only category to save CPU
+    const categoriesList = ["Action", "Adventure", "Fantasy", "Mystery", "Romance", "School", "Guide", "Fiction", "Biography", "History", "Technology", "Sci-fi", "Isekai", "Horror", "Thriller", "Slice of Life", "Drama", "Adult", "Supernatural", "Yuri", "Yaoi", "Martial Arts", "shota", "Loli", "kultivation", "Trasmigration", "Magic", "Reincarnation", "Harem", "Historical"]
+    const isCategorySearch = categoriesList.some(cat => cat.toLowerCase() === query.toLowerCase())
+
+    const whereClause = isCategorySearch
+        ? ilike(books.category, queryPattern)
+        : or(
+            ilike(books.title, queryPattern),
+            ilike(books.author, queryPattern),
+            ilike(books.category, queryPattern)
+        )
+
+    // Execute count and search select in parallel concurrently
+    const [countResult, data] = await Promise.all([
+        db.select({ total: count() }).from(books).where(whereClause),
+        db.select()
+            .from(books)
+            .where(whereClause)
+            .orderBy(books.createdAt)
+            .limit(limit)
+            .offset(offset)
+    ])
+
+    const total = Number(countResult[0]?.total || 0)
+
+    return {
+        books: data,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        }
+    }
 }
 // tambah buku baru admin only — ID sequential: book-1, book-2, dst
 export const createBook = async (data: Omit<NewBook, 'id'>) => {

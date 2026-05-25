@@ -2,7 +2,7 @@ import { Elysia, t } from 'elysia'
 import { jwt } from '@elysiajs/jwt'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { adminOnly } from '../../middleware/role.middleware'
-import { getAllBooks, searchBooks, getBookById, getChapterByNumber, createBook, updateBook, deleteBook, toggleLike, getAdminBookStats, getBooksByCategory } from './books.service'
+import { getAllBooks, getBooksPaginated, searchBooks, searchBooksPaginated, getBookById, getChapterByNumber, createBook, updateBook, deleteBook, toggleLike, getAdminBookStats, getBooksByCategory } from './books.service'
 import { createBookSchema, UpdateBookSchema } from './books.Schema'
 import { successResponse, errorResponse } from '../../utils/response'
 import { NewBook } from '../../db/schema'
@@ -37,19 +37,45 @@ export const bookRoute = new Elysia({ prefix: '/books' })
         }
     })
 
-    // GET /books/search?q=xxx
+    // GET /books/paginated?page=1&limit=10
+    .get('/paginated', async ({ query, set }) => {
+        try {
+            const page = Number(query.page) || 1
+            const limit = Number(query.limit) || 10
+            const data = await getBooksPaginated(page, limit)
+            return successResponse(data)
+        } catch (error: any) {
+            set.status = 500
+            return errorResponse(error.message)
+        }
+    }, { query: t.Object({ page: t.Optional(t.String()), limit: t.Optional(t.String()) }) })
+
+    // GET /books/search?q=xxx&page=1&limit=10
     .get(
         '/search',
         async ({ query, set }) => {
             try {
-                const data = await searchBooks(query.q || '')
+                const q = query.q || ''
+                if (query.page || query.limit) {
+                    const page = Number(query.page) || 1
+                    const limit = Number(query.limit) || 10
+                    const data = await searchBooksPaginated(q, page, limit)
+                    return successResponse(data)
+                }
+                const data = await searchBooks(q)
                 return successResponse(data)
             } catch (error: any) {
                 set.status = 500
                 return errorResponse(error.message)
             }
         },
-        { query: t.Object({ q: t.Optional(t.String()) }) }
+        {
+            query: t.Object({
+                q: t.Optional(t.String()),
+                page: t.Optional(t.String()),
+                limit: t.Optional(t.String())
+            })
+        }
     )
 
     // GET /books/:id

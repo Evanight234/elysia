@@ -395,7 +395,6 @@ export default function AdminBooks() {
                                     <option value="History">{t('category.History')}</option>
                                     <option value="Technology">{t('category.Technology')}</option>
                                     <option value="Sci-fi">{t('category.Sci-fi')}</option>
-                                    <option value="Hentai">{t('category.Hentai')}</option>
                                     <option value="Isekai">{t('category.Isekai')}</option>
                                     <option value="Horror">{t('category.Horror')}</option>
                                     <option value="Thriller">{t('category.Thriller')}</option>
@@ -407,6 +406,14 @@ export default function AdminBooks() {
                                     <option value="Yuri">{t('category.Yuri')}</option>
                                     <option value="Yaoi">{t('category.Yaoi')}</option>
                                     <option value="Martial Arts">{t('category.Martial Arts')}</option>
+                                    <option value="shota">{t('category.shota')}</option>
+                                    <option value="Loli">{t('category.Loli')}</option>
+                                    <option value="kultivation">{t('category.kultivation')}</option>
+                                    <option value="Trasmigration">{t('category.Trasmigration')}</option>
+                                    <option value="Magic">{t('category.Magic')}</option>
+                                    <option value="Reincarnation">{t('category.Reincarnation')}</option>
+                                    <option value="Harem">{t('category.Harem')}</option>
+                                    <option value="Historical">{t('category.Historical')}</option>
                                 </select>
                             </div>
 

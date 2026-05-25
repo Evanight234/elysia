@@ -18,7 +18,6 @@ const app = new Elysia()
     ],
     credentials: true,
   }))
-  .listen(process.env.PORT ?? 3000)
   .use(swagger({
     documentation: {
       info: {
@@ -36,7 +35,7 @@ const app = new Elysia()
   .use(recommendationRoute)
   .use(adminRoute)
   .use(chapterRoute)
-  .listen(3000);
+  .listen(process.env.PORT ?? 7860);
 
 console.log(
   `Elysia is running at ${app.server?.hostname}:${app.server?.port}`

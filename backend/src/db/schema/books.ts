@@ -8,8 +8,8 @@ export const books = pgTable('books', {
   cover: text('cover'),
   category: text('category').notNull(),
   fileUrl: text('file_url'),
-  viewCount: integer('view_count').default(0).notNull(),  // ← BARU: jumlah pembaca
-  likeCount: integer('like_count').default(0).notNull(),  // ← BARU: jumlah likes
+  viewCount: integer('view_count').default(0).notNull(),
+  likeCount: integer('like_count').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

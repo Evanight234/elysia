@@ -1,20 +1,49 @@
-import { status } from "elysia";
 import { db } from "../../db";
 import { library, books } from "../../db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, count } from "drizzle-orm";
 
-export const getUserLibrary = async (userId: string) => {
-    return await db
-        .select({
-            id: library.id,
-            status: library.status,
-            lastChapterRead: library.lastChapterRead,
-            addedAt: library.addedAt,
-            book: books,
-        })
-        .from(library)
-        .innerJoin(books, eq(library.bookId, books.id))
-        .where(eq(library.userId, userId))
+export const getUserLibrary = async (userId: string, status?: string, page: number = 1, limit: number = 20) => {
+    const conditions = [eq(library.userId, userId)]
+    if (status) conditions.push(eq(library.status, status as any))
+
+    const where = and(...conditions)
+
+    const [countResult, data] = await Promise.all([
+        db.select({ total: count() }).from(library).where(where),
+        db
+            .select({
+                id: library.id,
+                status: library.status,
+                lastChapterRead: library.lastChapterRead,
+                addedAt: library.addedAt,
+                book: {
+                    id: books.id,
+                    title: books.title,
+                    author: books.author,
+                    cover: books.cover,
+                    category: books.category,
+                    description: books.description,
+                },
+            })
+            .from(library)
+            .innerJoin(books, eq(library.bookId, books.id))
+            .where(where)
+            .orderBy(library.addedAt)
+            .limit(limit)
+            .offset((page - 1) * limit)
+    ])
+
+    const total = Number(countResult[0]?.total || 0)
+
+    return {
+        items: data,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+        }
+    }
 }
 
 // Tambah atau Update buku di library

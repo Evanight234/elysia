@@ -9,8 +9,8 @@ export const readingProgress = pgTable('reading_progress', {
     id: text('id').primaryKey().$defaultFn(() => createId()),
     userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
     bookId: text('book_id').notNull().references(() => books.id, { onDelete: 'cascade' }),
-    lastChapterId: text('last_chapter_id').references(() => chapters.id), // chapter terakhir dibaca
-    completedChapters: text('completed_chapters').array().default([]).notNull(), // array of chapter IDs
+    lastChapterId: text('last_chapter_id').references(() => chapters.id),
+    completedChapters: text('completed_chapters').array().default([]).notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 }, (table) => ({
     uniqueUserBook: unique().on(table.userId, table.bookId),

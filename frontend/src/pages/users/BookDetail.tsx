@@ -81,7 +81,7 @@ export default function BookDetail() {
 
     const HandleReadNow = async () => {
         try {
-            await api.post('/library', { bookId: book.id, status: t('bookDetail.reading') })
+            await api.post('/library', { bookId: book.id, status: 'READING' })
         } catch (err) {
             console.error('Failed to update library status:', err)
             toast.error(t('bookDetail.errorFav'))

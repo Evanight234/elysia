@@ -15,7 +15,8 @@
         "subtitle": "今日のおすすめの本をチェックしましょう。",
         "recommended": "管理者おすすめ",
         "readNow": "今すぐ読む",
-        "noBooks": "まだ本がありません。"
+        "noBooks": "まだ本がありません。",
+        "showing": "{{total}}冊中 {{from}}〜{{to}} を表示中"
     },
     "search": {
         "title": "本を検索",
@@ -231,7 +232,11 @@
         "author-empty": "著者は必須です",
         "cover-empty": "表紙は必須です",
         "publish-empty": "公開日は必須です",
-        "bookId": "本番号"
+        "bookId": "本番号",
+        "firstPage": "最初のページ",
+        "prevPage": "前のページ",
+        "nextPage": "次のページ",
+        "lastPage": "最後のページ"
     },
     "bookDetail": {
         "back": "戻る",
@@ -327,7 +332,15 @@
         "Supernatural": "超常",
         "Yuri": "百合",
         "Yaoi": "やおい",
-        "Martial Arts": "武道"
+        "Martial Arts": "武道",
+        "shota": "ショタ",
+        "Loli": "ロリ",
+        "kultivation": "cultivation",
+        "Trasmigration": "転移",
+        "Magic": "魔法",
+        "Reincarnation": "転生",
+        "Harem": "ハーレム",
+        "Historical": "歴史"
     },
     "Chapter": {
         "select book empty": " 本が選択されていません",
