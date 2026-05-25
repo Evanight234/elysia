@@ -100,11 +100,14 @@ export default function BookDetail() {
         try {
             const res = await api.post(`/books/${book.id}/like`)
             const { liked } = res.data.data
-            setBook(prev => ({
-                ...prev,
-                isLiked: liked,
-                likeCount: liked ? prev.likeCount + 1 : prev.likeCount - 1,
-            }))
+            setBook(prev => {
+                if (!prev) return null
+                return {
+                    ...prev,
+                    isLiked: liked,
+                    likeCount: liked ? prev.likeCount + 1 : prev.likeCount - 1,
+                }
+            })
         } catch (err) {
             console.error('Failed to toggle like:', err)
             toast.error(t('bookDetail.errorFavToggle'))

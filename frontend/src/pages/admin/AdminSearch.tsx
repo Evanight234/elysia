@@ -1,10 +1,9 @@
-import AdminLayout from './AdminLayout'
+import AdminLayout from './adminLayout'
 import { Search as SearchIcon, BookOpen } from 'lucide-react'
 import { useState } from 'react'
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
-import { useToastContext } from '../../context/ToastContext'
 
 interface Book {
     id: string
@@ -19,7 +18,6 @@ export default function AdminSearch() {
     const [results, setResults] = useState<Book[]>([])
     const [loading, setLoading] = useState(false)
     const { t } = useTranslation()
-    const { toast } = useToastContext()
 
     const handleSearch = async () => {
         if (!query.trim()) return

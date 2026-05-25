@@ -23,6 +23,7 @@ export default function CommentSection({ paragraphId, chapterId, onClose }: Prop
     const [newComment, setNewComment] = useState('')
 
     // TODO: Fetch comments using chapterId: ${chapterId} and paragraphId: ${paragraphId}
+    console.log('Comment section parameters:', { paragraphId, chapterId })
     const comments: Comment[] = [
         { id: 1, user: 'PinkReader', avatar: 'P', text: 'Kalimat pembuka yang sangat kuat!', time: '2 jam lalu' },
         { id: 2, user: 'ElysiaFan', avatar: 'E', text: 'Ini langsung bikin penasaran banget.', time: '5 jam lalu' },

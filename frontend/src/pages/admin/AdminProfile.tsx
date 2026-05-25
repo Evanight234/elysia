@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToastContext } from '../../context/ToastContext'
-import AdminLayout from './AdminLayout'
+import AdminLayout from './adminLayout'
 import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
