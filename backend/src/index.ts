@@ -14,7 +14,7 @@ const app = new Elysia()
   .use(cors({
     origin: [
       'http://localhost:5173',
-      /\.vercel\.app$/,         // ← semua subdomain vercel
+      /\.vercel\.app$/,
     ],
     credentials: true,
   }))
