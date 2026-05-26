@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import AdminLayout from './adminLayout'
+import AdminLayout from './AdminLayout'
 import {
     Plus, Trash2, Loader2, X,
     BookOpen, Check, ChevronRight,

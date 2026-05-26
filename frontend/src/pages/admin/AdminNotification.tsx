@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import AdminLayout from './adminLayout'
+import AdminLayout from './AdminLayout'
 import {
     Send, Bell, Loader2, X,
     CheckCircle, Clock, User,

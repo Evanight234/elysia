@@ -1,4 +1,4 @@
-import AdminLayout from './adminLayout'
+import AdminLayout from './AdminLayout'
 import { Search as SearchIcon, BookOpen } from 'lucide-react'
 import { useState } from 'react'
 import api from '../../api/axios'

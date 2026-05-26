@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import AdminLayout from './adminLayout'
+import AdminLayout from './AdminLayout'
 import { Trash2, Users, Loader2, Search } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
