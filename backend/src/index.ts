@@ -14,7 +14,6 @@ const app = new Elysia()
   .use(cors({
     origin: [
       'http://localhost:5173',
-      /\.netlify\.app$/,        // ← semua subdomain netlify
       /\.vercel\.app$/,         // ← semua subdomain vercel
     ],
     credentials: true,
@@ -41,7 +40,5 @@ const app = new Elysia()
 console.log(
   `Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );
-
-export default app;
 
 
