@@ -34,11 +34,15 @@ const app = new Elysia()
   .use(profileRoute)
   .use(recommendationRoute)
   .use(adminRoute)
-  .use(chapterRoute)
-  .listen(process.env.PORT ?? 7860);
+  .use(chapterRoute);
 
-console.log(
-  `Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+if (!process.env.VERCEL) {
+  app.listen(process.env.PORT ?? 7860);
+  console.log(
+    `Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  );
+}
+
+export default app;
 
 
