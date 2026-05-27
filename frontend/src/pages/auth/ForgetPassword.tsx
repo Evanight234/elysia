@@ -171,10 +171,6 @@ export default function ForgetPassword() {
                         <h1 className="app-title-premium">
                             Elysia App <span className="title-sparkle"><Sparkles size={16} /></span>
                         </h1>
-                        <div className="subtitle-badge">
-                            <ShieldCheck size={13} className="shield-icon" />
-                            <span>Lupa Kata Sandi</span>
-                        </div>
                     </div>
 
                     <p className="fp-desc-premium">

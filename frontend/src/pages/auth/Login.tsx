@@ -171,10 +171,6 @@ export default function Login() {
             <h1 className="app-title-premium">
               Elysia App <span className="title-sparkle"><Sparkles size={16} /></span>
             </h1>
-            <div className="subtitle-badge">
-              <Heart size={12} className="heart-icon" />
-              <span>{t('auth.login') || "Masuk ke Akun"}</span>
-            </div>
           </div>
 
           <form className="login-form-premium" onSubmit={handleMasuk}>
