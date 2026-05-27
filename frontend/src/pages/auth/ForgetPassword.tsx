@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import api from '../../api/axios'
 import './ForgetPassword.css'
 import { useTranslation } from 'react-i18next'
-import { Mail, UserCheck, Lock, Eye, EyeOff, Sparkles, Heart, ShieldCheck, ArrowRight, ArrowLeft, CheckCircle, AlertTriangle } from 'lucide-react'
+import { Mail, UserCheck, Lock, Eye, EyeOff, Sparkles, ArrowRight, ArrowLeft, CheckCircle, AlertTriangle } from 'lucide-react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -40,7 +40,7 @@ export default function ForgetPassword() {
     const [showConfirm, setShowConfirm] = useState(false)
     const [quoteIndex, setQuoteIndex] = useState(0)
     const [wiggle, setWiggle] = useState(false)
-    const { t, i18n } = useTranslation()
+    const { i18n } = useTranslation()
 
     const handleQuoteCycle = () => {
         setWiggle(true)
