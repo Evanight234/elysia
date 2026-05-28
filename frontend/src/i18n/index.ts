@@ -14,7 +14,11 @@ i18next
             id: { translation: id },
             en: { translation: en },
             ja: { translation: ja },
+<<<<<<< HEAD
             cn: { translation: cn },
+=======
+            cn: { translation: cn }
+>>>>>>> afe9314b152e77d7a708e5874dcc93a01dd96340
         },
         lng: savedLang,
         fallbackLng: 'en',

@@ -46,7 +46,8 @@
         "subtitle": "Pesan tentang novel terbaru dan pemberitahuan admin.",
         "markAll": "Tandai semua dibaca",
         "empty": "Belum ada notifikasi.",
-        "loading": "Memuat notifikasi..."
+        "loading": "Memuat notifikasi...",
+        "showing": "Menampilkan {{from}} - {{to}} dari {{total}} notifikasi"
     },
     "profile": {
         "title": "Profil",
@@ -159,7 +160,11 @@
         "add book": "Tambah Buku",
         "emptyB": "Belum ada buku. Klik + untuk menambahkan.",
         "addB": "Tambah Buku baru",
-        "editBook": "Edit Buku"
+        "editBook": "Edit Buku",
+        "showingAccounts": "Menampilkan {{from}} - {{to}} dari {{total}} akun",
+        "showingBooks": "Menampilkan {{from}} - {{to}} dari {{total}} buku",
+        "showingChapters": "Menampilkan {{from}} - {{to}} dari {{total}} chapter",
+        "showingMessages": "Menampilkan {{from}} - {{to}} dari {{total}} pesan"
     },
     "auth": {
         "login": "Masuk ke Akun",

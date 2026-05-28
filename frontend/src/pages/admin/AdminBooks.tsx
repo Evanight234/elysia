@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import AdminLayout from './AdminLayout'
 import {
     Plus, Trash2, Loader2, X,
-    BookOpen, Check, Image as ImageIcon
+    BookOpen, Check, Image as ImageIcon,
+    ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
@@ -57,6 +58,33 @@ export default function AdminBooks() {
     const { t } = useTranslation()
     const { toast } = useToastContext()
 
+    const PAGE_LIMIT = 10
+    const [page, setPage] = useState(1)
+
+    const totalPages = Math.max(1, Math.ceil(books.length / PAGE_LIMIT))
+    const paginatedBooks = books.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+
+    const goToPage = (pageNumber: number) => {
+        if (pageNumber < 1 || pageNumber > totalPages) return
+        setPage(pageNumber)
+    }
+
+    const getPageNumbers = () => {
+        const pages: (number | '...')[] = []
+        if (totalPages <= 7) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i)
+        } else {
+            pages.push(1)
+            if (page > 3) pages.push('...')
+            const start = Math.max(2, page - 1)
+            const end = Math.min(totalPages - 1, page + 1)
+            for (let i = start; i <= end; i++) pages.push(i)
+            if (page < totalPages - 2) pages.push('...')
+            pages.push(totalPages)
+        }
+        return pages
+    }
+
     // ── Fetch semua buku ───────────────────────────────────
     useEffect(() => { fetchBooks() }, [])
 
@@ -65,6 +93,7 @@ export default function AdminBooks() {
             setLoading(true)
             const res = await api.get('/books')
             setBooks(res.data.data || [])
+            setPage(1)
         } catch (err) {
             console.error('Failed to fetch books:', err)
         } finally {
@@ -226,7 +255,7 @@ export default function AdminBooks() {
                             </tr>
                         </thead>
                         <tbody>
-                            {books.map(book => (
+                            {paginatedBooks.map(book => (
                                 <tr key={book.id}>
                                     {/* Cover */}
                                     <td>
@@ -284,6 +313,41 @@ export default function AdminBooks() {
                     </table>
                 )}
             </div>
+
+            {books.length > 0 && (
+                <div className="pagination-container">
+                    <div className="pagination-info">
+                        {t("admin.showingBooks", {
+                            from: (page - 1) * PAGE_LIMIT + 1,
+                            to: Math.min(page * PAGE_LIMIT, books.length),
+                            total: books.length,
+                        })}
+                    </div>
+                    <div className="pagination-controls">
+                        <button className="pagination-btn" onClick={() => goToPage(1)} disabled={page === 1} title={t("common.firstPage")}>
+                            <ChevronsLeft size={18} />
+                        </button>
+                        <button className="pagination-btn" onClick={() => goToPage(page - 1)} disabled={page === 1} title={t("common.prevPage")}>
+                            <ChevronLeft size={18} />
+                        </button>
+                        {getPageNumbers().map((p, i) =>
+                            p === '...' ? (
+                                <span key={`dots-${i}`} className="pagination-dots">…</span>
+                            ) : (
+                                <button key={p} className={`pagination-btn pagination-num ${page === p ? 'active' : ''}`} onClick={() => goToPage(p as number)}>
+                                    {p}
+                                </button>
+                            )
+                        )}
+                        <button className="pagination-btn" onClick={() => goToPage(page + 1)} disabled={page === totalPages || totalPages === 0} title={t("common.nextPage")}>
+                            <ChevronRight size={18} />
+                        </button>
+                        <button className="pagination-btn" onClick={() => goToPage(totalPages)} disabled={page === totalPages || totalPages === 0} title={t("common.lastPage")}>
+                            <ChevronsRight size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* ══════════════════════════════════════
           MODAL TAMBAH BUKU
