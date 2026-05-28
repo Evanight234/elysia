@@ -3,7 +3,8 @@ import AdminLayout from './AdminLayout'
 import {
     Send, Bell, Loader2, X,
     CheckCircle, Clock, User,
-    RefreshCw, Search
+    RefreshCw, Search,
+    ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
@@ -159,6 +160,77 @@ export default function AdminNotification() {
         }
     }
 
+    const PAGE_LIMIT = 10
+    const [sendPage, setSendPage] = useState(1)
+    const [histPage, setHistPage] = useState(1)
+
+    // ── Send tab pagination ────────────────────────────────
+    const sendTotalPages = Math.max(1, Math.ceil(users.length / PAGE_LIMIT))
+    const paginatedUsers = users.slice((sendPage - 1) * PAGE_LIMIT, sendPage * PAGE_LIMIT)
+
+    const goToSendPage = (n: number) => {
+        if (n < 1 || n > sendTotalPages) return
+        setSendPage(n)
+    }
+
+    // ── History tab pagination ─────────────────────────────
+    const histTotalPages = Math.max(1, Math.ceil(filteredHistory.length / PAGE_LIMIT))
+    const paginatedHistory = filteredHistory.slice((histPage - 1) * PAGE_LIMIT, histPage * PAGE_LIMIT)
+
+    const goToHistPage = (n: number) => {
+        if (n < 1 || n > histTotalPages) return
+        setHistPage(n)
+    }
+
+    const getPageNumbers = (currentPage: number, totalPages: number) => {
+        const pages: (number | '...')[] = []
+        if (totalPages <= 7) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i)
+        } else {
+            pages.push(1)
+            if (currentPage > 3) pages.push('...')
+            const start = Math.max(2, currentPage - 1)
+            const end = Math.min(totalPages - 1, currentPage + 1)
+            for (let i = start; i <= end; i++) pages.push(i)
+            if (currentPage < totalPages - 2) pages.push('...')
+            pages.push(totalPages)
+        }
+        return pages
+    }
+
+    const PaginationControls = ({ page, totalPages, goToPageFn }: {
+        page: number; totalPages: number; goToPageFn: (n: number) => void
+    }) => {
+        if (totalPages <= 1) return null
+        return (
+            <div className="pagination-container">
+                <div className="pagination-controls">
+                    <button className="pagination-btn" onClick={() => goToPageFn(1)} disabled={page === 1} title={t("common.firstPage")}>
+                        <ChevronsLeft size={18} />
+                    </button>
+                    <button className="pagination-btn" onClick={() => goToPageFn(page - 1)} disabled={page === 1} title={t("common.prevPage")}>
+                        <ChevronLeft size={18} />
+                    </button>
+                    {getPageNumbers(page, totalPages).map((p, i) =>
+                        p === '...' ? (
+                            <span key={`dots-${i}`} className="pagination-dots">…</span>
+                        ) : (
+                            <button key={p} className={`pagination-btn pagination-num ${page === p ? 'active' : ''}`} onClick={() => goToPageFn(p as number)}>
+                                {p}
+                            </button>
+                        )
+                    )}
+                    <button className="pagination-btn" onClick={() => goToPageFn(page + 1)} disabled={page === totalPages || totalPages === 0} title={t("common.nextPage")}>
+                        <ChevronRight size={18} />
+                    </button>
+                    <button className="pagination-btn" onClick={() => goToPageFn(totalPages)} disabled={page === totalPages || totalPages === 0} title={t("common.lastPage")}>
+                        <ChevronsRight size={18} />
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
     // ── Format waktu ──────────────────────────────────────
     const timeAgo = (dateStr: string) => {
         const diff = Date.now() - new Date(dateStr).getTime()
@@ -230,7 +302,7 @@ export default function AdminNotification() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(user => (
+                                {paginatedUsers.map(user => (
                                     <tr key={user.id}>
                                         <td>
                                             <div className="admin-user-cell">
@@ -259,6 +331,23 @@ export default function AdminNotification() {
                             </tbody>
                         </table>
                     )}
+                </div>
+            )}
+
+            {activeTab === 'send' && users.length > PAGE_LIMIT && (
+                <div style={{ marginTop: '0.5rem' }}>
+                    <div className="pagination-info" style={{ textAlign: 'center', marginBottom: '0.75rem' }}>
+                        {t("admin.showingAccounts", {
+                            from: (sendPage - 1) * PAGE_LIMIT + 1,
+                            to: Math.min(sendPage * PAGE_LIMIT, users.length),
+                            total: users.length,
+                        })}
+                    </div>
+                    <PaginationControls
+                        page={sendPage}
+                        totalPages={sendTotalPages}
+                        goToPageFn={goToSendPage}
+                    />
                 </div>
             )}
 
@@ -292,12 +381,12 @@ export default function AdminNotification() {
                                 type="text"
                                 placeholder={t('admin.notifSearch')}
                                 value={histSearch}
-                                onChange={e => setHistSearch(e.target.value)}
+                                onChange={e => { setHistSearch(e.target.value); setHistPage(1) }}
                             />
                             {histSearch && (
                                 <button
                                     style={{ background: 'none', border: 'none', color: '#f472b6', cursor: 'pointer' }}
-                                    onClick={() => setHistSearch('')}
+                                    onClick={() => { setHistSearch(''); setHistPage(1) }}
                                 >✕</button>
                             )}
                         </div>
@@ -308,7 +397,7 @@ export default function AdminNotification() {
                                 <button
                                     key={status}
                                     className={`hist-filter-btn ${filterStatus === status ? 'active' : ''}`}
-                                    onClick={() => setFilterStatus(status)}
+                                    onClick={() => { setFilterStatus(status); setHistPage(1) }}
                                 >
                                     {status === 'all' ? t('admin.notifAll') : ''}
                                     {status === 'unread' ? t('admin.notifTotalUnread') : ''}
@@ -354,7 +443,7 @@ export default function AdminNotification() {
                             </div>
                         ) : (
                             <div className="notif-history-list">
-                                {filteredHistory.map(notif => (
+                                {paginatedHistory.map(notif => (
                                     <div
                                         key={notif.id}
                                         className={`notif-history-item ${!notif.isRead ? 'notif-history-unread' : ''}`}
@@ -395,7 +484,25 @@ export default function AdminNotification() {
                                 ))}
                             </div>
                         )}
+
                     </div>
+
+                    {filteredHistory.length > PAGE_LIMIT && (
+                        <div style={{ marginTop: '0.5rem' }}>
+                            <div className="pagination-info" style={{ textAlign: 'center', marginBottom: '0.75rem' }}>
+                                {t("admin.showingMessages", {
+                                    from: (histPage - 1) * PAGE_LIMIT + 1,
+                                    to: Math.min(histPage * PAGE_LIMIT, filteredHistory.length),
+                                    total: filteredHistory.length,
+                                })}
+                            </div>
+                            <PaginationControls
+                                page={histPage}
+                                totalPages={histTotalPages}
+                                goToPageFn={goToHistPage}
+                            />
+                        </div>
+                    )}
                 </>
             )}
 

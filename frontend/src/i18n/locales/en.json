@@ -46,7 +46,8 @@
         "subtitle": "Messages about the latest novels and admin announcements.",
         "markAll": "Mark all as read",
         "empty": "No notifications yet.",
-        "loading": "Loading notifications..."
+        "loading": "Loading notifications...",
+        "showing": "Showing {{from}} to {{to}} of {{total}} notifications"
     },
     "profile": {
         "title": "Profile",
@@ -159,7 +160,11 @@
         "add book": "Add Book",
         "emptyB": "No books yet. Click + to add one.",
         "addB": "Add New Book",
-        "editBook": "Edit Book"
+        "editBook": "Edit Book",
+        "showingAccounts": "Showing {{from}} to {{to}} of {{total}} accounts",
+        "showingBooks": "Showing {{from}} to {{to}} of {{total}} books",
+        "showingChapters": "Showing {{from}} to {{to}} of {{total}} chapters",
+        "showingMessages": "Showing {{from}} to {{to}} of {{total}} messages"
     },
     "auth": {
         "login": "Sign In",

@@ -3,7 +3,8 @@ import AdminLayout from './AdminLayout'
 import {
     Plus, Trash2, Loader2, X,
     BookOpen, Check, ChevronRight,
-    ArrowLeft, Hash
+    ArrowLeft, Hash,
+    ChevronLeft, ChevronsLeft, ChevronsRight
 } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
@@ -189,6 +190,38 @@ export default function AdminChapters() {
         }
     }
 
+    const PAGE_LIMIT = 10
+    const [page, setPage] = useState(1)
+
+    const sortedChapters = [...chapters].sort((a, b) => {
+        if (a.bookId !== b.bookId) return a.bookId.localeCompare(b.bookId)
+        return a.number - b.number
+    })
+
+    const totalPages = Math.max(1, Math.ceil(sortedChapters.length / PAGE_LIMIT))
+    const paginatedChapters = sortedChapters.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+
+    const goToPage = (pageNumber: number) => {
+        if (pageNumber < 1 || pageNumber > totalPages) return
+        setPage(pageNumber)
+    }
+
+    const getPageNumbers = () => {
+        const pages: (number | '...')[] = []
+        if (totalPages <= 7) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i)
+        } else {
+            pages.push(1)
+            if (page > 3) pages.push('...')
+            const start = Math.max(2, page - 1)
+            const end = Math.min(totalPages - 1, page + 1)
+            for (let i = start; i <= end; i++) pages.push(i)
+            if (page < totalPages - 2) pages.push('...')
+            pages.push(totalPages)
+        }
+        return pages
+    }
+
     // ── Cari judul buku berdasarkan bookId ─────────────────
     const getBookTitle = (bookId: string): string => {
         const book = books.find(b => b.id === bookId)
@@ -236,90 +269,119 @@ export default function AdminChapters() {
                             </tr>
                         </thead>
                         <tbody>
-                            {chapters
-                                // Urutkan: by bookId lalu by number
-                                .sort((a, b) => {
-                                    if (a.bookId !== b.bookId) return a.bookId.localeCompare(b.bookId)
-                                    return a.number - b.number
-                                })
-                                .map(ch => (
-                                    <tr key={ch.id}>
-                                        {/* ID */}
-                                        <td>
-                                            <span className="chapter-id-badge">{ch.id}</span>
-                                        </td>
+                            {paginatedChapters.map(ch => (
+                                <tr key={ch.id}>
+                                    {/* ID */}
+                                    <td>
+                                        <span className="chapter-id-badge">{ch.id}</span>
+                                    </td>
 
-                                        {/* Judul Buku */}
-                                        <td>
-                                            <div style={{ maxWidth: '160px' }}>
-                                                <div className="admin-user-name" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                    {getBookTitle(ch.bookId)}
-                                                </div>
-                                                <div className="admin-user-email">{ch.bookId}</div>
+                                    {/* Judul Buku */}
+                                    <td>
+                                        <div style={{ maxWidth: '160px' }}>
+                                            <div className="admin-user-name" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                {getBookTitle(ch.bookId)}
                                             </div>
-                                        </td>
+                                            <div className="admin-user-email">{ch.bookId}</div>
+                                        </div>
+                                    </td>
 
-                                        {/* Nomor Chapter */}
-                                        <td>
-                                            <span className="chapter-number-badge">
-                                                <Hash size={11} /> {ch.number}
-                                            </span>
-                                        </td>
+                                    {/* Nomor Chapter */}
+                                    <td>
+                                        <span className="chapter-number-badge">
+                                            <Hash size={11} /> {ch.number}
+                                        </span>
+                                    </td>
 
-                                        {/* Judul Chapter */}
-                                        <td>
-                                            <span style={{
-                                                fontWeight: 600,
-                                                color: '#1a0010',
-                                                fontSize: '0.88rem',
-                                                maxWidth: '180px',
-                                                display: 'block',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap',
-                                            }}>
-                                                {ch.title}
-                                            </span>
-                                        </td>
+                                    {/* Judul Chapter */}
+                                    <td>
+                                        <span style={{
+                                            fontWeight: 600,
+                                            color: '#1a0010',
+                                            fontSize: '0.88rem',
+                                            maxWidth: '180px',
+                                            display: 'block',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                        }}>
+                                            {ch.title}
+                                        </span>
+                                    </td>
 
-                                        {/* Preview isi */}
-                                        <td>
-                                            <span style={{
-                                                color: '#d1a0b8',
-                                                fontSize: '0.8rem',
-                                                maxWidth: '200px',
-                                                display: 'block',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap',
-                                            }}>
-                                                {ch.content.slice(0, 60)}...
-                                            </span>
-                                        </td>
+                                    {/* Preview isi */}
+                                    <td>
+                                        <span style={{
+                                            color: '#d1a0b8',
+                                            fontSize: '0.8rem',
+                                            maxWidth: '200px',
+                                            display: 'block',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap',
+                                        }}>
+                                            {ch.content.slice(0, 60)}...
+                                        </span>
+                                    </td>
 
-                                        {/* Tanggal */}
-                                        <td style={{ color: '#d1a0b8', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
-                                            {new Date(ch.createdAt).toLocaleDateString('id-ID', {
-                                                day: 'numeric', month: 'short', year: 'numeric'
-                                            })}
-                                        </td>
+                                    {/* Tanggal */}
+                                    <td style={{ color: '#d1a0b8', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                                        {new Date(ch.createdAt).toLocaleDateString('id-ID', {
+                                            day: 'numeric', month: 'short', year: 'numeric'
+                                        })}
+                                    </td>
 
-                                        {/* Hapus */}
-                                        <td>
-                                            <button
-                                                className="btn-delete"
-                                                onClick={() => setDeleteTarget(ch)}
-                                            >
-                                                <Trash2 size={14} /> {t('admin.delete')}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))
+                                    {/* Hapus */}
+                                    <td>
+                                        <button
+                                            className="btn-delete"
+                                            onClick={() => setDeleteTarget(ch)}
+                                        >
+                                            <Trash2 size={14} /> {t('admin.delete')}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
                             }
                         </tbody>
                     </table>
                 )}
             </div>
+
+            {chapters.length > 0 && (
+                <div className="pagination-container">
+                    <div className="pagination-info">
+                        {t("admin.showingChapters", {
+                            from: (page - 1) * PAGE_LIMIT + 1,
+                            to: Math.min(page * PAGE_LIMIT, sortedChapters.length),
+                            total: sortedChapters.length,
+                        })}
+                    </div>
+                    <div className="pagination-controls">
+                        <button className="pagination-btn" onClick={() => goToPage(1)} disabled={page === 1} title={t("common.firstPage")}>
+                            <ChevronsLeft size={18} />
+                        </button>
+                        <button className="pagination-btn" onClick={() => goToPage(page - 1)} disabled={page === 1} title={t("common.prevPage")}>
+                            <ChevronLeft size={18} />
+                        </button>
+                        {getPageNumbers().map((p, i) =>
+                            p === '...' ? (
+                                <span key={`dots-${i}`} className="pagination-dots">…</span>
+                            ) : (
+                                <button key={p} className={`pagination-btn pagination-num ${page === p ? 'active' : ''}`} onClick={() => goToPage(p as number)}>
+                                    {p}
+                                </button>
+                            )
+                        )}
+                        <button className="pagination-btn" onClick={() => goToPage(page + 1)} disabled={page === totalPages || totalPages === 0} title={t("common.nextPage")}>
+                            <ChevronRight size={18} />
+                        </button>
+                        <button className="pagination-btn" onClick={() => goToPage(totalPages)} disabled={page === totalPages || totalPages === 0} title={t("common.lastPage")}>
+                            <ChevronsRight size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* ══════════════════════════════════════
           MODAL TAMBAH CHAPTER

@@ -1022,6 +1022,97 @@ mark.search-highlight {
   font-weight: bold;
 }
 
+/* ══════════════════════════════════════
+   MOBILE RESPONSIVE — Users Home
+══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .page-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+  }
+
+  .page-header p {
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .book-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .book-cover {
+    height: 200px;
+  }
+
+  .book-info {
+    padding: 0.9rem 1rem;
+  }
+
+  .book-info h3 {
+    font-size: 1rem;
+  }
+
+  .book-info p {
+    font-size: 0.82rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-read {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .pagination-container {
+    margin-top: 2rem;
+    gap: 0.75rem;
+  }
+
+  .pagination-info {
+    font-size: 0.78rem;
+  }
+
+  .pagination-controls {
+    gap: 0.3rem;
+  }
+
+  .pagination-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+    border-radius: 10px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .book-cover {
+    height: 200px;
+  }
+
+  .pagination-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+}
+
 /* Pesan error upload */
 .upload-error {
   background: #fff5f5;

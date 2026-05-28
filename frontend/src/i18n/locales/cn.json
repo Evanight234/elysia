@@ -46,7 +46,8 @@
         "subtitle": "关于最新小说和管理员公告的消息。",
         "markAll": "全部标记为已读",
         "empty": "暂无通知。",
-        "loading": "正在加载通知..."
+        "loading": "正在加载通知...",
+        "showing": "显示 {{from}} - {{to}}，共 {{total}} 条通知"
     },
     "profile": {
         "title": "个人资料",
@@ -159,7 +160,11 @@
         "add book": "添加书籍",
         "emptyB": "暂无书籍。点击+添加。",
         "addB": "添加新书",
-        "editBook": "编辑书籍"
+        "editBook": "编辑书籍",
+        "showingAccounts": "显示 {{from}} - {{to}}，共 {{total}} 个账户",
+        "showingBooks": "显示 {{from}} - {{to}}，共 {{total}} 本书",
+        "showingChapters": "显示 {{from}} - {{to}}，共 {{total}} 个章节",
+        "showingMessages": "显示 {{from}} - {{to}}，共 {{total}} 条消息"
     },
     "auth": {
         "login": "登录",

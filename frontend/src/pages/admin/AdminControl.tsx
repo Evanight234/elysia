@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from './AdminLayout'
-import { Trash2, Users, Loader2, Search } from 'lucide-react'
+import { Trash2, Users, Loader2, Search, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
@@ -14,12 +14,15 @@ interface UserData {
   createdAt: string
 }
 
+const PAGE_LIMIT = 10
+
 export default function AdminUserControl() {
   const [users, setUsers] = useState<UserData[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<UserData | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [page, setPage] = useState(1)
     const { t } = useTranslation()
     const { toast } = useToastContext()
     useEffect(() => { fetchUsers() }, [])
@@ -42,6 +45,35 @@ export default function AdminUserControl() {
   )
   const userCount = users.filter(u => u.role === 'USER').length
   const adminCount = users.filter(u => u.role === 'ADMIN').length
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_LIMIT))
+  const paginatedUsers = filtered.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+
+  const goToPage = (pageNumber: number) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return
+    setPage(pageNumber)
+  }
+
+  const getPageNumbers = () => {
+    const pages: (number | '...')[] = []
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i)
+    } else {
+      pages.push(1)
+      if (page > 3) pages.push('...')
+      const start = Math.max(2, page - 1)
+      const end = Math.min(totalPages - 1, page + 1)
+      for (let i = start; i <= end; i++) pages.push(i)
+      if (page < totalPages - 2) pages.push('...')
+      pages.push(totalPages)
+    }
+    return pages
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value)
+    setPage(1)
+  }
 
   const handleDelete = async () => {
     if (!deleteTarget) return
@@ -101,12 +133,12 @@ export default function AdminUserControl() {
           type="text"
           placeholder={t('admin.searchUser')}
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => handleSearchChange(e.target.value)}
         />
         {search && (
           <button
             style={{ background: 'none', border: 'none', color: '#f472b6', cursor: 'pointer' }}
-            onClick={() => setSearch('')}
+            onClick={() => handleSearchChange('')}
           >✕</button>
         )}
       </div>
@@ -130,7 +162,6 @@ export default function AdminUserControl() {
             {search ? `${t('admin.empty-user')} "${search}"` : t('common.noUsers')}
           </div>
         ) : (
-          // ← tambah className="admin-table" di sini
           <table className="admin-table">
             <thead>
               <tr>
@@ -141,7 +172,7 @@ export default function AdminUserControl() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map(user => (
+              {paginatedUsers.map(user => (
                 <tr key={user.id}>
                   <td>
                     <div className="admin-user-cell">
@@ -182,6 +213,41 @@ export default function AdminUserControl() {
           </table>
         )}
       </div>
+
+      {filtered.length > 0 && (
+        <div className="pagination-container">
+          <div className="pagination-info">
+            {t("admin.showingAccounts", {
+              from: (page - 1) * PAGE_LIMIT + 1,
+              to: Math.min(page * PAGE_LIMIT, filtered.length),
+              total: filtered.length,
+            })}
+          </div>
+          <div className="pagination-controls">
+            <button className="pagination-btn" onClick={() => goToPage(1)} disabled={page === 1} title={t("common.firstPage")}>
+              <ChevronsLeft size={18} />
+            </button>
+            <button className="pagination-btn" onClick={() => goToPage(page - 1)} disabled={page === 1} title={t("common.prevPage")}>
+              <ChevronLeft size={18} />
+            </button>
+            {getPageNumbers().map((p, i) =>
+              p === '...' ? (
+                <span key={`dots-${i}`} className="pagination-dots">…</span>
+              ) : (
+                <button key={p} className={`pagination-btn pagination-num ${page === p ? 'active' : ''}`} onClick={() => goToPage(p as number)}>
+                  {p}
+                </button>
+              )
+            )}
+            <button className="pagination-btn" onClick={() => goToPage(page + 1)} disabled={page === totalPages || totalPages === 0} title={t("common.nextPage")}>
+              <ChevronRight size={18} />
+            </button>
+            <button className="pagination-btn" onClick={() => goToPage(totalPages)} disabled={page === totalPages || totalPages === 0} title={t("common.lastPage")}>
+              <ChevronsRight size={18} />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── Modal Konfirmasi Hapus ── */}
       {deleteTarget && (

@@ -173,7 +173,7 @@ export default function Notifications() {
             {pagination && pagination.total > 0 && pagination.totalPages >= 1 && (
               <div className="pagination-container">
                 <div className="pagination-info">
-                  {t("home.showing", {
+                  {t("notifications.showing", {
                     from: pagination.total > 0 ? (pagination.page - 1) * pagination.limit + 1 : 0,
                     to: Math.min(pagination.page * pagination.limit, pagination.total),
                     total: pagination.total,
