@@ -5,6 +5,7 @@ import { Mail, Info, Loader2, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsR
 import api from '../../api/axios';
 import { useTranslation } from 'react-i18next';
 import { useToastContext } from '../../context/ToastContext';
+import { useSidebarState } from '../../hooks/useSidebarState';
 
 
 interface Notification {
@@ -32,6 +33,7 @@ export default function Notifications() {
   const { t } = useTranslation();
   const { toast } = useToastContext();
   const abortRef = useRef<AbortController | null>(null);
+  const { sidebarClass } = useSidebarState();
 
   useEffect(() => {
     fetchNotifications(page);
@@ -124,8 +126,17 @@ export default function Notifications() {
     return t('timeAgo.daysAgo', { count: days });
   };
 
+  // Add wallpaper class on mount
+  useEffect(() => {
+    document.body.classList.add('home-wallpaper-active')
+    return () => {
+      document.body.classList.remove('home-wallpaper-active')
+    }
+  }, [])
+
   return (
     <UserLayout>
+      <div className={`user-page-container ${sidebarClass}`}>
       <div className="page-header">
         <div className="notif-header-row">
           <div>
@@ -232,6 +243,7 @@ export default function Notifications() {
             )}
           </>
         )}
+      </div>
       </div>
     </UserLayout>
   );

@@ -10,6 +10,7 @@ import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
 import { useToastContext } from '../../context/ToastContext'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface Book {
@@ -190,7 +191,7 @@ export default function AdminChapters() {
         }
     }
 
-    const PAGE_LIMIT = 10
+    const { paginationLimit } = useSidebarState()
     const [page, setPage] = useState(1)
 
     const sortedChapters = [...chapters].sort((a, b) => {
@@ -198,8 +199,13 @@ export default function AdminChapters() {
         return a.number - b.number
     })
 
-    const totalPages = Math.max(1, Math.ceil(sortedChapters.length / PAGE_LIMIT))
-    const paginatedChapters = sortedChapters.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+    const totalPages = Math.max(1, Math.ceil(sortedChapters.length / paginationLimit))
+    const paginatedChapters = sortedChapters.slice((page - 1) * paginationLimit, page * paginationLimit)
+
+    // Reset page on pagination limit change
+    useEffect(() => {
+        setPage(1)
+    }, [paginationLimit])
 
     const goToPage = (pageNumber: number) => {
         if (pageNumber < 1 || pageNumber > totalPages) return
@@ -352,8 +358,8 @@ export default function AdminChapters() {
                 <div className="pagination-container">
                     <div className="pagination-info">
                         {t("admin.showingChapters", {
-                            from: (page - 1) * PAGE_LIMIT + 1,
-                            to: Math.min(page * PAGE_LIMIT, sortedChapters.length),
+                            from: (page - 1) * paginationLimit + 1,
+                            to: Math.min(page * paginationLimit, sortedChapters.length),
                             total: sortedChapters.length,
                         })}
                     </div>

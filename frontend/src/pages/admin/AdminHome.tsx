@@ -4,6 +4,7 @@ import { Users, BookOpen, Bell, Star, Loader2, ChevronLeft, ChevronRight, Chevro
 import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 interface UserStat {
     id: string
@@ -20,17 +21,33 @@ interface StatData {
     totalRecs: number
 }
 
-const PAGE_LIMIT = 10
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false)
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 480)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
+    return isMobile
+}
 
 export default function AdminHome() {
+    const { paginationLimit } = useSidebarState()
     const [stats, setStats] = useState<StatData>({ totalUsers: 0, totalBooks: 0, totalNotifs: 0, totalRecs: 0 })
     const [allUsers, setAllUsers] = useState<UserStat[]>([])
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const { t } = useTranslation()
+    const isMobile = useIsMobile()
 
-    const totalPages = Math.max(1, Math.ceil(allUsers.length / PAGE_LIMIT))
-    const paginatedUsers = allUsers.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+    const totalPages = Math.max(1, Math.ceil(allUsers.length / paginationLimit))
+    const paginatedUsers = allUsers.slice((page - 1) * paginationLimit, page * paginationLimit)
+
+    // Reset page on pagination limit change
+    useEffect(() => {
+        setPage(1)
+    }, [paginationLimit])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,6 +84,15 @@ export default function AdminHome() {
 
     const getPageNumbers = () => {
         const pages: (number | '...')[] = []
+
+        if (isMobile) {
+            pages.push(1)
+            if (page > 2) pages.push('...')
+            if (page > 1 && page < totalPages) pages.push(page)
+            if (page < totalPages - 1) pages.push('...')
+            if (totalPages > 1) pages.push(totalPages)
+            return pages
+        }
 
         if (totalPages <= 7) {
             for (let i = 1; i <= totalPages; i++) pages.push(i)
@@ -123,6 +149,30 @@ export default function AdminHome() {
                     </div>
                 ) : allUsers.length === 0 ? (
                     <div className="admin-empty">{t('settings.noUsers')}</div>
+                ) : isMobile ? (
+                    <div className="mobile-user-cards">
+                        {paginatedUsers.map(user => (
+                            <div key={user.id} className="mobile-user-card">
+                                <div className="mobile-user-card-top">
+                                    <div className="admin-user-avatar" style={{ width: 36, height: 36, fontSize: 14 }}>
+                                        {user.name[0].toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <div className="admin-user-name">{user.name}</div>
+                                        <div className="admin-user-email">{user.email}</div>
+                                    </div>
+                                    <span className={`role-badge ${user.role.toLowerCase()}`}>
+                                        {user.role}
+                                    </span>
+                                </div>
+                                <div className="mobile-user-card-bottom">
+                                    {new Date(user.createdAt).toLocaleDateString('id-ID', {
+                                        day: 'numeric', month: 'short', year: 'numeric'
+                                    })}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 ) : (
                     <table className="admin-table">
                         <thead>
@@ -167,8 +217,8 @@ export default function AdminHome() {
                 <div className="pagination-container">
                     <div className="pagination-info">
                         {t("admin.showingAccounts", {
-                            from: (page - 1) * PAGE_LIMIT + 1,
-                            to: Math.min(page * PAGE_LIMIT, allUsers.length),
+                            from: (page - 1) * paginationLimit + 1,
+                            to: Math.min(page * paginationLimit, allUsers.length),
                             total: allUsers.length,
                         })}
                     </div>

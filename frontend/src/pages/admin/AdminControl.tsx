@@ -5,6 +5,7 @@ import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
 import { useToastContext } from '../../context/ToastContext'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 interface UserData {
   id: string
@@ -14,15 +15,19 @@ interface UserData {
   createdAt: string
 }
 
-const PAGE_LIMIT = 10
-
 export default function AdminUserControl() {
+  const { paginationLimit } = useSidebarState()
   const [users, setUsers] = useState<UserData[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<UserData | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [page, setPage] = useState(1)
+
+  // Reset page when paginationLimit changes
+  useEffect(() => {
+    setPage(1)
+  }, [paginationLimit])
     const { t } = useTranslation()
     const { toast } = useToastContext()
     useEffect(() => { fetchUsers() }, [])
@@ -46,8 +51,8 @@ export default function AdminUserControl() {
   const userCount = users.filter(u => u.role === 'USER').length
   const adminCount = users.filter(u => u.role === 'ADMIN').length
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_LIMIT))
-  const paginatedUsers = filtered.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+  const totalPages = Math.max(1, Math.ceil(filtered.length / paginationLimit))
+  const paginatedUsers = filtered.slice((page - 1) * paginationLimit, page * paginationLimit)
 
   const goToPage = (pageNumber: number) => {
     if (pageNumber < 1 || pageNumber > totalPages) return
@@ -218,8 +223,8 @@ export default function AdminUserControl() {
         <div className="pagination-container">
           <div className="pagination-info">
             {t("admin.showingAccounts", {
-              from: (page - 1) * PAGE_LIMIT + 1,
-              to: Math.min(page * PAGE_LIMIT, filtered.length),
+              from: (page - 1) * paginationLimit + 1,
+              to: Math.min(page * paginationLimit, filtered.length),
               total: filtered.length,
             })}
           </div>

@@ -1,14 +1,16 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import UserLayout from '../../components/layout/UserLayout';
 import './UserPages.css';
 import { User as UserIcon, Camera, Loader2, Check, X } from 'lucide-react';
 import api from '../../api/axios';
 import { useTranslation } from 'react-i18next';
 import { useToastContext } from '../../context/ToastContext';
+import { useSidebarState } from '../../hooks/useSidebarState';
 
 export default function Profile() {
   const { t } = useTranslation();
   const { toast } = useToastContext();
+  const { sidebarClass } = useSidebarState();
   const user = JSON.parse(
     localStorage.getItem('user') ||
     '{"name":"User","username":"user123","email":"user@example.com","createdAt":"","role":"USER"}'
@@ -99,8 +101,17 @@ export default function Profile() {
 
   const displayPhoto = previewUrl || avatar
 
+  // Add wallpaper class on mount
+  useEffect(() => {
+    document.body.classList.add('home-wallpaper-active')
+    return () => {
+      document.body.classList.remove('home-wallpaper-active')
+    }
+  }, [])
+
   return (
     <UserLayout>
+      <div className={`user-page-container ${sidebarClass}`}>
       <div className="page-header">
         <h1>{t('profile.title')} {user.username}</h1>
         <p>{t('profile.subtitle')} {user.username} {t('profile.subtitle2')}</p>
@@ -180,6 +191,7 @@ export default function Profile() {
             </span>
           </div>
         </div>
+      </div>
       </div>
     </UserLayout>
   )

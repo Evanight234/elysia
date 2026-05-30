@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserLayout from '../../components/layout/UserLayout';
 import api from '../../api/axios';
@@ -7,6 +7,7 @@ import './UserPages.css';
 import { useTranslation } from 'react-i18next';
 import { useToastContext } from '../../context/ToastContext';
 import { translateCategory } from '../../utils/categoryHelper';
+import { useSidebarState } from '../../hooks/useSidebarState';
 
 interface Book {
   id: string;
@@ -28,6 +29,7 @@ export default function Search() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
+  const { sidebarCollapsed, paginationLimit, sidebarClass } = useSidebarState();
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     limit: 10,
@@ -49,7 +51,7 @@ export default function Search() {
 
     try {
       setLoading(true);
-      const res = await api.get(`/books/search?q=${searchQuery}&page=${page}&limit=10`, {
+      const res = await api.get(`/books/search?q=${searchQuery}&page=${page}&limit=${paginationLimit}`, {
         signal: controller.signal,
       });
       if (controller.signal.aborted) return
@@ -90,12 +92,28 @@ export default function Search() {
     return pages;
   };
 
+  // Re-search with new limit when sidebar toggles and there's a current query
+  useEffect(() => {
+    if (query.trim() && results.length > 0) {
+      handleSearch(1, query);
+    }
+  }, [sidebarCollapsed]);
+
+  // Add wallpaper class on mount
+  useEffect(() => {
+    document.body.classList.add('home-wallpaper-active')
+    return () => {
+      document.body.classList.remove('home-wallpaper-active')
+    }
+  }, [])
+
   return (
     <UserLayout>
-      <div className="page-header">
-        <h1>{t('search.hei')} {user.name}, {t('search.heiSub')}</h1>
-        <p>{t('search.subtitle')}</p>
-      </div>
+      <div className={`user-page-container ${sidebarClass}`}>
+        <div className="page-header">
+          <h1>{t('search.hei')} {user.name}, {t('search.heiSub')}</h1>
+          <p>{t('search.subtitle')}</p>
+        </div>
 
       <div className="search-container">
         <div className="search-box-large">
@@ -264,6 +282,7 @@ export default function Search() {
           </div>
         </div>
       )}
+      </div>
     </UserLayout>
   );
 }

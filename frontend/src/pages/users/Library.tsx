@@ -5,6 +5,7 @@ import { Heart, BookOpen, Clock, Loader2, ChevronLeft, ChevronRight, ChevronsLef
 import api from '../../api/axios'
 import './UserPages.css'
 import { useTranslation } from 'react-i18next'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 type Tab = 'favorite' | 'lastRead'
 
@@ -38,7 +39,7 @@ const TAB_STATUS: Record<Tab, string> = {
 }
 
 export default function Library() {
-  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}');
+  const user = JSON.parse(localStorage.getItem('user') || '{"name": "User", "username": "user123", "email": "user@example.com", "createdAt": "createdAt"}')
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<Tab>('favorite')
   const [items, setItems] = useState<LibraryItem[]>([])
@@ -47,6 +48,7 @@ export default function Library() {
   const [page, setPage] = useState(1)
   const { t } = useTranslation()
   const abortRef = useRef<AbortController | null>(null)
+  const { sidebarCollapsed, paginationLimit, sidebarClass } = useSidebarState()
 
   const fetchLibrary = useCallback(async (tab: Tab, p: number) => {
     if (abortRef.current) abortRef.current.abort()
@@ -56,7 +58,7 @@ export default function Library() {
     try {
       setLoading(true)
       const res = await api.get('/library', {
-        params: { status: TAB_STATUS[tab], page: p, limit: 20 },
+        params: { status: TAB_STATUS[tab], page: p, limit: paginationLimit },
         signal: controller.signal,
       })
       if (controller.signal.aborted) return
@@ -77,7 +79,20 @@ export default function Library() {
     return () => {
       if (abortRef.current) abortRef.current.abort()
     }
-  }, [activeTab, page, fetchLibrary])
+  }, [activeTab, page, fetchLibrary, sidebarCollapsed])
+
+  // Re-fetch on sidebar toggle to adjust limit
+  useEffect(() => {
+    setPage(1)
+  }, [sidebarCollapsed])
+
+  // Add wallpaper class on mount
+  useEffect(() => {
+    document.body.classList.add('home-wallpaper-active')
+    return () => {
+      document.body.classList.remove('home-wallpaper-active')
+    }
+  }, [])
 
   const handleTabChange = (tab: Tab) => {
     if (tab !== activeTab) {
@@ -114,10 +129,11 @@ export default function Library() {
 
   return (
     <UserLayout>
-      <div className="page-header">
-        <h1>{t('library.title')} {user.username}</h1>
-        <p>{t('library.subtitle')}</p>
-      </div>
+      <div className={`user-page-container ${sidebarClass}`}>
+        <div className="page-header">
+          <h1>{t('library.title')} {user.username}</h1>
+          <p>{t('library.subtitle')}</p>
+        </div>
 
       <div className="library-tabs">
         <button
@@ -247,6 +263,7 @@ export default function Library() {
           </div>
         )}
       </section>
+      </div>
     </UserLayout>
   )
 }

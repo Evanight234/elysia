@@ -7,6 +7,7 @@ import './UserPages.css'
 import { useTranslation } from 'react-i18next'
 import { useToastContext } from '../../context/ToastContext'
 import { translateCategory } from '../../utils/categoryHelper'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 interface Chapter {
     id: string
@@ -36,6 +37,7 @@ export default function BookDetail() {
     const [error, setError] = useState<string | null>(null)
     const { t } = useTranslation()
     const { toast } = useToastContext()
+    const { sidebarClass } = useSidebarState()
 
     useEffect(() => {
         const fetchBookDetail = async () => {
@@ -52,6 +54,14 @@ export default function BookDetail() {
         }
         fetchBookDetail()
     }, [id])
+
+    // Add wallpaper class on mount
+    useEffect(() => {
+        document.body.classList.add('home-wallpaper-active')
+        return () => {
+            document.body.classList.remove('home-wallpaper-active')
+        }
+    }, [])
 
     if (loading) {
         return (
@@ -120,6 +130,7 @@ export default function BookDetail() {
     }
     return (
         <UserLayout>
+            <div className={`user-page-container ${sidebarClass}`}>
             {/* tombol kembali */}
             <button onClick={() => navigate(-1)} className='back-btn'>
                 <ChevronLeft size={20} />
@@ -197,6 +208,7 @@ export default function BookDetail() {
                     </div>
                 </div>
 
+            </div>
             </div>
         </UserLayout>
     )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './UserLayout.css';
 import {
@@ -21,7 +21,27 @@ interface UserLayoutProps {
 export default function UserLayout({ children }: UserLayoutProps) {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    // Default ke true (tiga garis) saat pertama kali masuk
+    const val = localStorage.getItem('sidebar_collapsed');
+    return val !== 'false';
+  });
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (sidebarCollapsed) {
+      document.body.classList.add('sidebar-collapsed');
+    } else {
+      document.body.classList.remove('sidebar-collapsed');
+    }
+  }, [sidebarCollapsed]);
+
+  const toggleSidebar = () => {
+    const newVal = !sidebarCollapsed;
+    setSidebarCollapsed(newVal);
+    localStorage.setItem('sidebar_collapsed', String(newVal));
+    window.dispatchEvent(new Event('sidebar_toggle'));
+  };
 
   const handleLogout = () => {
     const keepKeys = ['elysiaapp_lang']
@@ -53,8 +73,15 @@ export default function UserLayout({ children }: UserLayoutProps) {
 
   return (
     <div className="user-layout">
+      {/* Floating Sidebar Toggle Button for Desktop (visible when collapsed) */}
+      {sidebarCollapsed && (
+        <button className="desktop-sidebar-toggle" onClick={toggleSidebar} title="Buka Menu">
+          <Menu size={24} />
+        </button>
+      )}
+
       {/* ── Sidebar Desktop ── */}
-      <nav className="side-nav">
+      <nav className={`side-nav ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="nav-logo">
           <div className="logo-icon-small">
             <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,6 +90,11 @@ export default function UserLayout({ children }: UserLayoutProps) {
             </svg>
           </div>
           <span className="logo-text">Elysia</span>
+          
+          {/* Close button inside expanded navbar */}
+          <button className="sidebar-close-btn" onClick={toggleSidebar} title="Tutup Menu">
+            <X size={20} />
+          </button>
         </div>
 
         <div className="nav-links">

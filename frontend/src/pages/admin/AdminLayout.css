@@ -214,3 +214,252 @@
         top: 15px;
     }
 }
+
+/* ══════════════════════════════════════
+   COLLAPSIBLE SIDEBAR FOR DESKTOP
+   ══════════════════════════════════════ */
+@media (min-width: 769px) {
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .admin-sidebar.collapsed {
+        transform: translateX(-100%);
+    }
+
+    .admin-main {
+        padding-left: 280px;
+        transition: padding-left 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    body.sidebar-collapsed .admin-main {
+        padding-left: 0;
+    }
+}
+
+/* Sidebar Close Button */
+.admin-close-btn {
+    background: none;
+    border: none;
+    color: #d1a0b8;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 8px;
+    display: flex;
+    margin-left: auto;
+    transition: background 0.2s, color 0.2s;
+}
+
+.admin-close-btn:hover {
+    background: #fff0f6;
+    color: #be185d;
+}
+
+/* Desktop Sidebar Toggle Button */
+.admin-desktop-toggle {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid #fce7f3;
+    color: #be185d;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.08);
+    transition: all 0.2s;
+}
+
+.admin-desktop-toggle:hover {
+    background: white;
+    transform: scale(1.05);
+    color: #9d174d;
+    border-color: #fbcfe8;
+}
+
+@media (max-width: 768px) {
+    .admin-desktop-toggle {
+        display: none !important;
+    }
+}
+
+/* ══════════════════════════════════════
+   PREMIUM LIVE BACKGROUND & GLASSMORPHISM FOR ADMIN
+   ══════════════════════════════════════ */
+body.home-wallpaper-active .admin-root {
+    background: linear-gradient(135deg, rgba(253, 242, 248, 0.72) 0%, rgba(251, 207, 232, 0.52) 100%),
+      url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780146260/download_25_duadzs.jpg') no-repeat center center / cover fixed !important;
+}
+
+body.home-wallpaper-active .admin-sidebar {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-right: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+    box-shadow: 4px 0 24px rgba(219, 39, 119, 0.05) !important;
+}
+
+body.home-wallpaper-active .admin-topbar {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Glassmorphism for Admin Cards and Tables */
+body.home-wallpaper-active .admin-stat-card,
+body.home-wallpaper-active .admin-table-wrapper,
+body.home-wallpaper-active .admin-profile-card {
+    background: rgba(255, 255, 255, 0.42) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 8px 32px rgba(219, 39, 119, 0.08) !important;
+}
+
+body.home-wallpaper-active .admin-table th {
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.home-wallpaper-active .admin-table tr:hover td {
+    background: rgba(255, 255, 255, 0.25) !important;
+}
+
+body.home-wallpaper-active .admin-search-box {
+    background: rgba(255, 255, 255, 0.42) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 8px 24px rgba(219, 39, 119, 0.08) !important;
+}
+
+/* Admin Notifications glassmorphism */
+body.home-wallpaper-active .notif-admin-tab {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+body.home-wallpaper-active .notif-admin-tab.active {
+    background: #ec4899 !important;
+    color: white !important;
+    border-color: #ec4899 !important;
+}
+
+body.home-wallpaper-active .notif-history-item {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Confirmation overlays & modals glassmorphic */
+body.home-wallpaper-active .confirm-box,
+body.home-wallpaper-active .notif-send-modal {
+    background: rgba(255, 255, 255, 0.75) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 20px 50px rgba(219, 39, 119, 0.2) !important;
+}
+
+/* Glassmorphism for admin pagination */
+body.home-wallpaper-active .admin-root .pagination-btn {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    color: #be185d !important;
+}
+
+body.home-wallpaper-active .admin-root .pagination-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.75) !important;
+}
+
+body.home-wallpaper-active .admin-root .pagination-btn.active {
+    background: #ec4899 !important;
+    color: white !important;
+    border-color: #ec4899 !important;
+}
+
+/* Dynamic Blobs for Admin main container */
+.admin-main .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.admin-main .blob-1 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #fbcfe8 0%, #f472b6 100%);
+    top: -5%;
+    left: -5%;
+    animation: driftBlobAdmin 22s ease-in-out infinite alternate;
+}
+
+.admin-main .blob-2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #c084fc 0%, #e879f9 100%);
+    bottom: 10%;
+    right: -5%;
+    animation: driftBlobAdmin 26s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes driftBlobAdmin {
+    0% { transform: translateY(0) scale(1) rotate(0deg); }
+    100% { transform: translateY(-30px) scale(1.1) rotate(30deg); }
+}
+
+/* Floating Particles (Crystal Shards) for Admin main container */
+.admin-main .crystal-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.admin-main .crystal-shard {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    clip-path: polygon(50% 0%, 100% 35%, 80% 90%, 50% 100%, 20% 90%, 0% 35%);
+    backdrop-filter: blur(1px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 12px rgba(244, 114, 182, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.8);
+    animation: floatShardAdmin 14s linear infinite;
+    opacity: 0.7;
+}
+
+.admin-main .shard-1 { width: 14px; height: 26px; top: 20%; left: 10%; animation-delay: 0s; animation-duration: 16s; }
+.admin-main .shard-2 { width: 10px; height: 18px; top: 80%; left: 15%; animation-delay: 3s; animation-duration: 20s; }
+.admin-main .shard-3 { width: 18px; height: 32px; top: 30%; right: 12%; animation-delay: 1.5s; animation-duration: 18s; }
+.admin-main .shard-4 { width: 12px; height: 22px; top: 70%; right: 18%; animation-delay: 5s; animation-duration: 22s; }
+.admin-main .shard-5 { width: 15px; height: 28px; top: 50%; left: 25%; animation-delay: 4s; animation-duration: 17s; }
+.admin-main .shard-6 { width: 11px; height: 20px; top: 88%; right: 40%; animation-delay: 6s; animation-duration: 24s; }
+
+@keyframes floatShardAdmin {
+    0% { transform: translateY(105%) rotate(0deg) scale(0.8); opacity: 0; }
+    10% { opacity: 0.75; }
+    90% { opacity: 0.75; }
+    100% { transform: translateY(-5%) rotate(360deg) scale(1.1); opacity: 0; }
+}

@@ -10,6 +10,7 @@ import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
 import { useToastContext } from '../../context/ToastContext'
 import { translateCategory } from '../../utils/categoryHelper'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface Book {
@@ -58,11 +59,16 @@ export default function AdminBooks() {
     const { t } = useTranslation()
     const { toast } = useToastContext()
 
-    const PAGE_LIMIT = 10
+    const { paginationLimit } = useSidebarState()
     const [page, setPage] = useState(1)
 
-    const totalPages = Math.max(1, Math.ceil(books.length / PAGE_LIMIT))
-    const paginatedBooks = books.slice((page - 1) * PAGE_LIMIT, page * PAGE_LIMIT)
+    const totalPages = Math.max(1, Math.ceil(books.length / paginationLimit))
+    const paginatedBooks = books.slice((page - 1) * paginationLimit, page * paginationLimit)
+
+    // Reset page on pagination limit change
+    useEffect(() => {
+        setPage(1)
+    }, [paginationLimit])
 
     const goToPage = (pageNumber: number) => {
         if (pageNumber < 1 || pageNumber > totalPages) return
@@ -318,8 +324,8 @@ export default function AdminBooks() {
                 <div className="pagination-container">
                     <div className="pagination-info">
                         {t("admin.showingBooks", {
-                            from: (page - 1) * PAGE_LIMIT + 1,
-                            to: Math.min(page * PAGE_LIMIT, books.length),
+                            from: (page - 1) * paginationLimit + 1,
+                            to: Math.min(page * paginationLimit, books.length),
                             total: books.length,
                         })}
                     </div>

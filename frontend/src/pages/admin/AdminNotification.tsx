@@ -10,6 +10,7 @@ import api from '../../api/axios'
 import './AdminPage.css'
 import { useTranslation } from 'react-i18next'
 import { useToastContext } from '../../context/ToastContext'
+import { useSidebarState } from '../../hooks/useSidebarState'
 
 // ─── Tipe Data ───────────────────────────────────────────
 interface UserData {
@@ -160,13 +161,19 @@ export default function AdminNotification() {
         }
     }
 
-    const PAGE_LIMIT = 10
+    const { paginationLimit } = useSidebarState()
     const [sendPage, setSendPage] = useState(1)
     const [histPage, setHistPage] = useState(1)
 
+    // Reset pages on pagination limit change
+    useEffect(() => {
+        setSendPage(1)
+        setHistPage(1)
+    }, [paginationLimit])
+
     // ── Send tab pagination ────────────────────────────────
-    const sendTotalPages = Math.max(1, Math.ceil(users.length / PAGE_LIMIT))
-    const paginatedUsers = users.slice((sendPage - 1) * PAGE_LIMIT, sendPage * PAGE_LIMIT)
+    const sendTotalPages = Math.max(1, Math.ceil(users.length / paginationLimit))
+    const paginatedUsers = users.slice((sendPage - 1) * paginationLimit, sendPage * paginationLimit)
 
     const goToSendPage = (n: number) => {
         if (n < 1 || n > sendTotalPages) return
@@ -174,8 +181,8 @@ export default function AdminNotification() {
     }
 
     // ── History tab pagination ─────────────────────────────
-    const histTotalPages = Math.max(1, Math.ceil(filteredHistory.length / PAGE_LIMIT))
-    const paginatedHistory = filteredHistory.slice((histPage - 1) * PAGE_LIMIT, histPage * PAGE_LIMIT)
+    const histTotalPages = Math.max(1, Math.ceil(filteredHistory.length / paginationLimit))
+    const paginatedHistory = filteredHistory.slice((histPage - 1) * paginationLimit, histPage * paginationLimit)
 
     const goToHistPage = (n: number) => {
         if (n < 1 || n > histTotalPages) return
@@ -334,12 +341,12 @@ export default function AdminNotification() {
                 </div>
             )}
 
-            {activeTab === 'send' && users.length > PAGE_LIMIT && (
+            {activeTab === 'send' && users.length > paginationLimit && (
                 <div style={{ marginTop: '0.5rem' }}>
                     <div className="pagination-info" style={{ textAlign: 'center', marginBottom: '0.75rem' }}>
                         {t("admin.showingAccounts", {
-                            from: (sendPage - 1) * PAGE_LIMIT + 1,
-                            to: Math.min(sendPage * PAGE_LIMIT, users.length),
+                            from: (sendPage - 1) * paginationLimit + 1,
+                            to: Math.min(sendPage * paginationLimit, users.length),
                             total: users.length,
                         })}
                     </div>
@@ -487,12 +494,12 @@ export default function AdminNotification() {
 
                     </div>
 
-                    {filteredHistory.length > PAGE_LIMIT && (
+                    {filteredHistory.length > paginationLimit && (
                         <div style={{ marginTop: '0.5rem' }}>
                             <div className="pagination-info" style={{ textAlign: 'center', marginBottom: '0.75rem' }}>
                                 {t("admin.showingMessages", {
-                                    from: (histPage - 1) * PAGE_LIMIT + 1,
-                                    to: Math.min(histPage * PAGE_LIMIT, filteredHistory.length),
+                                    from: (histPage - 1) * paginationLimit + 1,
+                                    to: Math.min(histPage * paginationLimit, filteredHistory.length),
                                     total: filteredHistory.length,
                                 })}
                             </div>

@@ -16,10 +16,17 @@
   display: flex;
   flex-direction: column;
   padding: 2rem 1.5rem;
-  position: sticky;
+  position: fixed; /* Ubah ke fixed agar bisa floating di atas wallpaper */
+  left: 0;
   top: 0;
   height: 100vh;
   box-sizing: border-box;
+  z-index: 1000;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.side-nav.collapsed {
+  transform: translateX(-100%);
 }
 
 .nav-logo {
@@ -94,6 +101,67 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  padding-left: 260px; /* Default sidebar width when open */
+  transition: padding-left 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.sidebar-collapsed .main-content {
+  padding-left: 0;
+}
+
+/* Sidebar Close Button */
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  color: var(--pink-400);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 8px;
+  display: flex;
+  margin-left: auto;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-close-btn:hover {
+  background: var(--pink-100);
+  color: var(--pink-700);
+}
+
+/* Desktop Sidebar Toggle Button */
+.desktop-sidebar-toggle {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  color: var(--pink-700);
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(219, 39, 119, 0.08);
+  transition: all 0.2s;
+}
+
+.desktop-sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: scale(1.05);
+  color: var(--pink-900);
+}
+
+@media (max-width: 768px) {
+  .desktop-sidebar-toggle {
+    display: none !important;
+  }
+  .main-content {
+    padding-left: 0 !important;
+  }
 }
 
 .content-inner {

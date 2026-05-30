@@ -1132,3 +1132,351 @@ mark.search-highlight {
   text-align: center;
   margin-bottom: 0.5rem;
 }
+
+/* ==========================================================
+   Premium Live Background & Glassmorphism for Home Page
+   ========================================================== */
+body.home-wallpaper-active .user-layout {
+  background: linear-gradient(135deg, rgba(253, 242, 248, 0.72) 0%, rgba(251, 207, 232, 0.52) 100%),
+    url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780146260/download_25_duadzs.jpg') no-repeat center center / cover fixed !important;
+}
+
+body.home-wallpaper-active .side-nav {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 4px 0 24px rgba(219, 39, 119, 0.05) !important;
+}
+
+body.home-wallpaper-active .mobile-top-bar {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+}
+
+body.home-wallpaper-active .bottom-nav {
+  background: rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+}
+
+body.home-wallpaper-active .mobile-drawer {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+}
+
+body.home-wallpaper-active .mobile-drawer-overlay {
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+.home-page-container {
+  position: relative;
+  margin: -2rem; /* Mengambil ruang padding dari parent container */
+  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+  background: transparent; /* Background diset di parent (.user-layout) agar tidak terpotong */
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .home-page-container {
+    margin: -1.25rem;
+    padding: 1.25rem;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+    min-height: calc(100vh - 2.5rem);
+  }
+}
+
+/* Kontainer utama konten agar berada di atas layer blobs */
+.home-content-inner {
+  position: relative;
+  z-index: 10;
+}
+
+/* Dynamic Blobs */
+.home-page-container .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.home-page-container .blob-1 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, #fbcfe8 0%, #f472b6 100%);
+  top: -5%;
+  left: -5%;
+  animation: driftBlobHome 22s ease-in-out infinite alternate;
+}
+
+.home-page-container .blob-2 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #c084fc 0%, #e879f9 100%);
+  bottom: 10%;
+  right: -5%;
+  animation: driftBlobHome 26s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes driftBlobHome {
+  0% { transform: translateY(0) scale(1) rotate(0deg); }
+  100% { transform: translateY(-30px) scale(1.1) rotate(30deg); }
+}
+
+/* Floating Particles (Crystal Shards) */
+.home-page-container .crystal-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.home-page-container .crystal-shard {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  clip-path: polygon(50% 0%, 100% 35%, 80% 90%, 50% 100%, 20% 90%, 0% 35%);
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 12px rgba(244, 114, 182, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.8);
+  animation: floatShardHome 14s linear infinite;
+  opacity: 0.7;
+}
+
+/* Penempatan koordinat shards */
+.home-page-container .shard-1 { width: 14px; height: 26px; top: 20%; left: 10%; animation-delay: 0s; animation-duration: 16s; }
+.home-page-container .shard-2 { width: 10px; height: 18px; top: 80%; left: 15%; animation-delay: 3s; animation-duration: 20s; }
+.home-page-container .shard-3 { width: 18px; height: 32px; top: 30%; right: 12%; animation-delay: 1.5s; animation-duration: 18s; }
+.home-page-container .shard-4 { width: 12px; height: 22px; top: 70%; right: 18%; animation-delay: 5s; animation-duration: 22s; }
+.home-page-container .shard-5 { width: 15px; height: 28px; top: 50%; left: 25%; animation-delay: 4s; animation-duration: 17s; }
+.home-page-container .shard-6 { width: 11px; height: 20px; top: 88%; right: 40%; animation-delay: 6s; animation-duration: 24s; }
+
+@keyframes floatShardHome {
+  0% { transform: translateY(105%) rotate(0deg) scale(0.8); opacity: 0; }
+  10% { opacity: 0.75; }
+  90% { opacity: 0.75; }
+  100% { transform: translateY(-5%) rotate(360deg) scale(1.1); opacity: 0; }
+}
+
+/* Glassmorphism overrides untuk elemen di halaman Home */
+.home-page-container .book-card {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(219, 39, 119, 0.08) !important;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, background 0.3s ease !important;
+}
+
+.home-page-container .book-card:hover {
+  transform: translateY(-8px) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 16px 36px rgba(219, 39, 119, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.home-page-container .pagination-btn {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  color: var(--pink-700) !important;
+}
+
+.home-page-container .pagination-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.75) !important;
+}
+
+.home-page-container .pagination-btn.active {
+  background: var(--pink-500) !important;
+  color: white !important;
+  border-color: var(--pink-500) !important;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3) !important;
+}
+
+/* Custom grid configuration based on desktop sidebar state */
+.home-page-container.sidebar-collapsed .book-grid {
+  grid-template-columns: repeat(6, 1fr) !important;
+  gap: 1.5rem !important;
+}
+
+.home-page-container.sidebar-open .book-grid {
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 1.5rem !important;
+}
+
+@media (max-width: 1400px) {
+  .home-page-container.sidebar-collapsed .book-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+  .home-page-container.sidebar-open .book-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .home-page-container.sidebar-collapsed .book-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .home-page-container.sidebar-open .book-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-page-container.sidebar-collapsed .book-grid,
+  .home-page-container.sidebar-open .book-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GENERIC USER PAGE CONTAINER — Sidebar-Responsive Grid
+   Applied to Search, Library, Notifications, Profile, etc.
+   ══════════════════════════════════════════════════════════════ */
+.user-page-container {
+  position: relative;
+  min-height: calc(100vh - 4rem);
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* Glassmorphism overrides for book cards in all user pages */
+body.home-wallpaper-active .user-page-container .book-card {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(219, 39, 119, 0.08) !important;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, background 0.3s ease !important;
+}
+
+body.home-wallpaper-active .user-page-container .book-card:hover {
+  transform: translateY(-8px) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 16px 36px rgba(219, 39, 119, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Glassmorphism for pagination buttons */
+body.home-wallpaper-active .user-page-container .pagination-btn {
+  background: rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  color: var(--pink-700) !important;
+}
+
+body.home-wallpaper-active .user-page-container .pagination-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.75) !important;
+}
+
+body.home-wallpaper-active .user-page-container .pagination-btn.active {
+  background: var(--pink-500) !important;
+  color: white !important;
+  border-color: var(--pink-500) !important;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3) !important;
+}
+
+/* Glassmorphism for search box */
+body.home-wallpaper-active .user-page-container .search-box-large {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 24px rgba(219, 39, 119, 0.08) !important;
+}
+
+/* Glassmorphism for category tags */
+body.home-wallpaper-active .user-page-container .category-tag {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+body.home-wallpaper-active .user-page-container .category-tag:hover {
+  background: var(--pink-500) !important;
+  color: white !important;
+}
+
+/* Glassmorphism for library tabs */
+body.home-wallpaper-active .user-page-container .library-tab {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+body.home-wallpaper-active .user-page-container .library-tab.active {
+  background: var(--pink-500) !important;
+  color: white !important;
+  border-color: var(--pink-500) !important;
+}
+
+/* Glassmorphism for notification cards */
+body.home-wallpaper-active .user-page-container .notif-card {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Glassmorphism for profile card */
+body.home-wallpaper-active .user-page-container .profile-card {
+  background: rgba(255, 255, 255, 0.42) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 8px 32px rgba(219, 39, 119, 0.08) !important;
+}
+
+/* Sidebar-responsive grid for user-page-container (non-home pages) */
+.user-page-container.sidebar-collapsed .book-grid {
+  grid-template-columns: repeat(6, 1fr) !important;
+  gap: 1.5rem !important;
+}
+
+.user-page-container.sidebar-open .book-grid {
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 1.5rem !important;
+}
+
+@media (max-width: 1400px) {
+  .user-page-container.sidebar-collapsed .book-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+  }
+  .user-page-container.sidebar-open .book-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .user-page-container.sidebar-collapsed .book-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+  .user-page-container.sidebar-open .book-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-page-container.sidebar-collapsed .book-grid,
+  .user-page-container.sidebar-open .book-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+}
