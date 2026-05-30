@@ -299,8 +299,30 @@
    PREMIUM LIVE BACKGROUND & GLASSMORPHISM FOR ADMIN
    ══════════════════════════════════════ */
 body.home-wallpaper-active .admin-root {
-    background: linear-gradient(135deg, rgba(253, 242, 248, 0.72) 0%, rgba(251, 207, 232, 0.52) 100%),
-      url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780146260/download_25_duadzs.jpg') no-repeat center center / cover fixed !important;
+    background:
+      linear-gradient(135deg, rgba(253, 242, 248, 0.45) 0%, rgba(251, 207, 232, 0.35) 100%),
+      var(--admin-bg, url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151822/download_27_ql3dtv.jpg'))
+      no-repeat center center / cover fixed !important;
+}
+
+/* ── Pink Live Aurora Overlay ── */
+body.home-wallpaper-active .admin-main::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 120% 40% at 20% 10%, rgba(244, 114, 182, 0.25) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 30% at 85% 90%, rgba(236, 72, 153, 0.2) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 35% at 50% 50%, rgba(251, 191, 220, 0.12) 0%, transparent 60%);
+    animation: pinkAurora 12s ease-in-out infinite alternate;
+}
+
+@keyframes pinkAurora {
+    0% { opacity: 0.5; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.9; transform: scale(1.03) rotate(1deg); }
+    100% { opacity: 0.6; transform: scale(0.98) rotate(-1deg); }
 }
 
 body.home-wallpaper-active .admin-sidebar {
@@ -395,40 +417,41 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
     border-color: #ec4899 !important;
 }
 
-/* Dynamic Blobs for Admin main container */
+/* ── Animated Pink Blobs ── */
 .admin-main .blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.45;
+    opacity: 0.5;
     pointer-events: none;
     z-index: 1;
 }
 
 .admin-main .blob-1 {
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, #fbcfe8 0%, #f472b6 100%);
-    top: -5%;
-    left: -5%;
-    animation: driftBlobAdmin 22s ease-in-out infinite alternate;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, #fbcfe8 0%, #f472b6 50%, #ec4899 100%);
+    top: -10%;
+    left: -10%;
+    animation: driftBlobPink 20s ease-in-out infinite alternate;
 }
 
 .admin-main .blob-2 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, #c084fc 0%, #e879f9 100%);
-    bottom: 10%;
-    right: -5%;
-    animation: driftBlobAdmin 26s ease-in-out infinite alternate-reverse;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, #f9a8d4 0%, #e879f9 50%, #c084fc 100%);
+    bottom: 5%;
+    right: -8%;
+    animation: driftBlobPink 25s ease-in-out infinite alternate-reverse;
 }
 
-@keyframes driftBlobAdmin {
-    0% { transform: translateY(0) scale(1) rotate(0deg); }
-    100% { transform: translateY(-30px) scale(1.1) rotate(30deg); }
+@keyframes driftBlobPink {
+    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; }
+    50% { transform: translateY(-20px) scale(1.08) rotate(15deg); opacity: 0.65; }
+    100% { transform: translateY(-40px) scale(1.15) rotate(30deg); opacity: 0.5; }
 }
 
-/* Floating Particles (Crystal Shards) for Admin main container */
+/* ── Floating Crystal Shards ── */
 .admin-main .crystal-particles {
     position: absolute;
     top: 0;
@@ -441,13 +464,13 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
 
 .admin-main .crystal-shard {
     position: absolute;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
     clip-path: polygon(50% 0%, 100% 35%, 80% 90%, 50% 100%, 20% 90%, 0% 35%);
     backdrop-filter: blur(1px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 0 12px rgba(244, 114, 182, 0.4), inset 0 0 6px rgba(255, 255, 255, 0.8);
-    animation: floatShardAdmin 14s linear infinite;
-    opacity: 0.7;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 16px rgba(244, 114, 182, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.9);
+    animation: floatShardPink 14s linear infinite;
+    opacity: 0.6;
 }
 
 .admin-main .shard-1 { width: 14px; height: 26px; top: 20%; left: 10%; animation-delay: 0s; animation-duration: 16s; }
@@ -457,9 +480,48 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
 .admin-main .shard-5 { width: 15px; height: 28px; top: 50%; left: 25%; animation-delay: 4s; animation-duration: 17s; }
 .admin-main .shard-6 { width: 11px; height: 20px; top: 88%; right: 40%; animation-delay: 6s; animation-duration: 24s; }
 
-@keyframes floatShardAdmin {
+@keyframes floatShardPink {
     0% { transform: translateY(105%) rotate(0deg) scale(0.8); opacity: 0; }
-    10% { opacity: 0.75; }
-    90% { opacity: 0.75; }
+    10% { opacity: 0.65; }
+    90% { opacity: 0.65; }
     100% { transform: translateY(-5%) rotate(360deg) scale(1.1); opacity: 0; }
+}
+
+/* ══════════════════════════════════════
+   MOBILE WALLPAPER OPTIMIZATION
+   ══════════════════════════════════════ */
+@media (max-width: 768px) {
+    body.home-wallpaper-active .admin-root {
+        background:
+          linear-gradient(135deg, rgba(253, 242, 248, 0.45) 0%, rgba(251, 207, 232, 0.35) 100%),
+          var(--admin-bg, url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg'))
+          no-repeat center top / cover scroll !important;
+        background-size: 100% 100vh !important;
+    }
+
+    body.home-wallpaper-active .admin-main::before {
+        animation: pinkAurora 18s ease-in-out infinite alternate;
+    }
+
+    body.home-wallpaper-active .admin-main::before {
+        background:
+          radial-gradient(ellipse 140% 35% at 30% 5%, rgba(244, 114, 182, 0.2) 0%, transparent 65%),
+          radial-gradient(ellipse 100% 25% at 70% 95%, rgba(236, 72, 153, 0.15) 0%, transparent 55%);
+    }
+
+    .admin-main .blob-1 {
+        width: 250px;
+        height: 250px;
+        animation: driftBlobPink 25s ease-in-out infinite alternate;
+    }
+
+    .admin-main .blob-2 {
+        width: 200px;
+        height: 200px;
+        animation: driftBlobPink 30s ease-in-out infinite alternate-reverse;
+    }
+
+    .admin-main .crystal-shard {
+        display: none;
+    }
 }

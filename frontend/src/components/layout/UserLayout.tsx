@@ -28,6 +28,20 @@ export default function UserLayout({ children }: UserLayoutProps) {
   });
   const { t } = useTranslation()
 
+  // Wallpaper URLs for user pages
+  const USER_WALLPAPER_MOBILE = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg)'
+  const USER_WALLPAPER_DESKTOP = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780152558/wallpaperflare.com_wallpaper_kitej3.jpg)'
+
+  useEffect(() => {
+    const updateWallpaper = () => {
+      const isMobile = window.innerWidth < 768
+      document.documentElement.style.setProperty('--user-bg', isMobile ? USER_WALLPAPER_MOBILE : USER_WALLPAPER_DESKTOP)
+    }
+    updateWallpaper()
+    window.addEventListener('resize', updateWallpaper)
+    return () => window.removeEventListener('resize', updateWallpaper)
+  }, [])
+
   useEffect(() => {
     if (sidebarCollapsed) {
       document.body.classList.add('sidebar-collapsed');
@@ -90,7 +104,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
             </svg>
           </div>
           <span className="logo-text">Elysia</span>
-          
+
           {/* Close button inside expanded navbar */}
           <button className="sidebar-close-btn" onClick={toggleSidebar} title="Tutup Menu">
             <X size={20} />

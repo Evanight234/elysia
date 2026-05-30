@@ -25,11 +25,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const { sidebarCollapsed, sidebarClass, toggleSidebar } = useSidebarState()
 
-    // Add home-wallpaper-active class to body for glassmorphism styling
+    // Wallpaper URLs
+    const WALLPAPER_MOBILE = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg)'
+    const WALLPAPER_DESKTOP = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780152558/wallpaperflare.com_wallpaper_kitej3.jpg)'
+
+    // Add home-wallpaper-active class + set dynamic wallpaper based on device
     useEffect(() => {
         document.body.classList.add('home-wallpaper-active')
+
+        const updateWallpaper = () => {
+            const isMobile = window.innerWidth < 768
+            document.documentElement.style.setProperty('--admin-bg', isMobile ? WALLPAPER_MOBILE : WALLPAPER_DESKTOP)
+        }
+
+        updateWallpaper()
+        window.addEventListener('resize', updateWallpaper)
         return () => {
             document.body.classList.remove('home-wallpaper-active')
+            window.removeEventListener('resize', updateWallpaper)
         }
     }, [])
 
