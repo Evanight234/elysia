@@ -311,7 +311,7 @@ export default function AdminNotification() {
                             <tbody>
                                 {paginatedUsers.map(user => (
                                     <tr key={user.id}>
-                                        <td>
+                                        <td data-label={t('admin.notifUser')}>
                                             <div className="admin-user-cell">
                                                 <div className="admin-user-avatar">
                                                     {user.name[0].toUpperCase()}
@@ -322,10 +322,10 @@ export default function AdminNotification() {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style={{ color: '#d1a0b8', fontSize: '0.85rem' }}>
+                                        <td data-label={t('admin.notifEmail')} style={{ color: '#d1a0b8', fontSize: '0.85rem' }}>
                                             {user.email}
                                         </td>
-                                        <td>
+                                        <td data-label={t('admin.notifAksi')}>
                                             <button
                                                 className="btn-send-notif"
                                                 onClick={() => handleOpenSend(user)}

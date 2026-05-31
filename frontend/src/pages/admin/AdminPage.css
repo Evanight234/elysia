@@ -1841,3 +1841,256 @@
     font-size: 1rem;
   }
 }
+
+/* ══════════════════════════════════════
+   MOBILE-FIRST: TABLE → CARD CONVERSION
+   ══════════════════════════════════════ */
+
+/* Hide table headers on small screens, show as card layout */
+@media (max-width: 640px) {
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table,
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table tr {
+    padding: 1rem;
+    border-bottom: 1px solid #fce7f3;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 2px 8px rgba(236, 72, 153, 0.04);
+    position: relative;
+  }
+
+  .admin-table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .admin-table td {
+    border: none;
+    padding: 0.35rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #d1a0b8;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+
+  .admin-table td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-table .btn-delete {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+}
+
+/* ══════════════════════════════════════
+   MOBILE MODALS — Full screen on small devices
+   ══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .add-book-modal,
+  .notif-send-modal,
+  .confirm-box {
+    width: 95%;
+    max-width: 95%;
+    max-height: 90vh;
+    border-radius: 20px;
+  }
+
+  .add-book-modal {
+    max-height: 85vh;
+  }
+
+  .confirm-box {
+    padding: 1.5rem;
+  }
+
+  .confirm-box h3 {
+    font-size: 1rem;
+  }
+
+  .confirm-box p {
+    font-size: 0.82rem;
+  }
+
+  .confirm-btns {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .confirm-btns .btn-cancel,
+  .confirm-btns .btn-confirm-delete {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Notification modal */
+  .notif-modal-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .notif-modal-footer .btn-cancel,
+  .notif-modal-footer .btn-send-confirm {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ══════════════════════════════════════
+   MOBILE HISTORY — Stack stats & full-width filters
+   ══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .hist-stats-row {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .hist-stat-card {
+    padding: 0.85rem 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hist-stat-value {
+    font-size: 1.3rem;
+  }
+
+  .hist-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hist-search-box {
+    min-width: unset;
+  }
+
+  .hist-filter-btns {
+    justify-content: stretch;
+  }
+
+  .hist-filter-btn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .hist-refresh-btn {
+    justify-content: center;
+  }
+
+  .notif-history-item {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .notif-status-badge {
+    align-self: flex-start;
+  }
+}
+
+/* ══════════════════════════════════════
+   MOBILE BOOKS — Stack cover & info
+   ══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .book-title-cell {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .book-title-text {
+    font-size: 0.85rem;
+    max-width: 140px;
+  }
+
+  .book-author-text {
+    font-size: 0.72rem;
+  }
+
+  .admin-book-category {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+  }
+
+  /* Cover upload area smaller on mobile */
+  .cover-upload-area {
+    height: 140px;
+  }
+
+  .cover-placeholder span {
+    font-size: 0.8rem;
+  }
+}
+
+/* ══════════════════════════════════════
+   MOBILE CHAPTERS
+   ══════════════════════════════════════ */
+@media (max-width: 640px) {
+  .chapter-id-preview {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .book-select-list {
+    max-height: 300px;
+  }
+
+  .book-select-item {
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+/* ══════════════════════════════════════
+   TOUCH TARGET IMPROVEMENTS FOR MOBILE
+   ══════════════════════════════════════ */
+@media (pointer: coarse) {
+  .admin-nav-item,
+  .admin-logout-btn,
+  .btn-delete,
+  .btn-add-book,
+  .btn-send-notif,
+  .pagination-btn,
+  .admin-menu-btn {
+    min-height: 44px;
+  }
+
+  .pagination-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .admin-stat-card {
+    cursor: default;
+  }
+
+  .admin-book-result {
+    cursor: default;
+  }
+}

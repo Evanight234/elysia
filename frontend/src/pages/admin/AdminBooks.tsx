@@ -264,7 +264,7 @@ export default function AdminBooks() {
                             {paginatedBooks.map(book => (
                                 <tr key={book.id}>
                                     {/* Cover */}
-                                    <td>
+                                    <td data-label={t('settings.cover')}>
                                         <div className="book-cover-sm">
                                             {book.cover ? (
                                                 <img src={book.cover} alt={book.title} />
@@ -275,7 +275,7 @@ export default function AdminBooks() {
                                     </td>
 
                                     {/* Judul & Penulis */}
-                                    <td>
+                                    <td data-label={t('settings.Title & Author')}>
                                         <div className="book-title-cell">
                                             <span className="book-title-text">{book.title}</span>
                                             <span className="book-author-text">{book.author}</span>
@@ -283,29 +283,29 @@ export default function AdminBooks() {
                                     </td>
 
                                     {/* Kategori */}
-                                    <td>
+                                    <td data-label={t('common.category')}>
                                         <span className="admin-book-category">{translateCategory(book.category)}</span>
                                     </td>
 
                                     {/* Views */}
-                                    <td style={{ color: '#9d174d', fontWeight: 700 }}>
+                                    <td data-label={t('settings.views')} style={{ color: '#9d174d', fontWeight: 700 }}>
                                         {book.viewCount.toLocaleString('id-ID')}
                                     </td>
 
                                     {/* Likes */}
-                                    <td style={{ color: '#ec4899', fontWeight: 700 }}>
+                                    <td data-label={t('settings.likes')} style={{ color: '#ec4899', fontWeight: 700 }}>
                                         {book.likeCount.toLocaleString('id-ID')}
                                     </td>
 
                                     {/* Tanggal */}
-                                    <td style={{ color: '#d1a0b8', fontSize: '0.82rem' }}>
+                                    <td data-label={t('settings.added')} style={{ color: '#d1a0b8', fontSize: '0.82rem' }}>
                                         {new Date(book.createdAt).toLocaleDateString('id-ID', {
                                             day: 'numeric', month: 'short', year: 'numeric'
                                         })}
                                     </td>
 
                                     {/* Hapus */}
-                                    <td>
+                                    <td data-label={t('settings.action')}>
                                         <button
                                             className="btn-delete"
                                             onClick={() => setDeleteTarget(book)}

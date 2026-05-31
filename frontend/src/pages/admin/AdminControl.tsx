@@ -179,7 +179,7 @@ export default function AdminUserControl() {
             <tbody>
               {paginatedUsers.map(user => (
                 <tr key={user.id}>
-                  <td>
+                  <td data-label={t('settings.user')}>
                     <div className="admin-user-cell">
                       <div className="admin-user-avatar">
                         {user.name[0].toUpperCase()}
@@ -190,17 +190,17 @@ export default function AdminUserControl() {
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td data-label={t('settings.role')}>
                     <span className={`role-badge ${user.role.toLowerCase()}`}>
                       {user.role}
                     </span>
                   </td>
-                  <td>
+                  <td data-label={t('settings.joined')}>
                     {new Date(user.createdAt).toLocaleDateString('id-ID', {
                       day: 'numeric', month: 'short', year: 'numeric'
                     })}
                   </td>
-                  <td>
+                  <td data-label={t('settings.action')}>
                     {user.role === 'USER' ? (
                       <button
                         className="btn-delete"

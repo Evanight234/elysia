@@ -278,12 +278,12 @@ export default function AdminChapters() {
                             {paginatedChapters.map(ch => (
                                 <tr key={ch.id}>
                                     {/* ID */}
-                                    <td>
+                                    <td data-label={t('bookDetail.id')}>
                                         <span className="chapter-id-badge">{ch.id}</span>
                                     </td>
 
                                     {/* Judul Buku */}
-                                    <td>
+                                    <td data-label={t('bookDetail.book')}>
                                         <div style={{ maxWidth: '160px' }}>
                                             <div className="admin-user-name" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                 {getBookTitle(ch.bookId)}
@@ -293,14 +293,14 @@ export default function AdminChapters() {
                                     </td>
 
                                     {/* Nomor Chapter */}
-                                    <td>
+                                    <td data-label={t('bookDetail.number')}>
                                         <span className="chapter-number-badge">
                                             <Hash size={11} /> {ch.number}
                                         </span>
                                     </td>
 
                                     {/* Judul Chapter */}
-                                    <td>
+                                    <td data-label={t('bookDetail.title chapter')}>
                                         <span style={{
                                             fontWeight: 600,
                                             color: '#1a0010',
@@ -316,7 +316,7 @@ export default function AdminChapters() {
                                     </td>
 
                                     {/* Preview isi */}
-                                    <td>
+                                    <td data-label={t('bookDetail.content-chapter')}>
                                         <span style={{
                                             color: '#d1a0b8',
                                             fontSize: '0.8rem',
@@ -331,14 +331,14 @@ export default function AdminChapters() {
                                     </td>
 
                                     {/* Tanggal */}
-                                    <td style={{ color: '#d1a0b8', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                                    <td data-label={t('bookDetail.date added')} style={{ color: '#d1a0b8', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
                                         {new Date(ch.createdAt).toLocaleDateString('id-ID', {
                                             day: 'numeric', month: 'short', year: 'numeric'
                                         })}
                                     </td>
 
                                     {/* Hapus */}
-                                    <td>
+                                    <td data-label={t('bookDetail.actions')}>
                                         <button
                                             className="btn-delete"
                                             onClick={() => setDeleteTarget(ch)}

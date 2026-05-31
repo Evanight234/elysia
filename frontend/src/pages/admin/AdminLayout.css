@@ -200,19 +200,14 @@
 }
 
 .admin-lang-section {
-    padding: 0 0.5rem 1.5rem;
-    border-bottom: 2px solid #fce7f3;
-    position: absolute;
-    top: 495px;
-    right: 18px;
-    width: 245px;
+    padding: 1rem 0.5rem;
+    border-top: 1px solid #fce7f3;
+    border-bottom: 1px solid #fce7f3;
+    margin: 0.5rem 0;
 }
 
-@media (max-width: 768px) {
-    .admin-lang-section {
-        right: 120px;
-        top: 15px;
-    }
+.admin-lang-wrapper {
+    flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════
@@ -300,9 +295,8 @@
    ══════════════════════════════════════ */
 body.home-wallpaper-active .admin-root {
     background:
-      linear-gradient(135deg, rgba(253, 242, 248, 0.45) 0%, rgba(251, 207, 232, 0.35) 100%),
-      var(--admin-bg, url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151822/download_27_ql3dtv.jpg'))
-      no-repeat center center / cover fixed !important;
+        linear-gradient(135deg, rgba(253, 242, 248, 0.45) 0%, rgba(251, 207, 232, 0.35) 100%),
+        var(--admin-bg, url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780152558/wallpaperflare.com_wallpaper_kitej3.jpg')) no-repeat center center / cover fixed !important;
 }
 
 /* ── Pink Live Aurora Overlay ── */
@@ -313,16 +307,27 @@ body.home-wallpaper-active .admin-main::before {
     z-index: 3;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 120% 40% at 20% 10%, rgba(244, 114, 182, 0.25) 0%, transparent 70%),
-      radial-gradient(ellipse 80% 30% at 85% 90%, rgba(236, 72, 153, 0.2) 0%, transparent 60%),
-      radial-gradient(ellipse 100% 35% at 50% 50%, rgba(251, 191, 220, 0.12) 0%, transparent 60%);
+        radial-gradient(ellipse 120% 40% at 20% 10%, rgba(244, 114, 182, 0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 30% at 85% 90%, rgba(236, 72, 153, 0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 35% at 50% 50%, rgba(251, 191, 220, 0.12) 0%, transparent 60%);
     animation: pinkAurora 12s ease-in-out infinite alternate;
 }
 
 @keyframes pinkAurora {
-    0% { opacity: 0.5; transform: scale(1) rotate(0deg); }
-    50% { opacity: 0.9; transform: scale(1.03) rotate(1deg); }
-    100% { opacity: 0.6; transform: scale(0.98) rotate(-1deg); }
+    0% {
+        opacity: 0.5;
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        opacity: 0.9;
+        transform: scale(1.03) rotate(1deg);
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: scale(0.98) rotate(-1deg);
+    }
 }
 
 body.home-wallpaper-active .admin-sidebar {
@@ -446,9 +451,20 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
 }
 
 @keyframes driftBlobPink {
-    0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; }
-    50% { transform: translateY(-20px) scale(1.08) rotate(15deg); opacity: 0.65; }
-    100% { transform: translateY(-40px) scale(1.15) rotate(30deg); opacity: 0.5; }
+    0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.08) rotate(15deg);
+        opacity: 0.65;
+    }
+
+    100% {
+        transform: translateY(-40px) scale(1.15) rotate(30deg);
+        opacity: 0.5;
+    }
 }
 
 /* ── Floating Crystal Shards ── */
@@ -473,18 +489,152 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
     opacity: 0.6;
 }
 
-.admin-main .shard-1 { width: 14px; height: 26px; top: 20%; left: 10%; animation-delay: 0s; animation-duration: 16s; }
-.admin-main .shard-2 { width: 10px; height: 18px; top: 80%; left: 15%; animation-delay: 3s; animation-duration: 20s; }
-.admin-main .shard-3 { width: 18px; height: 32px; top: 30%; right: 12%; animation-delay: 1.5s; animation-duration: 18s; }
-.admin-main .shard-4 { width: 12px; height: 22px; top: 70%; right: 18%; animation-delay: 5s; animation-duration: 22s; }
-.admin-main .shard-5 { width: 15px; height: 28px; top: 50%; left: 25%; animation-delay: 4s; animation-duration: 17s; }
-.admin-main .shard-6 { width: 11px; height: 20px; top: 88%; right: 40%; animation-delay: 6s; animation-duration: 24s; }
+.admin-main .shard-1 {
+    width: 14px;
+    height: 26px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 16s;
+}
+
+.admin-main .shard-2 {
+    width: 10px;
+    height: 18px;
+    top: 80%;
+    left: 15%;
+    animation-delay: 3s;
+    animation-duration: 20s;
+}
+
+.admin-main .shard-3 {
+    width: 18px;
+    height: 32px;
+    top: 30%;
+    right: 12%;
+    animation-delay: 1.5s;
+    animation-duration: 18s;
+}
+
+.admin-main .shard-4 {
+    width: 12px;
+    height: 22px;
+    top: 70%;
+    right: 18%;
+    animation-delay: 5s;
+    animation-duration: 22s;
+}
+
+.admin-main .shard-5 {
+    width: 15px;
+    height: 28px;
+    top: 50%;
+    left: 25%;
+    animation-delay: 4s;
+    animation-duration: 17s;
+}
+
+.admin-main .shard-6 {
+    width: 11px;
+    height: 20px;
+    top: 88%;
+    right: 40%;
+    animation-delay: 6s;
+    animation-duration: 24s;
+}
 
 @keyframes floatShardPink {
-    0% { transform: translateY(105%) rotate(0deg) scale(0.8); opacity: 0; }
-    10% { opacity: 0.65; }
-    90% { opacity: 0.65; }
-    100% { transform: translateY(-5%) rotate(360deg) scale(1.1); opacity: 0; }
+    0% {
+        transform: translateY(105%) rotate(0deg) scale(0.8);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.65;
+    }
+
+    90% {
+        opacity: 0.65;
+    }
+
+    100% {
+        transform: translateY(-5%) rotate(360deg) scale(1.1);
+        opacity: 0;
+    }
+}
+
+/* ── Language switcher in topbar ── */
+.admin-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-topbar-right {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .admin-topbar-right {
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* ══════════════════════════
+   MOBILE BOTTOM NAVIGATION
+   ══════════════════════════ */
+.admin-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.6);
+    padding: 0.3rem 0;
+    padding-bottom: max(0.3rem, env(safe-area-inset-bottom));
+    z-index: 200;
+    justify-content: space-around;
+    box-shadow: 0 -4px 20px rgba(219, 39, 119, 0.06);
+}
+
+.admin-bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    padding: 0.3rem 0.4rem;
+    color: #d1a0b8;
+    text-decoration: none;
+    font-size: 0.6rem;
+    font-weight: 600;
+    transition: color 0.2s;
+    border-radius: 8px;
+    min-width: 44px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.admin-bottom-nav-item svg {
+    transition: color 0.2s;
+}
+
+.admin-bottom-nav-item.active {
+    color: #ec4899;
+}
+
+.admin-bottom-nav-item.active svg {
+    color: #ec4899;
+    filter: drop-shadow(0 2px 4px rgba(236, 72, 153, 0.2));
+}
+
+body.home-wallpaper-active .admin-bottom-nav {
+    background: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1.5px solid rgba(255, 255, 255, 0.45) !important;
 }
 
 /* ══════════════════════════════════════
@@ -493,9 +643,8 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
 @media (max-width: 768px) {
     body.home-wallpaper-active .admin-root {
         background:
-          linear-gradient(135deg, rgba(253, 242, 248, 0.45) 0%, rgba(251, 207, 232, 0.35) 100%),
-          var(--admin-bg, url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg'))
-          no-repeat center top / cover scroll !important;
+            linear-gradient(135deg, rgba(253, 242, 248, 0.45) 0%, rgba(251, 207, 232, 0.35) 100%),
+            var(--admin-bg, url('https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg')) no-repeat center top / cover scroll !important;
         background-size: 100% 100vh !important;
     }
 
@@ -505,8 +654,8 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
 
     body.home-wallpaper-active .admin-main::before {
         background:
-          radial-gradient(ellipse 140% 35% at 30% 5%, rgba(244, 114, 182, 0.2) 0%, transparent 65%),
-          radial-gradient(ellipse 100% 25% at 70% 95%, rgba(236, 72, 153, 0.15) 0%, transparent 55%);
+            radial-gradient(ellipse 140% 35% at 30% 5%, rgba(244, 114, 182, 0.2) 0%, transparent 65%),
+            radial-gradient(ellipse 100% 25% at 70% 95%, rgba(236, 72, 153, 0.15) 0%, transparent 55%);
     }
 
     .admin-main .blob-1 {
@@ -523,5 +672,78 @@ body.home-wallpaper-active .admin-root .pagination-btn.active {
 
     .admin-main .crystal-shard {
         display: none;
+    }
+
+    /* ── Show bottom nav on mobile ── */
+    .admin-bottom-nav {
+        display: flex;
+    }
+
+    .admin-content {
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ══════════════════════════
+   SMALL PHONES (≤ 360px)
+   ══════════════════════════ */
+@media (max-width: 360px) {
+    .admin-bottom-nav-item {
+        font-size: 0.5rem;
+        padding: 0.25rem 0.2rem;
+        min-width: 36px;
+    }
+
+    .admin-bottom-nav-item svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* ══════════════════════════
+   LARGE & PLUS-SIZE PHONES (414px+)
+   ══════════════════════════ */
+@media (min-width: 414px) and (max-width: 768px) {
+    .admin-bottom-nav-item {
+        font-size: 0.65rem;
+        gap: 0.15rem;
+    }
+
+    .admin-bottom-nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .admin-bottom-nav {
+        padding: 0.4rem 0;
+    }
+}
+
+/* ══════════════════════════
+   iPHONE 12 / 13 / 14 (390px)
+   ══════════════════════════ */
+@media (width: 390px) and (max-width: 430px) {
+    .admin-content {
+        padding: 1rem;
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .admin-stat-card {
+        padding: 0.85rem;
+    }
+}
+
+/* ══════════════════════════
+   FOLDABLES / VERY WIDE PHONES
+   ══════════════════════════ */
+@media (min-width: 540px) and (max-width: 768px) {
+    .admin-bottom-nav-item {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.6rem;
+    }
+
+    .admin-bottom-nav {
+        padding: 0.5rem 1rem;
+        justify-content: space-evenly;
     }
 }

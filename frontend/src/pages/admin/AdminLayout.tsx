@@ -139,13 +139,35 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
 
                 <header className="admin-topbar">
-                    <button className="admin-menu-btn" onClick={() => setSidebarOpen(v => !v)}>
-                        {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
-                    </button>
-                    <span className="admin-topbar-title">ElysiaApp Admin</span>
+                    <div className="admin-topbar-left">
+                        <button className="admin-menu-btn" onClick={() => setSidebarOpen(v => !v)}>
+                            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
+                        <span className="admin-topbar-title">ElysiaApp Admin</span>
+                    </div>
+                    <div className="admin-topbar-right">
+                        <LanguageSwitcher />
+                    </div>
                 </header>
                 <main className="admin-content" style={{ position: 'relative', zIndex: 10 }}>{children}</main>
             </div>
+
+            {/* ── Mobile Bottom Navigation ── */}
+            <nav className="admin-bottom-nav">
+                {navItems.map(({ to, icon: Icon, label }) => (
+                    <NavLink
+                        key={to}
+                        to={to}
+                        end={to === '/admin'}
+                        className={({ isActive }) =>
+                            `admin-bottom-nav-item ${isActive ? 'active' : ''}`
+                        }
+                    >
+                        <Icon size={20} />
+                        <span>{label}</span>
+                    </NavLink>
+                ))}
+            </nav>
         </div>
     )
 }
