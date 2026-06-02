@@ -18,6 +18,11 @@ const app = new Elysia()
     ],
     credentials: true,
   }))
+  .onAfterHandle(({ set }) => {
+    set.headers['X-Content-Type-Options'] = 'nosniff'
+    set.headers['X-Frame-Options'] = 'DENY'
+    set.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+  })
   .use(swagger({
     documentation: {
       info: {
