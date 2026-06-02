@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import './UserLayout.css';
 import {
   Home,
@@ -97,13 +97,15 @@ export default function UserLayout({ children }: UserLayoutProps) {
       {/* ── Sidebar Desktop ── */}
       <nav className={`side-nav ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="nav-logo">
-          <div className="logo-icon-small">
-            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M32 8 C20 8 12 18 12 28 C12 42 24 52 32 56 C40 52 52 42 52 28 C52 18 44 8 32 8Z" fill="#f9a8d4" opacity="0.6" />
-              <path d="M32 14 C22 14 18 22 18 29 C18 39 26 47 32 50 C38 47 46 39 46 29 C46 22 42 14 32 14Z" fill="#fbcfe8" />
-            </svg>
-          </div>
-          <span className="logo-text">Elysia</span>
+          <Link to="/about" className="logo-link">
+            <div className="logo-icon-small">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M32 8 C20 8 12 18 12 28 C12 42 24 52 32 56 C40 52 52 42 52 28 C52 18 44 8 32 8Z" fill="#f9a8d4" opacity="0.6" />
+                <path d="M32 14 C22 14 18 22 18 29 C18 39 26 47 32 50 C38 47 46 39 46 29 C46 22 42 14 32 14Z" fill="#fbcfe8" />
+              </svg>
+            </div>
+            <span className="logo-text">Elysia</span>
+          </Link>
 
           {/* Close button inside expanded navbar */}
           <button className="sidebar-close-btn" onClick={toggleSidebar} title="Tutup Menu">
@@ -145,13 +147,13 @@ export default function UserLayout({ children }: UserLayoutProps) {
 
       {/* ── Mobile Top Bar ── */}
       <div className="mobile-top-bar">
-        <div className="mobile-logo">
+        <Link to="/about" className="logo-link mobile-logo">
           <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
             <path d="M32 8 C20 8 12 18 12 28 C12 42 24 52 32 56 C40 52 52 42 52 28 C52 18 44 8 32 8Z" fill="#f9a8d4" opacity="0.6" />
             <path d="M32 14 C22 14 18 22 18 29 C18 39 26 47 32 50 C38 47 46 39 46 29 C46 22 42 14 32 14Z" fill="#fbcfe8" />
           </svg>
           <span>Elysia</span>
-        </div>
+        </Link>
         <button className="mobile-menu-btn" onClick={() => setDrawerOpen(true)}>
           <Menu size={22} />
         </button>

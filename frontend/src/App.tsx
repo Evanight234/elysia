@@ -18,6 +18,8 @@ import AdminProfile from './pages/admin/AdminProfile'
 import AdminNotification from './pages/admin/AdminNotification'
 import AdminBooks from './pages/admin/AdminBooks'
 import AdminChapters from './pages/admin/AdminChapters'
+import AboutElysia from './pages/users/AboutElysia'
+import AdminAboutElysia from './pages/admin/AboutElysia'
 
 
 // ── Bersihkan token tapi jaga avatar & bahasa ─────────────
@@ -147,6 +149,7 @@ function App() {
         <Route path="/library" element={<RequireUser><Library /></RequireUser>} />
         <Route path="/notifications" element={<RequireUser><Notifications /></RequireUser>} />
         <Route path="/profile" element={<RequireUser><Profile /></RequireUser>} />
+        <Route path="/about" element={<RequireUser><AboutElysia /></RequireUser>} />
 
         {/* Bisa diakses USER & ADMIN */}
         <Route path="/books/:id" element={<RequireAuth><BookDetail /></RequireAuth>} />
@@ -159,6 +162,7 @@ function App() {
         <Route path="/admin/chapters" element={<RequireAdmin><AdminChapters /></RequireAdmin>} />
         <Route path="/admin/notification" element={<RequireAdmin><AdminNotification /></RequireAdmin>} />
         <Route path="/admin/profile" element={<RequireAdmin><AdminProfile /></RequireAdmin>} />
+        <Route path="/admin/about" element={<RequireAdmin><AdminAboutElysia /></RequireAdmin>} />
 
         {/* Catch all */}
         <Route path="*" element={<Navigate to="/login" replace />} />
