@@ -21,7 +21,8 @@ const languages = [
     { code: 'pt', label: 'Portuguese', flag: '🇵🇹' },
     { code: 'tl', label: 'Tagalog', flag: '🇵🇭' },
     { code: 'ms', label: 'Malay', flag: '🇲🇾' },
-    { code: 'uk', label: 'Ukrainian', flag: '🇺🇦' }
+    { code: 'uk', label: 'Ukrainian', flag: '🇺🇦' },
+    { code: 'pl', label: 'Polish', flag: '🇵🇱' }
 ]
 
 export default function LanguageSwitcher() {
