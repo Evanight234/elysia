@@ -19,7 +19,8 @@ const languages = [
     { code: 'ar', label: 'Arabic', flag: '🇸🇦' },
     { code: 'fr', label: 'French', flag: '🇫🇷' },
     { code: 'pt', label: 'Portuguese', flag: '🇵🇹' },
-    { code: 'tl', label: 'Tagalog', flag: '🇵🇭' }
+    { code: 'tl', label: 'Tagalog', flag: '🇵🇭' },
+    { code: 'ms', label: 'Malay', flag: '🇲🇾' }
 ]
 
 export default function LanguageSwitcher() {
