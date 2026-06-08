@@ -19,6 +19,7 @@ import ms from "./locales/ms.json";
 import uk from "./locales/uk.json";
 import pl from "./locales/pl.json";
 import nl from "./locales/nl.json";
+import it from "./locales/it.json";
 // NOTE: savedLang is persisted in localStorage so the selected language remains after refresh
 const savedLang = localStorage.getItem("elysiaapp_lang") || "en";
 
@@ -44,7 +45,8 @@ i18next
             ms: { translation: ms },
             uk: { translation: uk },
             pl: { translation: pl },
-            nl: { translation: nl }
+            nl: { translation: nl },
+            it: { translation: it }
         },
         lng: savedLang,
         fallbackLng: 'en',

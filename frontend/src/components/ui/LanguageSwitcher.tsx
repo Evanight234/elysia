@@ -23,7 +23,8 @@ const languages = [
     { code: 'ms', label: 'Malay', flag: '🇲🇾' },
     { code: 'uk', label: 'Ukrainian', flag: '🇺🇦' },
     { code: 'pl', label: 'Polish', flag: '🇵🇱' },
-    { code: 'nl', label: 'Dutch', flag: '🇳🇱' }
+    { code: 'nl', label: 'Dutch', flag: '🇳🇱' },
+    { code: 'it', label: 'Italian', flag: '🇮🇹' }
 ]
 
 export default function LanguageSwitcher() {
