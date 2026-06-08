@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Hjem",
+    "search": "Søg",
+    "library": "Bibliotek",
+    "notifications": "Notifikationer",
+    "profile": "Profil",
+    "logout": "Log ud",
+    "users": "Brugeradministration",
+    "dashboard": "Admin-dashboard",
+    "sendNotification": "Send notifikation"
+  },
+  "home": {
+    "greeting": "Hej, velkommen",
+    "subtitle": "Se dine personlige boganbefalinger i dag.",
+    "recommended": "Administrator anbefalinger",
+    "readNow": "Læs nu",
+    "noBooks": "Ingen tilgængelige bøger.",
+    "showing": "Viser {{from}} til {{to}} af {{total}} bøger"
+  },
+  "search": {
+    "title": "Søg bøger",
+    "subtitle": "Find titel eller kategori på en bog, du vil læse.",
+    "placeholder": "Indtast bogtitel...",
+    "btn": "Søg",
+    "results": "Søgeresultater",
+    "noResults": "Ingen bøger fundet for",
+    "categories": "Populære kategorier"
+  },
+  "auth": {
+    "login": "Log ind",
+    "loginBtn": "Log ind",
+    "register": "Opret konto",
+    "registerBtn": "Opret konto",
+    "email": "E-mail",
+    "password": "Adgangskode",
+    "confirmPass": "Bekræft adgangskode",
+    "fullName": "Fulde navn",
+    "username": "Brugernavn"
+  },
+  "common": {
+    "book": "bog",
+    "by": "af",
+    "loading": "Indlæser...",
+    "back": "Tilbage",
+    "save": "Gem",
+    "readNow": "Læs nu",
+    "noBooks": "Ingen tilgængelige bøger.",
+    "title": "Titel",
+    "author": "Forfatter",
+    "description": "Beskrivelse",
+    "category": "Kategori",
+    "viewCount": "Visninger"
+  },
+  "lang": "da-DK"
+}
