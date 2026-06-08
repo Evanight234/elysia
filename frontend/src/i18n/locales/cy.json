@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Hafan",
+    "search": "Chwilio",
+    "library": "Llyfrgell",
+    "notifications": "Hysbysiadau",
+    "profile": "Proffil",
+    "logout": "Allgofnodi",
+    "users": "Rheoli defnyddwyr",
+    "dashboard": "Dangosfwrdd",
+    "sendNotification": "Anfon hysbysiad"
+  },
+  "home": {
+    "greeting": "Helo, croeso",
+    "subtitle": "Gwiriwch argymhellion llyfrau wedi'u personoli ar gyfer heddiw.",
+    "recommended": "Argymhellion gweinyddol",
+    "readNow": "Darllen nawr",
+    "noBooks": "Dim llyfrau ar gael.",
+    "showing": "Yn dangos {{from}} i {{to}} o {{total}} llyfr"
+  },
+  "search": {
+    "title": "Chwilio llyfrau",
+    "subtitle": "Dod o hyd i deitl neu gategori llyfr.",
+    "placeholder": "Rhowch deitl llyfr...",
+    "btn": "Chwilio",
+    "results": "Canlyniadau chwilio",
+    "noResults": "Dim canlyniadau ar gyfer",
+    "categories": "Categoriau poblogaidd"
+  },
+  "library": {
+    "title": "Llyfrgell",
+    "subtitle": "Eich hoff lyfrau a hanes darllen.",
+    "favorites": "Fy ffefrynnau",
+    "lastRead": "Darllen ddiwethaf",
+    "empty_fav": "Dim ffefrynnau eto.",
+    "empty_read": "Dim hanes darllen eto.",
+    "continueReading": "Parhau i ddarllen",
+    "loading": "Llwytho llyfrgell..."
+  },
+  "notifications": {
+    "title": "Hysbysiadau",
+    "subtitle": "Negeseuon am lyfrau newydd a hysbysiadau gweinyddol.",
+    "markAll": "Marcio popeth fel darllen",
+    "empty": "Dim hysbysiadau.",
+    "loading": "Llwytho hysbysiadau..."
+  },
+  "profile": {
+    "title": "Proffil",
+    "subtitle": "Gwybodaeth bersonol ac am y cyfrif",
+    "email": "E-bost",
+    "status": "Statws cyfrif",
+    "joined": "Dyddiad ymuno",
+    "changePhoto": "Newid llun proffil",
+    "savePhoto": "Arbed llun",
+    "cancel": "Canslo"
+  },
+  "auth": {
+    "login": "Mewngofnodi",
+    "loginBtn": "Mewngofnodi",
+    "register": "Cofrestru",
+    "registerBtn": "Cofrestru",
+    "email": "E-bost",
+    "password": "Cyfrinair",
+    "confirmPass": "Cadarnhau cyfrinair",
+    "noAccount": "Heb gyfrif eto?"
+  },
+  "settings": {
+    "language": "Iaith",
+    "title": "Gosodiadau"
+  },
+  "lang": "cy-GB",
+  "common": {
+    "book": "llyfr",
+    "by": "gan",
+    "loading": "Llwytho...",
+    "back": "Yn ôl",
+    "save": "Arbed",
+    "readNow": "Darllen nawr"
+  }
+}
