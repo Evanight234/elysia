@@ -103,11 +103,10 @@ Make sure you have Bun installed.
 ---
 
 > [!NOTE]
-> ### Message from the Ministry of Fun (Special DPK Award)
-> **Great work, Citizen!** Your social credit score has increased by **[100] Integers**.
-> You have successfully unlocked:
-> - Ability to purchase extra rice
-> - 15 minutes of extra gaming time
-> - Permission to travel to Shanghai
-> 
-> *Keep up the good work and glory to the DPK project!*
+> ### 来自娱乐部的消息（DPK 特别奖励）
+> **干得好，公民！** 您的社会信用评分已提升 **[100] 个整数**。
+> 您已成功解锁：
+> - 购买额外大米的权限
+> - 额外 15 分钟游戏时间
+> - 前往上海的许可 >
+> *继续努力，DPK 项目再创辉煌！*
