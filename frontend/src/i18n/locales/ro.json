@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "search": "Căutare",
+    "library": "Bibliotecă",
+    "notifications": "Notificări",
+    "profile": "Profil",
+    "logout": "Deconectare",
+    "users": "Gestionare utilizatori",
+    "dashboard": "Panou",
+    "sendNotification": "Trimite notificare"
+  },
+  "home": {
+    "greeting": "Bună, bine ai venit",
+    "subtitle": "Vezi recomandări personalizate de cărți pentru astăzi.",
+    "recommended": "Recomandări de la administratori",
+    "readNow": "Citește acum",
+    "noBooks": "Nu există cărți disponibile.",
+    "showing": "Afișare {{from}}–{{to}} din {{total}} cărți"
+  },
+  "search": {
+    "title": "Caută cărți",
+    "subtitle": "Găsește titlul sau categoria unei cărți.",
+    "placeholder": "Introdu titlul cărții...",
+    "btn": "Caută",
+    "results": "Rezultatele căutării",
+    "noResults": "Niciun rezultat pentru",
+    "categories": "Categorii populare"
+  },
+  "library": {
+    "title": "Bibliotecă",
+    "subtitle": "Cărțile tale favorite și istoricul de citire.",
+    "favorites": "Favoritele mele",
+    "lastRead": "Ultima citire",
+    "empty_fav": "Nu există favorite încă.",
+    "empty_read": "Nu există istoric de citire încă.",
+    "continueReading": "Continuă lectura",
+    "loading": "Se încarcă biblioteca..."
+  },
+  "notifications": {
+    "title": "Notificări",
+    "subtitle": "Mesaje despre cărți noi și anunțuri administrative.",
+    "markAll": "Marchează totul ca citit",
+    "empty": "Nu există notificări.",
+    "loading": "Se încarcă notificările..."
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Informații personale și cont",
+    "email": "E-mail",
+    "status": "Stare cont",
+    "joined": "Data aderării",
+    "changePhoto": "Schimbă poza de profil",
+    "savePhoto": "Salvează poza",
+    "cancel": "Anulează"
+  },
+  "auth": {
+    "login": "Autentificare",
+    "loginBtn": "Autentifică-te",
+    "register": "Înregistrare",
+    "registerBtn": "Înregistrează-te",
+    "email": "E-mail",
+    "password": "Parolă",
+    "confirmPass": "Confirmă parola",
+    "noAccount": "Nu ai încă un cont?"
+  },
+  "settings": {
+    "language": "Limbă",
+    "title": "Setări"
+  },
+  "lang": "ro-RO",
+  "common": {
+    "book": "carte",
+    "by": "de",
+    "loading": "Se încarcă...",
+    "back": "Înapoi",
+    "save": "Salvează",
+    "readNow": "Citește acum"
+  }
+}
