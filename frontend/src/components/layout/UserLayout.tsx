@@ -147,6 +147,9 @@ export default function UserLayout({ children }: UserLayoutProps) {
 
       {/* ── Mobile Top Bar ── */}
       <div className="mobile-top-bar">
+        <button className="mobile-menu-btn" onClick={() => setDrawerOpen(true)}>
+          <Menu size={22} />
+        </button>
         <Link to="/about" className="logo-link mobile-logo">
           <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
             <path d="M32 8 C20 8 12 18 12 28 C12 42 24 52 32 56 C40 52 52 42 52 28 C52 18 44 8 32 8Z" fill="#f9a8d4" opacity="0.6" />
@@ -154,9 +157,6 @@ export default function UserLayout({ children }: UserLayoutProps) {
           </svg>
           <span>Elysia</span>
         </Link>
-        <button className="mobile-menu-btn" onClick={() => setDrawerOpen(true)}>
-          <Menu size={22} />
-        </button>
       </div>
 
       {/* ── Mobile Sliding Drawer ── */}

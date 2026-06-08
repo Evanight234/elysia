@@ -1,5 +1,6 @@
 .user-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   background-color: var(--pink-light);
   color: var(--text);
@@ -218,13 +219,16 @@ body.sidebar-collapsed .main-content {
   .mobile-top-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 1rem;
     padding: 0.75rem 1rem;
     background: white;
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 50;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .mobile-logo {
