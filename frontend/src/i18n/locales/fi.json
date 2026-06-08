@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Koti",
+    "search": "Haku",
+    "library": "Kirjasto",
+    "notifications": "Ilmoitukset",
+    "profile": "Profiili",
+    "logout": "Kirjaudu ulos",
+    "users": "Käyttäjähallinta",
+    "dashboard": "Hallinta",
+    "sendNotification": "Lähetä ilmoitus"
+  },
+  "home": {
+    "greeting": "Hei, tervetuloa",
+    "subtitle": "Tutustu tänään personoituihin kirjasuosituksiin.",
+    "recommended": "Adminin suositukset",
+    "readNow": "Lue nyt",
+    "noBooks": "Saatavilla ei ole kirjoja.",
+    "showing": "Näytetään {{from}}–{{to}} / {{total}} kirjaa"
+  },
+  "search": {
+    "title": "Hae kirjoja",
+    "subtitle": "Etsi kirjan otsikkoa tai kategoriaa.",
+    "placeholder": "Kirjoita kirjan otsikko...",
+    "btn": "Hae",
+    "results": "Hakutulokset",
+    "noResults": "Ei tuloksia haulle",
+    "categories": "Suosituimmat kategoriat"
+  },
+  "library": {
+    "title": "Kirjasto",
+    "subtitle": "Suosikkisi ja lukuhistoria.",
+    "favorites": "Suosikkini",
+    "lastRead": "Viimeksi luettu",
+    "empty_fav": "Suosikkeja ei ole vielä.",
+    "empty_read": "Lukuhistoriaa ei ole vielä.",
+    "continueReading": "Jatka lukemista",
+    "loading": "Kirjaston lataus..."
+  },
+  "notifications": {
+    "title": "Ilmoitukset",
+    "subtitle": "Viestejä uusista kirjoista ja ylläpidon tiedotteista.",
+    "markAll": "Merkitse kaikki luetuiksi",
+    "empty": "Ei ilmoituksia.",
+    "loading": "Ilmoitusten lataus..."
+  },
+  "profile": {
+    "title": "Profiili",
+    "subtitle": "Henkilö- ja tilitiedot",
+    "email": "Sähköposti",
+    "status": "Tilin tila",
+    "joined": "Liittynyt",
+    "changePhoto": "Vaihda profiilikuva",
+    "savePhoto": "Tallenna kuva",
+    "cancel": "Peruuta"
+  },
+  "auth": {
+    "login": "Kirjaudu",
+    "loginBtn": "Kirjaudu",
+    "register": "Rekisteröidy",
+    "registerBtn": "Rekisteröidy",
+    "email": "Sähköposti",
+    "password": "Salasana",
+    "confirmPass": "Vahvista salasana",
+    "noAccount": "Eikö sinulla ole tiliä?"
+  },
+  "settings": {
+    "language": "Kieli",
+    "title": "Asetukset"
+  },
+  "lang": "fi-FI",
+  "common": {
+    "book": "kirja",
+    "by": "kirjoittaja",
+    "loading": "Ladataan...",
+    "back": "Takaisin",
+    "save": "Tallenna",
+    "readNow": "Lue nyt"
+  }
+}
