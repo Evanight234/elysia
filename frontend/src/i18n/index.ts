@@ -5,6 +5,7 @@ import id from "./locales/id.json";
 import ja from "./locales/ja.json";
 import cn from "./locales/cn.json";
 import ru from "./locales/ru.json";
+import jv from "./locales/jv.json";
 
 const savedLang = localStorage.getItem("elysiaapp_lang") || "en";
 
@@ -16,7 +17,8 @@ i18next
             en: { translation: en },
             ja: { translation: ja },
             cn: { translation: cn },
-            ru: { translation: ru }
+            ru: { translation: ru },
+            jv: { translation: jv }
         },
         lng: savedLang,
         fallbackLng: 'en',

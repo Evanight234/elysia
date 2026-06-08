@@ -8,7 +8,8 @@ const languages = [
     { code: 'en', label: 'English', flag: '🇬🇧' },
     { code: 'ja', label: 'Japanese', flag: '🇯🇵' },
     { code: 'cn', label: 'Chinese', flag: '🇨🇳' },
-    { code: 'ru', label: 'Russian', flag: '🇷🇺' }
+    { code: 'ru', label: 'Russian', flag: '🇷🇺' },
+    { code: 'jv', label: 'Javanese', flag: '🇮🇩' }
 ]
 
 export default function LanguageSwitcher() {
