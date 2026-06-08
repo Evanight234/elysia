@@ -61,19 +61,17 @@ The UI supports custom character-themed layouts that alter the style, animations
 ## Meet The Team
 A passionate project developed by:
 
-```yaml
-Fullstack Team:
-  - Satriyo (satriyoo09) - Core layout architecture, theme integrations & DB connections
-  - Vladelina - Application routes, page routing & schema validation
+### Fullstack Team
+- **Satriyo** (satriyoo09) - Core layout architecture, theme integrations & DB connections [![Satriyo Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/satriyoo09?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=satriyoo09)
+- **Aufa** (ashoza) - Application routes, page routing & schema validation [![Aufa Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/ashoza?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=ashoza)
 
-Frontend Team:
-  - Allea - Component design & layouts
-  - Soren - Styling tokens & page assets
-```
+### Frontend Team
+- **Allea** (Tazkiainni) - Component design & layouts [![Allea Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/Tazkiainni?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=Tazkiainni)
+- **Soren** (sorenthegreat) - Styling tokens & page assets [![Soren Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/sorenthegreat?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=sorenthegreat)
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 Make sure you have Bun installed.
@@ -91,13 +89,7 @@ Make sure you have Bun installed.
    bun install
    ```
 
-3. **Configure Environment Variables**  
-   Create a `.env` in the backend folder and provide your PostgreSQL connection string:
-   ```env
-   DATABASE_URL=postgresql://user:password@localhost:5432/elysiaapp
-   ```
-
-4. **Launch Development Servers**
+3. **Launch Development Servers**
    ```bash
    # Start the frontend application
    cd frontend
