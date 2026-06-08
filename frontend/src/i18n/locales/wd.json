@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "✈︎✿",
+    "search": "✦✧",
+    "library": "✪✫",
+    "notifications": "✬✭",
+    "profile": "✮✯",
+    "logout": "✱✲",
+    "users": "✳✴",
+    "dashboard": "✵✶",
+    "sendNotification": "✷✸"
+  },
+  "home": {
+    "greeting": "✹✺",
+    "subtitle": "✻✼ ✽✾✿❀",
+    "recommended": "❁❂",
+    "readNow": "❃❄",
+    "noBooks": "❅❆",
+    "showing": "❇❈ {{from}}–{{to}} / {{total}}"
+  },
+  "search": {
+    "title": "❉❊",
+    "subtitle": "✿✦ ✧✩",
+    "placeholder": "✪✫...",
+    "btn": "✬",
+    "results": "✭✮",
+    "noResults": "✯✰",
+    "categories": "✱✲"
+  },
+  "library": {
+    "title": "✳✴",
+    "subtitle": "✵✶",
+    "favorites": "✷✸",
+    "lastRead": "✹✺",
+    "empty_fav": "✻✼",
+    "empty_read": "✽✾",
+    "continueReading": "❀❁",
+    "loading": "❂❃..."
+  },
+  "notifications": {
+    "title": "❄❅",
+    "subtitle": "❆❇",
+    "markAll": "❈❉",
+    "empty": "❊❋",
+    "loading": "✦✧..."
+  },
+  "profile": {
+    "title": "✩✪",
+    "subtitle": "✫✬",
+    "email": "✭✮",
+    "status": "✯✰",
+    "joined": "✱✲",
+    "changePhoto": "✳✴",
+    "savePhoto": "✵✶",
+    "cancel": "✷✸"
+  },
+  "auth": {
+    "login": "✹✺",
+    "loginBtn": "✻✼",
+    "register": "✽✾",
+    "registerBtn": "❀❁",
+    "email": "❂❃",
+    "password": "❄❅",
+    "confirmPass": "❆❇",
+    "noAccount": "❈❉"
+  },
+  "settings": {
+    "language": "❊❋",
+    "title": "✦✧"
+  },
+  "lang": "wd-WD",
+  "common": {
+    "book": "✩",
+    "by": "✪",
+    "loading": "✫...",
+    "back": "✬",
+    "save": "✭",
+    "readNow": "✮"
+  }
+}
