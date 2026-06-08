@@ -151,23 +151,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </header>
                 <main className="admin-content" style={{ position: 'relative', zIndex: 10 }}>{children}</main>
             </div>
-
-            {/* ── Mobile Bottom Navigation ── */}
-            <nav className="admin-bottom-nav">
-                {navItems.map(({ to, icon: Icon, label }) => (
-                    <NavLink
-                        key={to}
-                        to={to}
-                        end={to === '/admin'}
-                        className={({ isActive }) =>
-                            `admin-bottom-nav-item ${isActive ? 'active' : ''}`
-                        }
-                    >
-                        <Icon size={20} />
-                        <span>{label}</span>
-                    </NavLink>
-                ))}
-            </nav>
         </div>
     )
 }
