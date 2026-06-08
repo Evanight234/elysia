@@ -333,7 +333,7 @@ body.home-wallpaper-active .admin-main::before {
 }
 
 body.home-wallpaper-active .admin-sidebar {
-    background: rgba(255, 255, 255, 0.35) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     border-right: 1.5px solid rgba(255, 255, 255, 0.45) !important;
@@ -341,7 +341,7 @@ body.home-wallpaper-active .admin-sidebar {
 }
 
 body.home-wallpaper-active .admin-topbar {
-    background: rgba(255, 255, 255, 0.35) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     border-bottom: 1.5px solid rgba(255, 255, 255, 0.45) !important;
@@ -351,7 +351,7 @@ body.home-wallpaper-active .admin-topbar {
 body.home-wallpaper-active .admin-stat-card,
 body.home-wallpaper-active .admin-table-wrapper,
 body.home-wallpaper-active .admin-profile-card {
-    background: rgba(255, 255, 255, 0.42) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
@@ -359,15 +359,15 @@ body.home-wallpaper-active .admin-profile-card {
 }
 
 body.home-wallpaper-active .admin-table th {
-    background: rgba(255, 255, 255, 0.5) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
 }
 
 body.home-wallpaper-active .admin-table tr:hover td {
-    background: rgba(255, 255, 255, 0.25) !important;
+    background: rgba(255, 255, 255, 0.45) !important;
 }
 
 body.home-wallpaper-active .admin-search-box {
-    background: rgba(255, 255, 255, 0.42) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
@@ -376,7 +376,7 @@ body.home-wallpaper-active .admin-search-box {
 
 /* Admin Notifications glassmorphism */
 body.home-wallpaper-active .notif-admin-tab {
-    background: rgba(255, 255, 255, 0.35) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
@@ -389,7 +389,7 @@ body.home-wallpaper-active .notif-admin-tab.active {
 }
 
 body.home-wallpaper-active .notif-history-item {
-    background: rgba(255, 255, 255, 0.35) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(255, 255, 255, 0.5) !important;
@@ -398,7 +398,7 @@ body.home-wallpaper-active .notif-history-item {
 /* Confirmation overlays & modals glassmorphic */
 body.home-wallpaper-active .confirm-box,
 body.home-wallpaper-active .notif-send-modal {
-    background: rgba(255, 255, 255, 0.75) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
     backdrop-filter: blur(28px) !important;
     -webkit-backdrop-filter: blur(28px) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.8) !important;
@@ -407,7 +407,7 @@ body.home-wallpaper-active .notif-send-modal {
 
 /* Glassmorphism for admin pagination */
 body.home-wallpaper-active .admin-root .pagination-btn {
-    background: rgba(255, 255, 255, 0.45) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -415,7 +415,7 @@ body.home-wallpaper-active .admin-root .pagination-btn {
 }
 
 body.home-wallpaper-active .admin-root .pagination-btn:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.75) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
 }
 
 body.home-wallpaper-active .admin-root .pagination-btn.active {

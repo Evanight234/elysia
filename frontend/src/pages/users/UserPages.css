@@ -1164,7 +1164,7 @@ body.home-wallpaper-active .main-content::before {
 }
 
 body.home-wallpaper-active .side-nav {
-  background: rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
   border-right: 1.5px solid rgba(255, 255, 255, 0.45) !important;
@@ -1172,21 +1172,21 @@ body.home-wallpaper-active .side-nav {
 }
 
 body.home-wallpaper-active .mobile-top-bar {
-  background: rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.45) !important;
 }
 
 body.home-wallpaper-active .bottom-nav {
-  background: rgba(255, 255, 255, 0.35) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border-top: 1.5px solid rgba(255, 255, 255, 0.45) !important;
 }
 
 body.home-wallpaper-active .mobile-drawer {
-  background: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(28px) !important;
   -webkit-backdrop-filter: blur(28px) !important;
   border-right: 1.5px solid rgba(255, 255, 255, 0.45) !important;
@@ -1331,7 +1331,7 @@ body.home-wallpaper-active .mobile-drawer-overlay {
 
 /* Glassmorphism overrides untuk elemen di halaman Home */
 .home-page-container .book-card {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
@@ -1341,13 +1341,13 @@ body.home-wallpaper-active .mobile-drawer-overlay {
 
 .home-page-container .book-card:hover {
   transform: translateY(-8px) !important;
-  background: rgba(255, 255, 255, 0.65) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
   box-shadow: 0 16px 36px rgba(219, 39, 119, 0.16) !important;
   border-color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .home-page-container .pagination-btn {
-  background: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -1355,7 +1355,7 @@ body.home-wallpaper-active .mobile-drawer-overlay {
 }
 
 .home-page-container .pagination-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.75) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
 }
 
 .home-page-container .pagination-btn.active {
@@ -1415,7 +1415,7 @@ body.home-wallpaper-active .mobile-drawer-overlay {
 
 /* Glassmorphism overrides for book cards in all user pages */
 body.home-wallpaper-active .user-page-container .book-card {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
@@ -1425,14 +1425,14 @@ body.home-wallpaper-active .user-page-container .book-card {
 
 body.home-wallpaper-active .user-page-container .book-card:hover {
   transform: translateY(-8px) !important;
-  background: rgba(255, 255, 255, 0.65) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
   box-shadow: 0 16px 36px rgba(219, 39, 119, 0.16) !important;
   border-color: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* Glassmorphism for pagination buttons */
 body.home-wallpaper-active .user-page-container .pagination-btn {
-  background: rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -1440,7 +1440,7 @@ body.home-wallpaper-active .user-page-container .pagination-btn {
 }
 
 body.home-wallpaper-active .user-page-container .pagination-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.75) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
 }
 
 body.home-wallpaper-active .user-page-container .pagination-btn.active {
@@ -1452,7 +1452,7 @@ body.home-wallpaper-active .user-page-container .pagination-btn.active {
 
 /* Glassmorphism for search box */
 body.home-wallpaper-active .user-page-container .search-box-large {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
@@ -1461,7 +1461,7 @@ body.home-wallpaper-active .user-page-container .search-box-large {
 
 /* Glassmorphism for category tags */
 body.home-wallpaper-active .user-page-container .category-tag {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.6) !important;
@@ -1474,7 +1474,7 @@ body.home-wallpaper-active .user-page-container .category-tag:hover {
 
 /* Glassmorphism for library tabs */
 body.home-wallpaper-active .user-page-container .library-tab {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
@@ -1488,7 +1488,7 @@ body.home-wallpaper-active .user-page-container .library-tab.active {
 
 /* Glassmorphism for notification cards */
 body.home-wallpaper-active .user-page-container .notif-card {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
@@ -1496,7 +1496,7 @@ body.home-wallpaper-active .user-page-container .notif-card {
 
 /* Glassmorphism for profile card */
 body.home-wallpaper-active .user-page-container .profile-card {
-  background: rgba(255, 255, 255, 0.42) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.6) !important;

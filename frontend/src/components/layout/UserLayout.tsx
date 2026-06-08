@@ -30,7 +30,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
 
   // Wallpaper URLs for user pages
   const USER_WALLPAPER_MOBILE = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg)'
-  const USER_WALLPAPER_DESKTOP = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780152558/wallpaperflare.com_wallpaper_kitej3.jpg)'
+  const USER_WALLPAPER_DESKTOP = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780923076/wallpaperflare.com_wallpaper_6_ppp71k.jpg)'
 
   useEffect(() => {
     const updateWallpaper = () => {

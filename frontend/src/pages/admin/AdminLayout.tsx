@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     // Wallpaper URLs
     const WALLPAPER_MOBILE = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780151629/download_26_eel7g2.jpg)'
-    const WALLPAPER_DESKTOP = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780152558/wallpaperflare.com_wallpaper_kitej3.jpg)'
+    const WALLPAPER_DESKTOP = 'url(https://res.cloudinary.com/dxdon9nfs/image/upload/v1780923076/wallpaperflare.com_wallpaper_6_ppp71k.jpg)'
 
     // Add home-wallpaper-active class + set dynamic wallpaper based on device
     useEffect(() => {
