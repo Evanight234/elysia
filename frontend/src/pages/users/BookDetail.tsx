@@ -39,6 +39,7 @@ export default function BookDetail() {
     const { toast } = useToastContext()
     const { sidebarClass } = useSidebarState()
 
+    // NOTE: Fetch full book details whenever the route parameter changes
     useEffect(() => {
         const fetchBookDetail = async () => {
             try {

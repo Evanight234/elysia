@@ -57,7 +57,7 @@ export default function Home() {
     fetchBooks(1, paginationLimit)
   }, [sidebarCollapsed])
 
-  // Hook to add full page wallpaper class on mount
+  // NOTE: This effect applies the home page wallpaper class for the user-facing home page
   useEffect(() => {
     document.body.classList.add('home-wallpaper-active')
     return () => {

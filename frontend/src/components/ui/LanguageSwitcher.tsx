@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Globe, ChevronDown } from 'lucide-react'
 import './LanguageSwitcher.css'
 
+// NOTE: Add new languages here and keep the codes in sync with i18n/index.ts
 const languages = [
     { code: 'id', label: 'Indonesian', flag: '🇮🇩' },
     { code: 'en', label: 'English', flag: '🇬🇧' },

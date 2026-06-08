@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useToastContext } from '../../context/ToastContext';
 import { Mail, Lock, Eye, EyeOff, Sparkles, Heart, ArrowRight } from "lucide-react";
 
+// NOTE: These login quotes are language-tagged for localized display
 const ELYSIA_QUOTES = [
   {
     id: 1,
