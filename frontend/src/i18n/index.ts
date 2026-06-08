@@ -10,8 +10,9 @@ import es from "./locales/es.json";
 import de from "./locales/de.json";
 import ko from "./locales/ko.json";
 import sv from "./locales/sv.json";
-import hi from "./locales/hi.json";import hi from "./locales/hi.json";
+import hi from "./locales/hi.json";
 import ar from "./locales/ar.json";
+import fr from "./locales/fr.json";
 // NOTE: savedLang is persisted in localStorage so the selected language remains after refresh
 const savedLang = localStorage.getItem("elysiaapp_lang") || "en";
 
@@ -30,7 +31,8 @@ i18next
             ko: { translation: ko },
             sv: { translation: sv },
             hi: { translation: hi },
-            ar: { translation: ar }
+            ar: { translation: ar },
+            fr: { translation: fr }
         },
         lng: savedLang,
         fallbackLng: 'en',
