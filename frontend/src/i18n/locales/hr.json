@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Početna",
+    "search": "Pretraži",
+    "library": "Biblioteka",
+    "notifications": "Obavijesti",
+    "profile": "Profil",
+    "logout": "Odjava",
+    "users": "Upravljanje korisnicima",
+    "dashboard": "Administracija",
+    "sendNotification": "Pošalji obavijest"
+  },
+  "home": {
+    "greeting": "Bok, dobrodošli",
+    "subtitle": "Pogledajte personalizirane preporuke knjiga za danas.",
+    "recommended": "Preporuke administratora",
+    "readNow": "Čitaj sada",
+    "noBooks": "Nema dostupnih knjiga.",
+    "showing": "Prikazano od {{from}} do {{to}} od {{total}} knjiga"
+  },
+  "search": {
+    "title": "Pretraži knjige",
+    "subtitle": "Pronađite naslov ili kategoriju knjige koju želite pročitati.",
+    "placeholder": "Upišite naslov knjige...",
+    "btn": "Pretraži",
+    "results": "Rezultati pretrage",
+    "noResults": "Nema knjiga za",
+    "categories": "Popularne kategorije"
+  },
+  "library": {
+    "title": "Biblioteka",
+    "subtitle": "Vaše omiljene knjige i povijest čitanja.",
+    "favorites": "Moje favorite",
+    "lastRead": "Zadnje čitanje",
+    "empty_fav": "Još nema favorita.",
+    "empty_read": "Još nema povijesti čitanja.",
+    "continueReading": "Nastavi čitati",
+    "loading": "Učitavanje biblioteke..."
+  },
+  "notifications": {
+    "title": "Obavijesti",
+    "subtitle": "Poruke o najnovijim knjigama i administrativnim objavama.",
+    "markAll": "Označi sve kao pročitano",
+    "empty": "Nema obavijesti.",
+    "loading": "Učitavanje obavijesti..."
+  },
+  "profile": {
+    "title": "Profil",
+    "subtitle": "Osobni podaci i informacije o računu",
+    "email": "E-mail adresa",
+    "status": "Status računa",
+    "joined": "Datum pridruživanja",
+    "changePhoto": "Promijeni profilnu sliku",
+    "savePhoto": "Spremi sliku",
+    "cancel": "Otkaži"
+  },
+  "auth": {
+    "login": "Prijava",
+    "loginBtn": "Prijava",
+    "register": "Registracija",
+    "registerBtn": "Registracija",
+    "email": "E-mail",
+    "password": "Lozinka",
+    "confirmPass": "Potvrdi lozinku",
+    "noAccount": "Još nemate račun?"
+  },
+  "settings": {
+    "language": "Jezik",
+    "title": "Postavke"
+  },
+  "lang": "hr-HR",
+  "common": {
+    "book": "knjiga",
+    "by": "od",
+    "loading": "Učitavanje...",
+    "back": "Natrag",
+    "save": "Spremi",
+    "readNow": "Čitaj sada"
+  }
+}

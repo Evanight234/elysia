@@ -29,8 +29,9 @@ const languages = [
     { code: 'th', label: 'Thai', flag: '🇹🇭' },
     { code: 'cs', label: 'Czech', flag: '🇨🇿' },
     { code: 'da', label: 'Danish', flag: '🇩🇰' },
-    { code: 'ga', label: 'Irish', flag: '🇮🇪' }
-    ,{ code: 'bg', label: 'Bulgarian', flag: '🇧🇬' }
+    { code: 'ga', label: 'Irish', flag: '🇮🇪' },
+    { code: 'bg', label: 'Bulgarian', flag: '🇧🇬' },
+    { code: 'hr', label: 'Croatian', flag: '🇭🇷' }
 ]
 
 export default function LanguageSwitcher() {
