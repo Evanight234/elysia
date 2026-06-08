@@ -2,7 +2,7 @@
 
 # ElysiaApp
 
-[![Active Development](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge&logo=github)](https://github.com/satriyoo09/ElysiaApp)
+[![Active Development](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge&logo=github)](https://github.com/satriyoo09/elysia)
 [![Bun Version](https://img.shields.io/badge/Bun-v1.1+-000000?style=for-the-badge&logo=bun&logoColor=white)](https://bun.sh)
 [![React Version](https://img.shields.io/badge/React-v18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -62,12 +62,12 @@ The UI supports custom character-themed layouts that alter the style, animations
 A passionate project developed by:
 
 ### Fullstack Team
-- **Satriyo** (satriyoo09) - Core layout architecture, theme integrations & DB connections [![Satriyo Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/satriyoo09?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=satriyoo09)
-- **Aufa** (ashoza) - Application routes, page routing & schema validation [![Aufa Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/ashoza?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=ashoza)
+- **Satriyo** (satriyoo09) - Core layout architecture, theme integrations & DB connections [![Satriyo Commits](https://img.shields.io/github/commit-activity/t/satriyoo09/elysia?authorFilter=satriyoo09&color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/elysia/commits?author=satriyoo09)
+- **Aufa** (ashoza) - Application routes, page routing & schema validation [![Aufa Commits](https://img.shields.io/github/commit-activity/t/satriyoo09/elysia?authorFilter=ashoza&color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/elysia/commits?author=ashoza)
 
 ### Frontend Team
-- **Allea** (Tazkiainni) - Component design & layouts [![Allea Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/Tazkiainni?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=Tazkiainni)
-- **Soren** (sorenthegreat) - Styling tokens & page assets [![Soren Commits](https://img.shields.io/github/commits-by/satriyoo09/ElysiaApp/sorenthegreat?color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/ElysiaApp/commits?author=sorenthegreat)
+- **Allea** (Tazkiainni) - Component design & layouts [![Allea Commits](https://img.shields.io/github/commit-activity/t/satriyoo09/elysia?authorFilter=Tazkiainni&color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/elysia/commits?author=Tazkiainni)
+- **Soren** (sorenthegreat) - Styling tokens & page assets [![Soren Commits](https://img.shields.io/github/commit-activity/t/satriyoo09/elysia?authorFilter=sorenthegreat&color=ff2a5f&style=flat-square&label=commits)](https://github.com/satriyoo09/elysia/commits?author=sorenthegreat)
 
 ---
 
@@ -80,8 +80,8 @@ Make sure you have Bun installed.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/satriyoo09/ElysiaApp.git
-   cd ElysiaApp
+   git clone https://github.com/satriyoo09/elysia.git
+   cd elysia
    ```
 
 2. **Install all dependencies**
