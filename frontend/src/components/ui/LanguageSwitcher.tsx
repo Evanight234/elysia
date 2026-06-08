@@ -7,7 +7,8 @@ const languages = [
     { code: 'id', label: 'Indonesian', flag: '🇮🇩' },
     { code: 'en', label: 'English', flag: '🇬🇧' },
     { code: 'ja', label: 'Japanese', flag: '🇯🇵' },
-    { code: 'cn', label: 'Chinese', flag: '🇨🇳' }
+    { code: 'cn', label: 'Chinese', flag: '🇨🇳' },
+    { code: 'ru', label: 'Russian', flag: '🇷🇺' }
 ]
 
 export default function LanguageSwitcher() {
