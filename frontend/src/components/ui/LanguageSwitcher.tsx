@@ -28,7 +28,8 @@ const languages = [
     { code: 'vi', label: 'Vietnamese', flag: '🇻🇳' },
     { code: 'th', label: 'Thai', flag: '🇹🇭' },
     { code: 'cs', label: 'Czech', flag: '🇨🇿' },
-    { code: 'da', label: 'Danish', flag: '🇩🇰' }
+    { code: 'da', label: 'Danish', flag: '🇩🇰' },
+    { code: 'ga', label: 'Irish', flag: '🇮🇪' }
 ]
 
 export default function LanguageSwitcher() {

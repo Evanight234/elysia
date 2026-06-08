@@ -23,6 +23,7 @@ import it from "./locales/it.json";
 import vi from "./locales/vi.json";
 import th from "./locales/th.json";
 import cs from "./locales/cs.json";
+import ga from "./locales/ga.json";
 // NOTE: savedLang is persisted in localStorage so the selected language remains after refresh
 const savedLang = localStorage.getItem("elysiaapp_lang") || "en";
 
@@ -53,6 +54,7 @@ i18next
             vi: { translation: vi },
             th: { translation: th },
             cs: { translation: cs }
+            ,ga: { translation: ga }
         },
         lng: savedLang,
         fallbackLng: 'en',

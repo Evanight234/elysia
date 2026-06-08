@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Baile",
+    "search": "Cuardaigh",
+    "library": "Leabharlann",
+    "notifications": "Fógraí",
+    "profile": "Próifíl",
+    "logout": "Logáil amach",
+    "users": "Bainistíocht úsáideoirí",
+    "dashboard": "Painéal riarthóra",
+    "sendNotification": "Seol fógra"
+  },
+  "home": {
+    "greeting": "Dia duit, fáilte",
+    "subtitle": "Féach ar mholtaí leabhar pearsantaithe duit inniu.",
+    "recommended": "Moltaí riarthóra",
+    "readNow": "Léigh anois",
+    "noBooks": "Níl aon leabhar ar fáil.",
+    "showing": "Taispeántar ó {{from}} go {{to}} de {{total}} leabhair"
+  },
+  "search": {
+    "title": "Cuardaigh leabhair",
+    "subtitle": "Faigh teideal nó catagóir an leabhair atá uait a léamh.",
+    "placeholder": "Cuir teideal leabhair isteach...",
+    "btn": "Cuardaigh",
+    "results": "Torthaí cuardaigh",
+    "noResults": "Níor aimsíodh leabhair don",
+    "categories": "Catagóirí coitianta"
+  },
+  "library": {
+    "title": "Leabharlann",
+    "subtitle": "Do leabhair is fearr leat agus stair léitheoireachta.",
+    "favorites": "Mo Favorites",
+    "lastRead": "Léigh le déanaí",
+    "empty_fav": "Níl aon leabhair is fearr leat fós.",
+    "empty_read": "Níl stair léitheoireachta ann fós.",
+    "continueReading": "Lean ar aghaidh ag léamh",
+    "loading": "Ag luchtú na leabharlainne..."
+  },
+  "notifications": {
+    "title": "Fógraí",
+    "subtitle": "Teachtaireachtaí faoi úrscéalta nua agus fógraí ón riarthóir.",
+    "markAll": "Marcáil go léir mar léite",
+    "empty": "Níl aon fógra ann.",
+    "loading": "Ag luchtú fógraí..."
+  },
+  "profile": {
+    "title": "Próifíl",
+    "subtitle": "Sonraí pearsanta agus faisnéis chuntais",
+    "email": "Seoladh ríomhphoist",
+    "status": "Stádas an chuntais",
+    "joined": "Dáta a chláraigh tú",
+    "changePhoto": "Athraigh grianghraf próifíle",
+    "savePhoto": "Sábháil grianghraf",
+    "cancel": "Cealaigh"
+  },
+  "auth": {
+    "login": "Logáil isteach",
+    "loginBtn": "Logáil isteach",
+    "register": "Cláraigh",
+    "registerBtn": "Cláraigh",
+    "email": "Ríomhphost",
+    "password": "Pasfhocal",
+    "confirmPass": "Deimhnigh pasfhocal",
+    "noAccount": "Níl cuntas agat fós?"
+  },
+  "settings": {
+    "language": "Teanga",
+    "title": "Sainroghanna"
+  },
+  "lang": "ga-IE",
+  "common": {
+    "book": "leabhar",
+    "by": "le",
+    "loading": "Ag luchtú...",
+    "back": "Ar ais",
+    "save": "Sábháil",
+    "readNow": "Léigh anois"
+  }
+}
