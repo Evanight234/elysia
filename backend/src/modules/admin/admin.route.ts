@@ -3,7 +3,7 @@ import { adminOnly } from '../../middleware/role.middleware'
 import { db } from '../../db'
 import { users, notifications } from '../../db/schema'
 import { eq, desc } from 'drizzle-orm'
-import { successResponse, errorResponse } from '../../utils/response'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
 
 export const adminRoute = new Elysia({ prefix: '/admin' })
     .use(adminOnly)
@@ -25,7 +25,7 @@ export const adminRoute = new Elysia({ prefix: '/admin' })
             return successResponse(data)
         } catch (err: any) {
             set.status = 500
-            return errorResponse(err.message)
+            return errorResponse(formatDbError(err), 500)
         }
     })
 
@@ -53,7 +53,7 @@ export const adminRoute = new Elysia({ prefix: '/admin' })
             return successResponse(data)
         } catch (err: any) {
             set.status = 500
-            return errorResponse(err.message)
+            return errorResponse(formatDbError(err), 500)
         }
     })
 
@@ -66,11 +66,11 @@ export const adminRoute = new Elysia({ prefix: '/admin' })
                 .returning()
             if (!deleted) {
                 set.status = 404
-                return errorResponse('User tidak ditemukan')
+                return errorResponse('User tidak ditemukan', 404)
             }
             return successResponse(deleted, 'User berhasil dihapus')
         } catch (err: any) {
             set.status = 500
-            return errorResponse(err.message)
+            return errorResponse(formatDbError(err), 500)
         }
     })

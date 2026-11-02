@@ -1,7 +1,7 @@
 import { Elysia, t } from 'elysia'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { getUserLibrary, addToLibrary, removeFromLibrary, updateLastChapter } from './library.service'
-import { successResponse, errorResponse } from '../../utils/response'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
 
 export const libraryRoute = new Elysia({ prefix: '/library' })
     .use(authMiddleware)
@@ -9,13 +9,13 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
     .get('/', async ({ query, user, set }) => {
         try {
             const status = query.status || undefined
-            const page = Number(query.page) || 1
-            const limit = Number(query.limit) || 20
+            const page = Math.max(Number(query.page) || 1, 1)
+            const limit = Math.min(Math.max(Number(query.limit) || 20, 1), 100)
             const data = await getUserLibrary(user.id, status, page, limit)
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     }, {
         query: t.Object({
@@ -34,7 +34,7 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
                 return successResponse(data, 'Buku ditambahkan ke library')
             } catch (error: any) {
                 set.status = 400
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 400)
             }
         },
         {
@@ -51,7 +51,7 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
             return successResponse(data, 'Buku dihapus dari library')
         } catch (error: any) {
             set.status = 404
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 404)
         }
     })
 
@@ -61,7 +61,7 @@ export const libraryRoute = new Elysia({ prefix: '/library' })
             return successResponse(data, 'Progres membaca diperbarui')
         } catch (error: any) {
             set.status = 400
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 400)
         }
     }, {
         body: t.Object({

@@ -1,15 +1,39 @@
 import { Elysia } from 'elysia'
 import { jwt } from '@elysiajs/jwt'
-import { RegisterUsers, LoginUsers, GetCurrentUser } from './auth.service'
-import { registerSchema, LoginSchema } from './auth.schema'
-import { successResponse, errorResponse } from '../../utils/response'
+import { rateLimit } from 'elysia-rate-limit'
+import { RegisterUsers, LoginUsers, GetCurrentUser, resetPassword } from './auth.service'
+import { registerSchema, LoginSchema, resetPasswordSchema } from './auth.schema'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
 import { authMiddleware } from '../../middleware/auth.middleware'
-import { resetPassword } from './auth.service'
-import { resetPasswordSchema } from './auth.schema'
-
 
 export const authRoute = new Elysia({ prefix: '/auth' })
-  .use(jwt({ name: 'jwt', secret: process.env.JWT_SECRET! }))
+  .use(
+    rateLimit({
+      duration: 60 * 1000,
+      max: 15,
+      scoping: 'scoped',
+      generator: (req: Request, server: any) =>
+        req.headers.get('x-forwarded-for') || (server ? server.requestIP(req)?.address : null) || '127.0.0.1',
+      errorResponse: new Response(
+        JSON.stringify({
+          success: false,
+          message: 'Terlalu banyak percobaan pada endpoint otentikasi. Silakan tunggu 1 menit sebelum mencoba kembali.',
+          code: 429,
+        }),
+        {
+          status: 429,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      ),
+    })
+  )
+  .use(
+    jwt({
+      name: 'jwt',
+      secret: process.env.JWT_SECRET!,
+      exp: '7d',
+    })
+  )
 
   // POST /auth/register
   .post(
@@ -18,17 +42,10 @@ export const authRoute = new Elysia({ prefix: '/auth' })
       try {
         const user = await RegisterUsers(body)
         set.status = 201
-
-        // Pesan berbeda sesuai role yang didapat
-        const message = user.role === 'ADMIN'
-          ? 'Akun Admin berhasil dibuat!'
-          : 'Registrasi berhasil!'
-
-        return successResponse(user, message)
+        return successResponse(user, 'Registrasi berhasil!')
       } catch (error: any) {
-        console.error('Registration Error:', error)
         set.status = 400
-        return errorResponse(error.message)
+        return errorResponse(formatDbError(error))
       }
     },
     { body: registerSchema }
@@ -47,37 +64,62 @@ export const authRoute = new Elysia({ prefix: '/auth' })
           username: user.username,
           email: user.email,
           role: user.role,
+          exp: '7d',
         })
 
         return successResponse({ token, user }, 'Login berhasil')
       } catch (error: any) {
         set.status = 401
-        return errorResponse(error.message)
+        return errorResponse(error.message || 'Email/username atau password salah', 401)
       }
     },
     { body: LoginSchema }
   )
 
   // POST /auth/reset-password
+  // Memerlukan bukti identitas (JWT) untuk mencegah Account Takeover
   .post(
     '/reset-password',
-    async ({ body, set }) => {
+    async ({ headers, body, jwt, set }) => {
       try {
-        const result = await resetPassword(body)
+        const authHeader = headers.authorization
+
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          set.status = 401
+          return errorResponse(
+            'Diperlukan token login (JWT) yang valid untuk mengubah password. Silakan login terlebih dahulu.',
+            401
+          )
+        }
+
+        const token = authHeader.split(' ')[1]
+        const payload = await jwt.verify(token)
+
+        if (!payload) {
+          set.status = 401
+          return errorResponse('Token otentikasi tidak valid atau sudah kadaluarsa', 401)
+        }
+
+        const currentUser = payload as { id: string; email: string; username: string; role: string }
+
+        // Pastikan hanya pemilik akun yang dapat mereset akunnya sendiri
+        if (currentUser.email !== body.email || (currentUser.username && currentUser.username !== body.username)) {
+          set.status = 403
+          return errorResponse('Anda hanya dapat mengubah password untuk akun Anda sendiri.', 403)
+        }
+
+        const result = await resetPassword(body, currentUser.id)
         return successResponse(result, 'Password berhasil diubah!')
       } catch (error: any) {
         set.status = 400
-        return errorResponse(
-          error.message ||
-          'Password gagal diubah, silahkan cek lagi email dan username apakah sudah benar.'
-        )
+        return errorResponse(formatDbError(error))
       }
     },
     { body: resetPasswordSchema }
   )
 
+  // GET /auth/me (Membutuhkan autentikasi)
   .use(authMiddleware)
-  // GET /auth/me
   .get(
     '/me',
     async ({ user, set }) => {
@@ -86,7 +128,7 @@ export const authRoute = new Elysia({ prefix: '/auth' })
         return successResponse(userData, 'Data user berhasil diambil')
       } catch (error: any) {
         set.status = 404
-        return errorResponse(error.message)
+        return errorResponse(formatDbError(error), 404)
       }
     }
   )

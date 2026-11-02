@@ -4,7 +4,7 @@ import { adminOnly } from '../../middleware/role.middleware'
 import { db } from '../../db'
 import { chapters } from '../../db/schema'
 import { eq } from 'drizzle-orm'
-import { successResponse, errorResponse } from '../../utils/response'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
 
 export const chapterRoute = new Elysia({ prefix: '/chapters' })
 
@@ -19,7 +19,7 @@ export const chapterRoute = new Elysia({ prefix: '/chapters' })
             return successResponse(data)
         } catch (err: any) {
             set.status = 500
-            return errorResponse(err.message)
+            return errorResponse(formatDbError(err), 500)
         }
     })
 
@@ -31,11 +31,11 @@ export const chapterRoute = new Elysia({ prefix: '/chapters' })
                 .from(chapters)
                 .where(eq(chapters.id, params.id))
                 .limit(1)
-            if (!ch) { set.status = 404; return errorResponse('Chapter tidak ditemukan') }
+            if (!ch) { set.status = 404; return errorResponse('Chapter tidak ditemukan', 404) }
             return successResponse(ch)
         } catch (err: any) {
             set.status = 500
-            return errorResponse(err.message)
+            return errorResponse(formatDbError(err), 500)
         }
     })
 
@@ -59,7 +59,7 @@ export const chapterRoute = new Elysia({ prefix: '/chapters' })
                 return successResponse(ch, 'Chapter berhasil ditambahkan')
             } catch (err: any) {
                 set.status = 400
-                return errorResponse(err.message)
+                return errorResponse(formatDbError(err), 400)
             }
         },
         {
@@ -80,10 +80,10 @@ export const chapterRoute = new Elysia({ prefix: '/chapters' })
                 .delete(chapters)
                 .where(eq(chapters.id, params.id))
                 .returning()
-            if (!deleted) { set.status = 404; return errorResponse('Chapter tidak ditemukan') }
+            if (!deleted) { set.status = 404; return errorResponse('Chapter tidak ditemukan', 404) }
             return successResponse(deleted, 'Chapter berhasil dihapus')
         } catch (err: any) {
             set.status = 500
-            return errorResponse(err.message)
+            return errorResponse(formatDbError(err), 500)
         }
     })

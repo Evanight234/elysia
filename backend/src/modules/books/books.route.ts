@@ -2,9 +2,22 @@ import { Elysia, t } from 'elysia'
 import { jwt } from '@elysiajs/jwt'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { adminOnly } from '../../middleware/role.middleware'
-import { getAllBooks, getBooksPaginated, searchBooks, searchBooksPaginated, getBookById, getChapterByNumber, createBook, updateBook, deleteBook, toggleLike, getAdminBookStats, getBooksByCategory } from './books.service'
+import {
+    getAllBooks,
+    getBooksPaginated,
+    searchBooks,
+    searchBooksPaginated,
+    getBookById,
+    getChapterByNumber,
+    createBook,
+    updateBook,
+    deleteBook,
+    toggleLike,
+    getAdminBookStats,
+    getBooksByCategory
+} from './books.service'
 import { createBookSchema, UpdateBookSchema } from './books.Schema'
-import { successResponse, errorResponse } from '../../utils/response'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
 import { NewBook } from '../../db/schema'
 
 export const bookRoute = new Elysia({ prefix: '/books' })
@@ -33,20 +46,20 @@ export const bookRoute = new Elysia({ prefix: '/books' })
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     })
 
     // GET /books/paginated?page=1&limit=10
     .get('/paginated', async ({ query, set }) => {
         try {
-            const page = Number(query.page) || 1
-            const limit = Number(query.limit) || 10
+            const page = Math.max(Number(query.page) || 1, 1)
+            const limit = Math.min(Math.max(Number(query.limit) || 10, 1), 100)
             const data = await getBooksPaginated(page, limit)
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     }, { query: t.Object({ page: t.Optional(t.String()), limit: t.Optional(t.String()) }) })
 
@@ -57,8 +70,8 @@ export const bookRoute = new Elysia({ prefix: '/books' })
             try {
                 const q = query.q || ''
                 if (query.page || query.limit) {
-                    const page = Number(query.page) || 1
-                    const limit = Number(query.limit) || 10
+                    const page = Math.max(Number(query.page) || 1, 1)
+                    const limit = Math.min(Math.max(Number(query.limit) || 10, 1), 100)
                     const data = await searchBooksPaginated(q, page, limit)
                     return successResponse(data)
                 }
@@ -66,7 +79,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data)
             } catch (error: any) {
                 set.status = 500
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 500)
             }
         },
         {
@@ -81,16 +94,15 @@ export const bookRoute = new Elysia({ prefix: '/books' })
     // GET /books/:id
     .get('/:id', async ({ params, set, user }) => {
         try {
-            // user comes from .derive above (optional)
             const data = await getBookById(params.id, user?.id)
             if (!data) {
                 set.status = 404
-                return errorResponse('Buku tidak ditemukan')
+                return errorResponse('Buku tidak ditemukan', 404)
             }
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     })
 
@@ -100,12 +112,12 @@ export const bookRoute = new Elysia({ prefix: '/books' })
             const data = await getChapterByNumber(params.id, Number(params.number))
             if (!data) {
                 set.status = 404
-                return errorResponse('Chapter tidak ditemukan')
+                return errorResponse('Chapter tidak ditemukan', 404)
             }
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     })
 
@@ -121,7 +133,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data, data.liked ? 'Buku disukai' : 'Batal menyukai')
             } catch (error: any) {
                 set.status = 500
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 500)
             }
         })
     )
@@ -129,7 +141,6 @@ export const bookRoute = new Elysia({ prefix: '/books' })
     // ── ADMIN ROUTES ──────────────────────────────────────
 
     .group('', (app) => app
-        .use(authMiddleware)
         .use(adminOnly)
 
         // GET /books/admin/stats — statistik agregat buku
@@ -139,7 +150,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data)
             } catch (error: any) {
                 set.status = 500
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 500)
             }
         })
 
@@ -150,7 +161,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data)
             } catch (error: any) {
                 set.status = 500
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 500)
             }
         })
 
@@ -161,7 +172,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data, 'Buku berhasil ditambahkan')
             } catch (error: any) {
                 set.status = 400
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 400)
             }
         }, { body: createBookSchema })
 
@@ -171,7 +182,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data, 'Buku berhasil diupdate')
             } catch (error: any) {
                 set.status = 404
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 404)
             }
         }, { body: UpdateBookSchema })
 
@@ -181,7 +192,7 @@ export const bookRoute = new Elysia({ prefix: '/books' })
                 return successResponse(data, 'Buku berhasil dihapus')
             } catch (error: any) {
                 set.status = 404
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 404)
             }
         })
     )

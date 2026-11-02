@@ -6,9 +6,10 @@ export const authMiddleware = new Elysia({ name: 'auth-middleware' })
     jwt({
       name: 'jwt',
       secret: process.env.JWT_SECRET!,
+      exp: '7d',
     })
   )
-  .derive({ as: 'global'}, async ({ jwt, headers, set }) => {
+  .derive({ as: 'scoped' }, async ({ jwt, headers, set }) => {
     const authHeader = headers.authorization
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -29,6 +30,7 @@ export const authMiddleware = new Elysia({ name: 'auth-middleware' })
         id: string
         name: string
         email: string
+        username?: string
         role: 'USER' | 'ADMIN'
       },
     }

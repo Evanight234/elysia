@@ -1,7 +1,7 @@
-import { Elysia, fileType, t } from 'elysia'
+import { Elysia, t } from 'elysia'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { getProfile, updateProfile } from './profile.service'
-import { successResponse, errorResponse } from '../../utils/response'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
 
 export const profileRoute = new Elysia({ prefix: '/profile' })
     .use(authMiddleware)
@@ -12,7 +12,7 @@ export const profileRoute = new Elysia({ prefix: '/profile' })
             return successResponse(data)
         } catch (error: any) {
             set.status = 404
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 404)
         }
     })
 
@@ -24,7 +24,7 @@ export const profileRoute = new Elysia({ prefix: '/profile' })
                 return successResponse(data, 'Profil berhasil diupdate')
             } catch (error: any) {
                 set.status = 400
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 400)
             }
         },
         {
@@ -36,25 +36,23 @@ export const profileRoute = new Elysia({ prefix: '/profile' })
     )
     .put('/avatar', async ({ user, body, set }) => {
         try {
-            const file = (body as any).avatar as File
+            const file = (body as any)?.avatar as File
 
-            if (!File) {
+            if (!file) {
                 set.status = 400
-                return errorResponse('file tidak bisa ditemukan')
+                return errorResponse('File tidak bisa ditemukan', 400)
             }
 
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
             if (!allowedTypes.includes(file.type)) {
                 set.status = 400
-                return errorResponse('file harus format jpg, png, atau webp')
+                return errorResponse('File harus format jpg, png, atau webp', 400)
             }
             if (file.size > 2 * 1024 * 1024) {
                 set.status = 400
-                return errorResponse('Ukuran file maksimal 2MB')
+                return errorResponse('Ukuran file maksimal 2MB', 400)
             }
             // Baca file → convert ke base64 URL
-            // (untuk production sebaiknya pakai Cloudinary/S3,
-            //  tapi untuk sekarang simpan sebagai base64 di DB)
             const buffer = await file.arrayBuffer()
             const base64 = Buffer.from(buffer).toString('base64')
             const avatarUrl = `data:${file.type};base64,${base64}`
@@ -66,6 +64,6 @@ export const profileRoute = new Elysia({ prefix: '/profile' })
             return successResponse(data, 'Foto profil berhasil diperbarui')
         } catch (error: any) {
             set.status = 500
-            return (error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     })

@@ -2,7 +2,8 @@ import { Elysia, t } from 'elysia'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import { adminOnly } from '../../middleware/role.middleware'
 import { getUserNotifications, getUserNotificationsPaginated, sendNotification, markAsRead, markAllAsRead } from './notif.service'
-import { successResponse, errorResponse } from '../../utils/response'
+import { successResponse, errorResponse, formatDbError } from '../../utils/response'
+
 export const notifRoute = new Elysia({ prefix: '/notifications' })
 
     // User: lihat notifikasi sendiri
@@ -10,8 +11,8 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
     .get('/', async ({ user, query, set }) => {
         try {
             if (query.page || query.limit) {
-                const page = Number(query.page) || 1
-                const limit = Number(query.limit) || 5
+                const page = Math.max(Number(query.page) || 1, 1)
+                const limit = Math.min(Math.max(Number(query.limit) || 5, 1), 100)
                 const data = await getUserNotificationsPaginated(user.id, page, limit)
                 return successResponse(data)
             }
@@ -19,7 +20,7 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
             return successResponse(data)
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     }, {
         query: t.Object({
@@ -35,7 +36,7 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
             return successResponse(data, 'Notifikasi ditandai sudah dibaca')
         } catch (error: any) {
             set.status = 404
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 404)
         }
     })
 
@@ -46,7 +47,7 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
             return successResponse(data, 'Semua notifikasi ditandai sudah dibaca')
         } catch (error: any) {
             set.status = 500
-            return errorResponse(error.message)
+            return errorResponse(formatDbError(error), 500)
         }
     })
 
@@ -65,7 +66,7 @@ export const notifRoute = new Elysia({ prefix: '/notifications' })
                 return successResponse(data, 'Notifikasi berhasil dikirim')
             } catch (error: any) {
                 set.status = 400
-                return errorResponse(error.message)
+                return errorResponse(formatDbError(error), 400)
             }
         },
         {
