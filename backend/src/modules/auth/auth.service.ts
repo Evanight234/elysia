@@ -31,30 +31,34 @@ export const RegisterUsers = async (data: {
     // ── Hash password untuk disimpan ke DB ──────────────────
     const hashed = await hashPassword(data.password)
 
-    // ── Simpan user baru & buat profile dalam transaksi atomic ──
-    const newUser = await db.transaction(async (tx) => {
-        const [u] = await tx
-            .insert(users)
-            .values({
-                name: data.name,
-                username: data.username,
-                email: data.email,
-                password: hashed,
-                role: 'USER', // Role selalu USER untuk pendaftaran publik
-            })
-            .returning({
-                id: users.id,
-                name: users.name,
-                username: users.username,
-                email: users.email,
-                role: users.role,
-                createdAt: users.createdAt,
-            })
+    // ── Simpan user baru ke database ──
+    const [newUser] = await db
+        .insert(users)
+        .values({
+            name: data.name,
+            username: data.username,
+            email: data.email,
+            password: hashed,
+            role: 'USER', // Role selalu USER untuk pendaftaran publik
+        })
+        .returning({
+            id: users.id,
+            name: users.name,
+            username: users.username,
+            email: users.email,
+            role: users.role,
+            createdAt: users.createdAt,
+        })
 
-        await tx.insert(profile).values({ userId: u.id })
-
-        return u
-    })
+    // ── Auto-buat profile kosong untuk user baru (dengan rollback kompensasi jika gagal) ──
+    try {
+        await db.insert(profile).values({ userId: newUser.id })
+    } catch (profileError) {
+        // Rollback: hapus user yang baru dibuat agar tidak terjadi orphaned user di DB
+        await db.delete(users).where(eq(users.id, newUser.id))
+        console.error('Failed to create profile, user creation rolled back:', profileError)
+        throw new Error('Gagal menyelesaikan registrasi pengguna. Silakan coba kembali.')
+    }
 
     return {
         ...newUser,
