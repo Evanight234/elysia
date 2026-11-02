@@ -26,6 +26,7 @@ const app = new Elysia()
       const origin = request.headers.get('origin')
       if (!origin) return true
       if (allowedOrigins.includes(origin)) return true
+      // Support preview deployments on Vercel only if explicitly matching project prefix
       if (origin.startsWith('https://elysia-') && origin.endsWith('.vercel.app')) {
         return true
       }
@@ -40,18 +41,20 @@ const app = new Elysia()
     set.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     set.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;"
   })
-  .onError(({ code, error, set }) => {
+  .onError(({ code, error, set }: any) => {
     if (code === 'VALIDATION') {
       set.status = 422
-      return errorResponse(error.message, 422)
+      return errorResponse((error as any)?.message || 'Validation error', 422)
     }
     if (code === 'NOT_FOUND') {
       set.status = 404
       return errorResponse('Route tidak ditemukan', 404)
     }
     // Jika middleware sudah menetapkan status 4xx (seperti 401 / 403), pertahankan status dan pesan tersebut
-    if (set.status && set.status >= 400 && set.status < 500) {
-      return errorResponse(error.message, set.status)
+    const rawStatus = typeof set.status === 'number' ? set.status : Number(set.status)
+    if (!isNaN(rawStatus) && rawStatus >= 400 && rawStatus < 500) {
+      const msg = (error as any)?.message || 'Terjadi kesalahan pada permintaan'
+      return errorResponse(msg, rawStatus)
     }
     console.error('Global Error Handler:', error)
     set.status = 500
