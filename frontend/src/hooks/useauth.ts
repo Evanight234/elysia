@@ -8,6 +8,7 @@ export function useVerifyToken() {
     const [checking, setChecking] = useState(true)
 
     useEffect(() => {
+        let alive = true
         const verify = async () => {
             // Tidak ada token sama sekali → langsung selesai
             if (!token || !user) {
@@ -36,11 +37,12 @@ export function useVerifyToken() {
                 // Error lain (misal backend mati) → biarkan tetap login
                 // supaya tidak paksa logout saat offline
             } finally {
-                setChecking(false)
+                if (alive) setChecking(false)
             }
         }
 
         verify()
+        return () => { alive = false }
     }, [])   // ← hanya run sekali saat app pertama buka
 
     return { checking }

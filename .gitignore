@@ -14,3 +14,8 @@ build/
 
 # Bun
 *.lockb
+
+# Audit/chaos artifacts
+BRUTAL-AUDIT-REPORT.md
+.chaos-sandbox/
+backend/scratch/

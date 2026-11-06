@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react'
 import './Toast.css'
@@ -22,16 +22,18 @@ interface ToastProps {
 // ─── Satu item toast ─────────────────────────────────────
 function ToastCard({ toast, onRemove }: { toast: ToastItem; onRemove: (id: string) => void }) {
     const [leaving, setLeaving] = useState(false)
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     const handleClose = () => {
+        if (timerRef.current) clearTimeout(timerRef.current)
         setLeaving(true)
         setTimeout(() => onRemove(toast.id), 300)
     }
 
     useEffect(() => {
         const duration = toast.duration ?? 4000
-        const timer = setTimeout(() => handleClose(), duration)
-        return () => clearTimeout(timer)
+        timerRef.current = setTimeout(() => handleClose(), duration)
+        return () => clearTimeout(timerRef.current)
     }, [])
 
     const icons = {
